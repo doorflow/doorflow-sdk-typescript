@@ -1,0 +1,14 @@
+{
+  "name": "@doorflow/doorflow-api",
+  "version": "1.0.0",
+  "description": "doorflow API SDK for TypeScript/JavaScript",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/netnodes/doorflow-sdk-typescript.git"
+  },
+  "keywords": ["doorflow", "api", "sdk", "doorflow"],
+  "author": "DoorFlow Team",
+  "license": "MIT"
+}
