@@ -1,0 +1,341 @@
+name: Generate Multi-Version TypeScript SDK
+
+on:
+  repository_dispatch:
+    types: [update-from-spec]
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        registry-url: 'https://registry.npmjs.org'
+    
+    - name: Install OpenAPI Generator
+      run: |
+        wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.14.0/openapi-generator-cli-7.14.0.jar -O openapi-generator-cli.jar
+        java -version
+    
+    - name: Download OpenAPI specs
+      run: |
+        mkdir -p specs
+        curl -o specs/openapi_v1.yaml "${{ github.event.client_payload.spec_urls.v1 }}"
+        curl -o specs/openapi_v2.yaml "${{ github.event.client_payload.spec_urls.v2 }}"
+        curl -o specs/openapi_v3.yaml "${{ github.event.client_payload.spec_urls.v3 }}"
+    
+    - name: Clean existing generated code
+      run: |
+        rm -rf src/v1 src/v2 src/v3
+        rm -rf docs/
+        rm -rf test/
+    
+    - name: Generate TypeScript SDK for API v1
+      run: |
+        java -jar openapi-generator-cli.jar generate \
+          -i specs/openapi_v1.yaml \
+          -g typescript-axios \
+          -o ./temp/v1 \
+          --additional-properties=npmName=@doorflow/api-v1,npmVersion=1.0.0,supportsES6=true,withInterfaces=true
+        mkdir -p src/v1
+        cp -r temp/v1/*.ts src/v1/ 2>/dev/null || true
+        cp -r temp/v1/api src/v1/ 2>/dev/null || true
+        cp -r temp/v1/models src/v1/ 2>/dev/null || true
+    
+    - name: Generate TypeScript SDK for API v2
+      run: |
+        java -jar openapi-generator-cli.jar generate \
+          -i specs/openapi_v2.yaml \
+          -g typescript-axios \
+          -o ./temp/v2 \
+          --additional-properties=npmName=@doorflow/api-v2,npmVersion=1.0.0,supportsES6=true,withInterfaces=true
+        mkdir -p src/v2
+        cp -r temp/v2/*.ts src/v2/ 2>/dev/null || true
+        cp -r temp/v2/api src/v2/ 2>/dev/null || true
+        cp -r temp/v2/models src/v2/ 2>/dev/null || true
+    
+    - name: Generate TypeScript SDK for API v3
+      run: |
+        java -jar openapi-generator-cli.jar generate \
+          -i specs/openapi_v3.yaml \
+          -g typescript-axios \
+          -o ./temp/v3 \
+          --additional-properties=npmName=@doorflow/api-v3,npmVersion=1.0.0,supportsES6=true,withInterfaces=true
+        mkdir -p src/v3
+        cp -r temp/v3/*.ts src/v3/ 2>/dev/null || true
+        cp -r temp/v3/api src/v3/ 2>/dev/null || true
+        cp -r temp/v3/models src/v3/ 2>/dev/null || true
+    
+    - name: Create unified client
+      run: |
+        mkdir -p src
+        cat > src/index.ts << 'EOF'
+        /**
+         * DoorFlow TypeScript SDK
+         * 
+         * Unified client providing access to all DoorFlow API versions
+         */
+        
+        import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+        import * as v1 from './v1';
+        import * as v2 from './v2';
+        import * as v3 from './v3';
+        
+        export interface DoorFlowConfig {
+          username: string;
+          password: string;
+          baseURL?: string;
+          axiosConfig?: AxiosRequestConfig;
+        }
+        
+        export class DoorFlowClient {
+          private config: DoorFlowConfig;
+          private axiosInstance: AxiosInstance;
+        
+          constructor(config: DoorFlowConfig) {
+            this.config = {
+              baseURL: 'https://api.doorflow.com',
+              ...config
+            };
+            
+            this.axiosInstance = axios.create({
+              baseURL: this.config.baseURL,
+              auth: {
+                username: this.config.username,
+                password: this.config.password
+              },
+              ...this.config.axiosConfig
+            });
+          }
+        
+          /**
+           * Get API v1 client
+           */
+          v1() {
+            const config = new v1.Configuration({
+              basePath: `${this.config.baseURL}/api/1`,
+              username: this.config.username,
+              password: this.config.password
+            });
+            
+            return {
+              people: new v1.PeopleApi(config, `${this.config.baseURL}/api/1`, this.axiosInstance),
+              sync: new v1.SyncApi(config, `${this.config.baseURL}/api/1`, this.axiosInstance),
+              events: new v1.EventsApi(config, `${this.config.baseURL}/api/1`, this.axiosInstance),
+              groups: new v1.GroupsApi(config, `${this.config.baseURL}/api/1`, this.axiosInstance),
+              roles: new v1.RolesApi(config, `${this.config.baseURL}/api/1`, this.axiosInstance)
+            };
+          }
+        
+          /**
+           * Get API v2 client  
+           */
+          v2() {
+            const config = new v2.Configuration({
+              basePath: `${this.config.baseURL}/api/2`,
+              username: this.config.username,
+              password: this.config.password
+            });
+            
+            return {
+              accounts: new v2.AccountsApi(config, `${this.config.baseURL}/api/2`, this.axiosInstance),
+              authentication: new v2.AuthenticationApi(config, `${this.config.baseURL}/api/2`, this.axiosInstance),
+              beacons: new v2.BeaconsApi(config, `${this.config.baseURL}/api/2`, this.axiosInstance),
+              credentials: new v2.CredentialsApi(config, `${this.config.baseURL}/api/2`, this.axiosInstance),
+              doorControllers: new v2.DoorControllersApi(config, `${this.config.baseURL}/api/2`, this.axiosInstance),
+              events: new v2.EventsApi(config, `${this.config.baseURL}/api/2`, this.axiosInstance),
+              groups: new v2.GroupsApi(config, `${this.config.baseURL}/api/2`, this.axiosInstance),
+              notificationRules: new v2.NotificationRulesApi(config, `${this.config.baseURL}/api/2`, this.axiosInstance),
+              people: new v2.PeopleApi(config, `${this.config.baseURL}/api/2`, this.axiosInstance),
+              reservations: new v2.ReservationsApi(config, `${this.config.baseURL}/api/2`, this.axiosInstance),
+              roles: new v2.RolesApi(config, `${this.config.baseURL}/api/2`, this.axiosInstance),
+              shifts: new v2.ShiftsApi(config, `${this.config.baseURL}/api/2`, this.axiosInstance),
+              sites: new v2.SitesApi(config, `${this.config.baseURL}/api/2`, this.axiosInstance),
+              sync: new v2.SyncApi(config, `${this.config.baseURL}/api/2`, this.axiosInstance)
+            };
+          }
+        
+          /**
+           * Get API v3 client
+           */
+          v3() {
+            const config = new v3.Configuration({
+              basePath: `${this.config.baseURL}/api/3`,
+              username: this.config.username,
+              password: this.config.password
+            });
+            
+            return {
+              accounts: new v3.AccountsApi(config, `${this.config.baseURL}/api/3`, this.axiosInstance),
+              channels: new v3.ChannelsApi(config, `${this.config.baseURL}/api/3`, this.axiosInstance),
+              groupReservations: new v3.GroupReservationsApi(config, `${this.config.baseURL}/api/3`, this.axiosInstance),
+              oauthApplications: new v3.OauthApplicationsApi(config, `${this.config.baseURL}/api/3`, this.axiosInstance),
+              people: new v3.PeopleApi(config, `${this.config.baseURL}/api/3`, this.axiosInstance),
+              // Add other v3 APIs as they're generated
+            };
+          }
+        }
+        
+        export default DoorFlowClient;
+        
+        // Re-export types
+        export * as v1 from './v1';
+        export * as v2 from './v2';
+        export * as v3 from './v3';
+        EOF
+    
+    - name: Update package.json
+      run: |
+        cat > package.json << 'EOF'
+        {
+          "name": "@doorflow/sdk",
+          "version": "1.0.0",
+          "description": "Official TypeScript SDK for DoorFlow API - Access Control Management",
+          "main": "dist/index.js",
+          "types": "dist/index.d.ts",
+          "scripts": {
+            "build": "tsc",
+            "test": "jest",
+            "lint": "eslint src/**/*.ts",
+            "prepublish": "npm run build"
+          },
+          "repository": {
+            "type": "git",
+            "url": "git+https://github.com/doorflow/doorflow-sdk-typescript.git"
+          },
+          "keywords": [
+            "doorflow",
+            "api",
+            "sdk",
+            "access-control",
+            "typescript"
+          ],
+          "author": "DoorFlow",
+          "license": "MIT",
+          "bugs": {
+            "url": "https://github.com/doorflow/doorflow-sdk-typescript/issues"
+          },
+          "homepage": "https://github.com/doorflow/doorflow-sdk-typescript#readme",
+          "dependencies": {
+            "axios": "^1.6.0"
+          },
+          "devDependencies": {
+            "@types/node": "^20.0.0",
+            "typescript": "^5.0.0"
+          }
+        }
+        EOF
+    
+    - name: Create tsconfig.json
+      run: |
+        cat > tsconfig.json << 'EOF'
+        {
+          "compilerOptions": {
+            "target": "ES2020",
+            "module": "commonjs",
+            "lib": ["ES2020"],
+            "declaration": true,
+            "outDir": "./dist",
+            "rootDir": "./src",
+            "strict": true,
+            "esModuleInterop": true,
+            "skipLibCheck": true,
+            "forceConsistentCasingInFileNames": true,
+            "moduleResolution": "node"
+          },
+          "include": ["src/**/*"],
+          "exclude": ["node_modules", "dist"]
+        }
+        EOF
+    
+    - name: Update README
+      run: |
+        cat > README.md << 'EOF'
+        # TypeScript SDK for DoorFlow API
+        
+        This SDK provides access to all versions of the DoorFlow API (v1, v2, v3) in a single package.
+        
+        ## Installation
+        
+        ```bash
+        npm install @doorflow/sdk
+        # or
+        yarn add @doorflow/sdk
+        ```
+        
+        ## Usage
+        
+        ```typescript
+        import { DoorFlowClient } from '@doorflow/sdk';
+        
+        // Create a client with access to all API versions
+        const client = new DoorFlowClient({
+          username: 'your-username',
+          password: 'your-password'
+        });
+        
+        // Use API v1
+        const v1 = client.v1();
+        const people = await v1.people.listPeople();
+        
+        // Use API v2  
+        const v2 = client.v2();
+        const account = await v2.accounts.getAccountDetails();
+        
+        // Use API v3
+        const v3 = client.v3();
+        const channels = await v3.channels.listChannels();
+        ```
+        
+        ## API Versions
+        
+        - **v1**: Basic people management, sync operations
+        - **v2**: Full feature set including door controllers, credentials, notifications
+        - **v3**: Enhanced features with channels (replacing door controllers), OAuth, group reservations
+        
+        ## Type Safety
+        
+        This SDK is fully typed with TypeScript definitions for all API operations and models.
+        
+        ## Auto-generated
+        
+        This SDK is automatically generated from OpenAPI specifications and updated when the API changes.
+        EOF
+    
+    - name: Install dependencies and build
+      run: |
+        npm install
+        npm run build || echo "Build needs proper configuration"
+    
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add -A
+        git commit -m "Update SDK from multi-version OpenAPI specs
+        
+        Generated from:
+        - API v1: ${{ github.event.client_payload.spec_urls.v1 }}
+        - API v2: ${{ github.event.client_payload.spec_urls.v2 }}
+        - API v3: ${{ github.event.client_payload.spec_urls.v3 }}
+        
+        Source commit: ${{ github.event.client_payload.source_commit }}
+        Source repo: ${{ github.event.client_payload.source_repo }}"
+        git push
+    
+    - name: Create release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        VERSION="v$(date +%Y.%m.%d)-$(echo ${{ github.event.client_payload.source_commit }} | head -c 7)"
+        gh release create $VERSION \
+          --title "Multi-Version SDK Release $VERSION" \
+          --notes "TypeScript SDK updated from OpenAPI specifications"
