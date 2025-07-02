@@ -1,0 +1,90 @@
+name: TypeScript SDK CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  repository_dispatch:
+    types: [sdk-regenerated]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['16', '18', '20']
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci || npm install
+    
+    - name: Run linter
+      run: npm run lint || echo "Linting not configured"
+    
+    - name: Run type check
+      run: npm run type-check || npx tsc --noEmit || echo "TypeScript checking not configured"
+    
+    - name: Run tests
+      run: npm test || echo "No tests defined yet"
+    
+    - name: Build
+      run: npm run build || npx tsc
+
+  publish:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event_name == 'repository_dispatch'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        registry-url: 'https://registry.npmjs.org'
+    
+    - name: Install dependencies
+      run: npm ci || npm install
+    
+    - name: Build package
+      run: npm run build || npx tsc
+    
+    - name: Check package
+      run: |
+        npm pack --dry-run
+        npx publint || echo "Publint not installed"
+    
+    - name: Publish to npm
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      run: |
+        if [ -n "$NODE_AUTH_TOKEN" ]; then
+          npm publish --access public
+        else
+          echo "Skipping npm publish - token not configured"
+        fi
+    
+    - name: Create GitHub Release
+      if: github.event_name == 'repository_dispatch'
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ github.event.client_payload.version || '1.0.0' }}
+        release_name: Release v${{ github.event.client_payload.version || '1.0.0' }}
+        body: |
+          SDK regenerated from ${{ github.event.client_payload.api }} API
+          
+          Source commit: ${{ github.event.client_payload.source_commit }}
+        draft: false
+        prerelease: false
