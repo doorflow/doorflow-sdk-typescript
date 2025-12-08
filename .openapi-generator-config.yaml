@@ -1,0 +1,7 @@
+npmName: "@doorflow/api"
+npmVersion: 3.0.0
+supportsES6: true
+enumPropertyNaming: original
+modelPropertyNaming: original
+withInterfaces: true
+useSingleRequestParameter: true
