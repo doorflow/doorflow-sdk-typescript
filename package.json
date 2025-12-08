@@ -1,14 +1,21 @@
 {
-  "name": "@doorflow/doorflow-api",
-  "version": "1.0.0",
-  "description": "doorflow API SDK for TypeScript/JavaScript",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "name": "@doorflow/api",
+  "version": "3.0.0",
+  "description": "OpenAPI client for @doorflow/api",
+  "author": "OpenAPI-Generator",
   "repository": {
     "type": "git",
-    "url": "https://github.com/netnodes/doorflow-sdk-typescript.git"
+    "url": "https://github.com/GIT_USER_ID/GIT_REPO_ID.git"
   },
-  "keywords": ["doorflow", "api", "sdk", "doorflow"],
-  "author": "DoorFlow Team",
-  "license": "MIT"
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "module": "./dist/esm/index.js",
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc && tsc -p tsconfig.esm.json",
+    "prepare": "npm run build"
+  },
+  "devDependencies": {
+    "typescript": "^4.0 || ^5.0"
+  }
 }
