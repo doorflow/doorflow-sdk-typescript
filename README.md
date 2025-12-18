@@ -405,8 +405,8 @@ const events = DoorFlow.webhooks.verify(payload, signature, timestamp, secret);
 
 ## Documentation
 
-- [DoorFlow API Documentation](https://developer.doorflow.com)
-- [API Reference](https://developer.doorflow.com/docs/api)
+- [DoorFlow API Documentation](https://developer.doorflow.com/api-ref)
+- [DoorFlow Developer Portal](https://developer.doorflow.com)
 
 ## License
 
