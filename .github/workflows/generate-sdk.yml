@@ -43,10 +43,28 @@ jobs:
           if [ -f VERSION ]; then
             VERSION=$(cat VERSION)
           else
-            VERSION="3.0.0"
+            VERSION="1.0.0"
           fi
           echo "current=$VERSION" >> $GITHUB_OUTPUT
           echo "Current version: $VERSION"
+
+      - name: Backup custom code
+        run: |
+          # These directories contain hand-written code that should not be overwritten
+          echo "📦 Backing up custom code..."
+          mkdir -p /tmp/sdk-backup
+
+          # Backup custom directories
+          [ -d src/auth ] && cp -r src/auth /tmp/sdk-backup/
+          [ -d src/client ] && cp -r src/client /tmp/sdk-backup/
+          [ -d src/storage ] && cp -r src/storage /tmp/sdk-backup/
+          [ -d src/webhooks ] && cp -r src/webhooks /tmp/sdk-backup/
+
+          # Backup custom files
+          [ -f src/index.ts ] && cp src/index.ts /tmp/sdk-backup/
+
+          echo "✅ Custom code backed up"
+          ls -la /tmp/sdk-backup/
 
       - name: Generate TypeScript SDK
         run: |
@@ -63,6 +81,22 @@ jobs:
           sudo chown -R $(id -u):$(id -g) .
 
           echo "✅ SDK generated successfully"
+
+      - name: Restore custom code
+        run: |
+          # Restore hand-written code that was backed up
+          echo "📦 Restoring custom code..."
+
+          # Restore custom directories
+          [ -d /tmp/sdk-backup/auth ] && cp -r /tmp/sdk-backup/auth src/
+          [ -d /tmp/sdk-backup/client ] && cp -r /tmp/sdk-backup/client src/
+          [ -d /tmp/sdk-backup/storage ] && cp -r /tmp/sdk-backup/storage src/
+          [ -d /tmp/sdk-backup/webhooks ] && cp -r /tmp/sdk-backup/webhooks src/
+
+          # Restore custom index.ts (preserves our exports)
+          [ -f /tmp/sdk-backup/index.ts ] && cp /tmp/sdk-backup/index.ts src/
+
+          echo "✅ Custom code restored"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -104,6 +138,8 @@ jobs:
           ## 🤖 Auto-generated SDK Update
 
           This PR was automatically generated in response to OpenAPI spec changes in doorguard.
+
+          **Note:** Custom code in `src/auth`, `src/client`, `src/storage`, `src/webhooks` was preserved.
 
           ### Source Information
           PREOF
@@ -157,3 +193,10 @@ jobs:
           echo "- **Version**: ${{ steps.version.outputs.current }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Changes**: ${{ steps.changes.outputs.has_changes }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Build**: ${{ steps.build.outcome }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Protected Directories" >> $GITHUB_STEP_SUMMARY
+          echo "The following custom code was preserved:" >> $GITHUB_STEP_SUMMARY
+          echo "- \`src/auth/\` - OAuth authentication" >> $GITHUB_STEP_SUMMARY
+          echo "- \`src/client/\` - DoorFlow client" >> $GITHUB_STEP_SUMMARY
+          echo "- \`src/storage/\` - Token storage" >> $GITHUB_STEP_SUMMARY
+          echo "- \`src/webhooks/\` - Webhook handling" >> $GITHUB_STEP_SUMMARY

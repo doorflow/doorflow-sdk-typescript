@@ -5,6 +5,7 @@
     "lib": ["ES2018", "DOM"],
     "module": "commonjs",
     "moduleResolution": "node",
+    "rootDir": "src",
     "outDir": "dist",
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -12,8 +13,10 @@
       "node_modules/@types"
     ]
   },
+  "include": ["src/**/*"],
   "exclude": [
     "dist",
-    "node_modules"
+    "node_modules",
+    "**/*.test.ts"
   ]
 }

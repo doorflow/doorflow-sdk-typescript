@@ -5,7 +5,7 @@
 export * from './runtime';
 export * from './apis/index';
 export * from './models/index';
-
-// Idiomatic wrapper (recommended)
-export { default, DoorFlow } from './wrapper';
-export * from './wrapper';
+export * from './auth/index';
+export * from './storage/index';
+export * from './client/index';
+export * from './webhooks/index';
