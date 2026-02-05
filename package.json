@@ -1,6 +1,6 @@
 {
   "name": "doorflow",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Official DoorFlow API client for Node.js and TypeScript",
   "author": "NetNodes Ltd",
   "license": "MIT",

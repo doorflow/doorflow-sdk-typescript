@@ -14,6 +14,8 @@
 
 
 export const BASE_PATH = "https://api.doorflow.com".replace(/\/+$/, "");
+export const SDK_VERSION = "1.0.1";
+export const USER_AGENT = `doorflow-node/${SDK_VERSION}`;
 
 export interface ConfigurationParameters {
     basePath?: string; // override base path
@@ -149,7 +151,7 @@ export class BaseAPI {
             url += '?' + this.configuration.queryParamsStringify(context.query);
         }
 
-        const headers = Object.assign({}, this.configuration.headers, context.headers);
+        const headers = Object.assign({}, { 'User-Agent': USER_AGENT }, this.configuration.headers, context.headers);
         Object.keys(headers).forEach(key => headers[key] === undefined ? delete headers[key] : {});
 
         const initOverrideFn =
