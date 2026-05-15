@@ -5,10 +5,10 @@ on:
     types: [spec-updated]
   workflow_dispatch:
     inputs:
-      spec_url:
-        description: 'OpenAPI spec URL'
+      spec_ref:
+        description: 'doorguard branch, tag, or commit SHA to fetch openapi.yaml from'
         required: false
-        default: 'https://raw.githubusercontent.com/netnodes/doorguard/master/openapi.yaml'
+        default: 'master'
 
 jobs:
   generate:
@@ -17,25 +17,31 @@ jobs:
       COMMIT_SHA: ${{ github.event.client_payload.commit_sha || 'master' }}
       COMMIT_MESSAGE: ${{ github.event.client_payload.commit_message || 'Manual update' }}
       PUSHER_NAME: ${{ github.event.client_payload.pusher_name || github.actor }}
-      SPEC_URL: ${{ github.event.client_payload.spec_url || inputs.spec_url || 'https://raw.githubusercontent.com/netnodes/doorguard/master/openapi.yaml' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Fetch OpenAPI spec
-        run: |
-          echo "Fetching spec from: $SPEC_URL"
-          curl -fsSL "$SPEC_URL" -o openapi.yaml
+      - name: Fetch OpenAPI spec from doorguard
+        uses: actions/checkout@v4
+        with:
+          repository: netnodes/doorguard
+          ref: ${{ github.event.client_payload.commit_sha || inputs.spec_ref || 'master' }}
+          token: ${{ secrets.DOORGUARD_READ_TOKEN }}
+          path: .doorguard
+          sparse-checkout: openapi.yaml
+          sparse-checkout-cone-mode: false
 
-          # Validate spec downloaded
+      - name: Stage OpenAPI spec
+        run: |
+          cp .doorguard/openapi.yaml openapi.yaml
+          rm -rf .doorguard
           if [ ! -s openapi.yaml ]; then
-            echo "Error: Failed to download OpenAPI spec"
+            echo "Error: openapi.yaml not present after checkout"
             exit 1
           fi
-
-          echo "✅ OpenAPI spec downloaded successfully"
+          echo "✅ OpenAPI spec staged from netnodes/doorguard"
 
       - name: Read current version
         id: version
