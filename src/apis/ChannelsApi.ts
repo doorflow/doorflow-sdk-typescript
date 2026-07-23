@@ -12,51 +12,72 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  AdmitChannel202Response,
-  AdmitPerson202Response,
-  AdmitPerson403Response,
-  AdmitPersonRequest,
-  AutoUnlockChannel400Response,
-  AutoUnlockChannelRequest,
-  Channel,
-  GetAdmissionRequest401Response,
-  GetAdmissionRequest403Response,
-  GetAdmissionRequest404Response,
-  GetAdmissionRequest500Response,
-  LockdownChannelRequest,
-  UnlockChannelRequest,
-} from '../models/index';
 import {
+    type AdmitChannel202Response,
     AdmitChannel202ResponseFromJSON,
     AdmitChannel202ResponseToJSON,
+} from '../models/AdmitChannel202Response';
+import {
+    type AdmitPerson202Response,
     AdmitPerson202ResponseFromJSON,
     AdmitPerson202ResponseToJSON,
+} from '../models/AdmitPerson202Response';
+import {
+    type AdmitPerson403Response,
     AdmitPerson403ResponseFromJSON,
     AdmitPerson403ResponseToJSON,
+} from '../models/AdmitPerson403Response';
+import {
+    type AdmitPersonRequest,
     AdmitPersonRequestFromJSON,
     AdmitPersonRequestToJSON,
+} from '../models/AdmitPersonRequest';
+import {
+    type AutoUnlockChannel400Response,
     AutoUnlockChannel400ResponseFromJSON,
     AutoUnlockChannel400ResponseToJSON,
+} from '../models/AutoUnlockChannel400Response';
+import {
+    type AutoUnlockChannelRequest,
     AutoUnlockChannelRequestFromJSON,
     AutoUnlockChannelRequestToJSON,
+} from '../models/AutoUnlockChannelRequest';
+import {
+    type Channel,
     ChannelFromJSON,
     ChannelToJSON,
+} from '../models/Channel';
+import {
+    type GetAdmissionRequest401Response,
     GetAdmissionRequest401ResponseFromJSON,
     GetAdmissionRequest401ResponseToJSON,
+} from '../models/GetAdmissionRequest401Response';
+import {
+    type GetAdmissionRequest403Response,
     GetAdmissionRequest403ResponseFromJSON,
     GetAdmissionRequest403ResponseToJSON,
+} from '../models/GetAdmissionRequest403Response';
+import {
+    type GetAdmissionRequest404Response,
     GetAdmissionRequest404ResponseFromJSON,
     GetAdmissionRequest404ResponseToJSON,
+} from '../models/GetAdmissionRequest404Response';
+import {
+    type GetAdmissionRequest500Response,
     GetAdmissionRequest500ResponseFromJSON,
     GetAdmissionRequest500ResponseToJSON,
+} from '../models/GetAdmissionRequest500Response';
+import {
+    type LockdownChannelRequest,
     LockdownChannelRequestFromJSON,
     LockdownChannelRequestToJSON,
+} from '../models/LockdownChannelRequest';
+import {
+    type UnlockChannelRequest,
     UnlockChannelRequestFromJSON,
     UnlockChannelRequestToJSON,
-} from '../models/index';
+} from '../models/UnlockChannelRequest';
 
 export interface AdmitChannelRequest {
     id: number;
@@ -110,15 +131,301 @@ export interface UnlockdownChannelRequest {
 }
 
 /**
+ * ChannelsApi - interface
  * 
+ * @export
+ * @interface ChannelsApiInterface
  */
-export class ChannelsApi extends runtime.BaseAPI {
+export interface ChannelsApiInterface {
+    /**
+     * Creates request options for admitChannel without sending the request
+     * @param {number} id Channel ID
+     * @throws {RequiredError}
+     * @memberof ChannelsApiInterface
+     */
+    admitChannelRequestOpts(requestParameters: AdmitChannelRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Requests immediate admission through a channel without specifying a person. This creates an admission request that momentarily unlocks the door. Returns an admission_request_id that can be used to track the status via GET /api/3/admission_requests/:id. Only works when the channel is in normal mode (not in unlock mode). 
+     * @summary Admit through channel (any person)
+     * @param {number} id Channel ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChannelsApiInterface
+     */
+    admitChannelRaw(requestParameters: AdmitChannelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AdmitChannel202Response>>;
 
     /**
      * Requests immediate admission through a channel without specifying a person. This creates an admission request that momentarily unlocks the door. Returns an admission_request_id that can be used to track the status via GET /api/3/admission_requests/:id. Only works when the channel is in normal mode (not in unlock mode). 
      * Admit through channel (any person)
      */
-    async admitChannelRaw(requestParameters: AdmitChannelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AdmitChannel202Response>> {
+    admitChannel(requestParameters: AdmitChannelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AdmitChannel202Response>;
+
+    /**
+     * Creates request options for admitPerson without sending the request
+     * @param {number} id Channel ID
+     * @param {AdmitPersonRequest} admitPersonRequest 
+     * @throws {RequiredError}
+     * @memberof ChannelsApiInterface
+     */
+    admitPersonRequestOpts(requestParameters: AdmitPersonOperationRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Requests admission for a specific person through a channel. This checks if the person has valid credentials and access rights before admitting. Returns an admission_request_id for tracking via GET /api/3/admission_requests/:id. 
+     * @summary Admit specific person through channel
+     * @param {number} id Channel ID
+     * @param {AdmitPersonRequest} admitPersonRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChannelsApiInterface
+     */
+    admitPersonRaw(requestParameters: AdmitPersonOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AdmitPerson202Response>>;
+
+    /**
+     * Requests admission for a specific person through a channel. This checks if the person has valid credentials and access rights before admitting. Returns an admission_request_id for tracking via GET /api/3/admission_requests/:id. 
+     * Admit specific person through channel
+     */
+    admitPerson(requestParameters: AdmitPersonOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AdmitPerson202Response>;
+
+    /**
+     * Creates request options for autoUnlockChannel without sending the request
+     * @param {number} id Channel ID
+     * @param {AutoUnlockChannelRequest} [autoUnlockChannelRequest] 
+     * @throws {RequiredError}
+     * @memberof ChannelsApiInterface
+     */
+    autoUnlockChannelRequestOpts(requestParameters: AutoUnlockChannelOperationRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Configures a shift during which the channel automatically unlocks. Provide a shift_id to enable auto-unlock, or omit it to disable. 
+     * @summary Set auto-unlock shift
+     * @param {number} id Channel ID
+     * @param {AutoUnlockChannelRequest} [autoUnlockChannelRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChannelsApiInterface
+     */
+    autoUnlockChannelRaw(requestParameters: AutoUnlockChannelOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channel>>;
+
+    /**
+     * Configures a shift during which the channel automatically unlocks. Provide a shift_id to enable auto-unlock, or omit it to disable. 
+     * Set auto-unlock shift
+     */
+    autoUnlockChannel(requestParameters: AutoUnlockChannelOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Channel>;
+
+    /**
+     * Creates request options for getChannel without sending the request
+     * @param {number} id Channel ID
+     * @throws {RequiredError}
+     * @memberof ChannelsApiInterface
+     */
+    getChannelRequestOpts(requestParameters: GetChannelRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Returns details for a specific channel (door controller)
+     * @summary Get channel details
+     * @param {number} id Channel ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChannelsApiInterface
+     */
+    getChannelRaw(requestParameters: GetChannelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channel>>;
+
+    /**
+     * Returns details for a specific channel (door controller)
+     * Get channel details
+     */
+    getChannel(requestParameters: GetChannelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Channel>;
+
+    /**
+     * Creates request options for listChannels without sending the request
+     * @param {number} [siteId] Filter channels by site ID
+     * @param {number} [perPage] Number of results per page
+     * @param {number} [page] Page number for pagination
+     * @param {boolean} [skipPagination] Skip pagination and return all results
+     * @throws {RequiredError}
+     * @memberof ChannelsApiInterface
+     */
+    listChannelsRequestOpts(requestParameters: ListChannelsRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Returns a paginated list of channels (door controllers) accessible to the authenticated user
+     * @summary List channels (door controllers)
+     * @param {number} [siteId] Filter channels by site ID
+     * @param {number} [perPage] Number of results per page
+     * @param {number} [page] Page number for pagination
+     * @param {boolean} [skipPagination] Skip pagination and return all results
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChannelsApiInterface
+     */
+    listChannelsRaw(requestParameters: ListChannelsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Channel>>>;
+
+    /**
+     * Returns a paginated list of channels (door controllers) accessible to the authenticated user
+     * List channels (door controllers)
+     */
+    listChannels(requestParameters: ListChannelsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Channel>>;
+
+    /**
+     * Creates request options for lockdownChannel without sending the request
+     * @param {number} id Channel ID
+     * @param {LockdownChannelRequest} [lockdownChannelRequest] 
+     * @throws {RequiredError}
+     * @memberof ChannelsApiInterface
+     */
+    lockdownChannelRequestOpts(requestParameters: LockdownChannelOperationRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Puts a channel into lockdown mode, restricting various types of access. You can selectively lock down card access, REX (Request to Exit), and AUX inputs. 
+     * @summary Enable lockdown mode
+     * @param {number} id Channel ID
+     * @param {LockdownChannelRequest} [lockdownChannelRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChannelsApiInterface
+     */
+    lockdownChannelRaw(requestParameters: LockdownChannelOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channel>>;
+
+    /**
+     * Puts a channel into lockdown mode, restricting various types of access. You can selectively lock down card access, REX (Request to Exit), and AUX inputs. 
+     * Enable lockdown mode
+     */
+    lockdownChannel(requestParameters: LockdownChannelOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Channel>;
+
+    /**
+     * Creates request options for normalChannel without sending the request
+     * @param {number} id Channel ID
+     * @throws {RequiredError}
+     * @memberof ChannelsApiInterface
+     */
+    normalChannelRequestOpts(requestParameters: NormalChannelRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Cancels unlock mode and returns the channel to normal access control mode
+     * @summary Return channel to normal mode
+     * @param {number} id Channel ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChannelsApiInterface
+     */
+    normalChannelRaw(requestParameters: NormalChannelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channel>>;
+
+    /**
+     * Cancels unlock mode and returns the channel to normal access control mode
+     * Return channel to normal mode
+     */
+    normalChannel(requestParameters: NormalChannelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Channel>;
+
+    /**
+     * Creates request options for regenerateEncryptionKey without sending the request
+     * @param {number} id Channel ID
+     * @throws {RequiredError}
+     * @memberof ChannelsApiInterface
+     */
+    regenerateEncryptionKeyRequestOpts(requestParameters: RegenerateEncryptionKeyRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Generates a new encryption key for secure communication with the channel
+     * @summary Regenerate encryption key
+     * @param {number} id Channel ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChannelsApiInterface
+     */
+    regenerateEncryptionKeyRaw(requestParameters: RegenerateEncryptionKeyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channel>>;
+
+    /**
+     * Generates a new encryption key for secure communication with the channel
+     * Regenerate encryption key
+     */
+    regenerateEncryptionKey(requestParameters: RegenerateEncryptionKeyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Channel>;
+
+    /**
+     * Creates request options for removeEncryptionKey without sending the request
+     * @param {number} id Channel ID
+     * @throws {RequiredError}
+     * @memberof ChannelsApiInterface
+     */
+    removeEncryptionKeyRequestOpts(requestParameters: RemoveEncryptionKeyRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Removes the encryption key, disabling encrypted communication with the channel
+     * @summary Remove encryption key
+     * @param {number} id Channel ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChannelsApiInterface
+     */
+    removeEncryptionKeyRaw(requestParameters: RemoveEncryptionKeyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channel>>;
+
+    /**
+     * Removes the encryption key, disabling encrypted communication with the channel
+     * Remove encryption key
+     */
+    removeEncryptionKey(requestParameters: RemoveEncryptionKeyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Channel>;
+
+    /**
+     * Creates request options for unlockChannel without sending the request
+     * @param {number} id Channel ID
+     * @param {UnlockChannelRequest} [unlockChannelRequest] 
+     * @throws {RequiredError}
+     * @memberof ChannelsApiInterface
+     */
+    unlockChannelRequestOpts(requestParameters: UnlockChannelOperationRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Puts a channel into unlock mode, where the door remains unlocked until a specified time. If no relock_at time is provided, the door remains unlocked until normal mode is restored. 
+     * @summary Unlock channel (unlock mode)
+     * @param {number} id Channel ID
+     * @param {UnlockChannelRequest} [unlockChannelRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChannelsApiInterface
+     */
+    unlockChannelRaw(requestParameters: UnlockChannelOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channel>>;
+
+    /**
+     * Puts a channel into unlock mode, where the door remains unlocked until a specified time. If no relock_at time is provided, the door remains unlocked until normal mode is restored. 
+     * Unlock channel (unlock mode)
+     */
+    unlockChannel(requestParameters: UnlockChannelOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Channel>;
+
+    /**
+     * Creates request options for unlockdownChannel without sending the request
+     * @param {number} id Channel ID
+     * @throws {RequiredError}
+     * @memberof ChannelsApiInterface
+     */
+    unlockdownChannelRequestOpts(requestParameters: UnlockdownChannelRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Removes lockdown mode from a channel, restoring normal access control
+     * @summary Disable lockdown mode
+     * @param {number} id Channel ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChannelsApiInterface
+     */
+    unlockdownChannelRaw(requestParameters: UnlockdownChannelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channel>>;
+
+    /**
+     * Removes lockdown mode from a channel, restoring normal access control
+     * Disable lockdown mode
+     */
+    unlockdownChannel(requestParameters: UnlockdownChannelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Channel>;
+
+}
+
+/**
+ * 
+ */
+export class ChannelsApi extends runtime.BaseAPI implements ChannelsApiInterface {
+
+    /**
+     * Creates request options for admitChannel without sending the request
+     */
+    async admitChannelRequestOpts(requestParameters: AdmitChannelRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -137,14 +444,23 @@ export class ChannelsApi extends runtime.BaseAPI {
 
 
         let urlPath = `/api/3/channels/{id}/admit`;
-        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+        urlPath = urlPath.replace('{id}', encodeURIComponent(String(requestParameters['id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Requests immediate admission through a channel without specifying a person. This creates an admission request that momentarily unlocks the door. Returns an admission_request_id that can be used to track the status via GET /api/3/admission_requests/:id. Only works when the channel is in normal mode (not in unlock mode). 
+     * Admit through channel (any person)
+     */
+    async admitChannelRaw(requestParameters: AdmitChannelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AdmitChannel202Response>> {
+        const requestOptions = await this.admitChannelRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => AdmitChannel202ResponseFromJSON(jsonValue));
     }
@@ -159,10 +475,9 @@ export class ChannelsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Requests admission for a specific person through a channel. This checks if the person has valid credentials and access rights before admitting. Returns an admission_request_id for tracking via GET /api/3/admission_requests/:id. 
-     * Admit specific person through channel
+     * Creates request options for admitPerson without sending the request
      */
-    async admitPersonRaw(requestParameters: AdmitPersonOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AdmitPerson202Response>> {
+    async admitPersonRequestOpts(requestParameters: AdmitPersonOperationRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -190,15 +505,24 @@ export class ChannelsApi extends runtime.BaseAPI {
 
 
         let urlPath = `/api/3/channels/{id}/admit_person`;
-        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+        urlPath = urlPath.replace('{id}', encodeURIComponent(String(requestParameters['id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: AdmitPersonRequestToJSON(requestParameters['admitPersonRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Requests admission for a specific person through a channel. This checks if the person has valid credentials and access rights before admitting. Returns an admission_request_id for tracking via GET /api/3/admission_requests/:id. 
+     * Admit specific person through channel
+     */
+    async admitPersonRaw(requestParameters: AdmitPersonOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AdmitPerson202Response>> {
+        const requestOptions = await this.admitPersonRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => AdmitPerson202ResponseFromJSON(jsonValue));
     }
@@ -213,10 +537,9 @@ export class ChannelsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Configures a shift during which the channel automatically unlocks. Provide a shift_id to enable auto-unlock, or omit it to disable. 
-     * Set auto-unlock shift
+     * Creates request options for autoUnlockChannel without sending the request
      */
-    async autoUnlockChannelRaw(requestParameters: AutoUnlockChannelOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channel>> {
+    async autoUnlockChannelRequestOpts(requestParameters: AutoUnlockChannelOperationRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -237,15 +560,24 @@ export class ChannelsApi extends runtime.BaseAPI {
 
 
         let urlPath = `/api/3/channels/{id}/auto_unlock`;
-        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+        urlPath = urlPath.replace('{id}', encodeURIComponent(String(requestParameters['id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: AutoUnlockChannelRequestToJSON(requestParameters['autoUnlockChannelRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Configures a shift during which the channel automatically unlocks. Provide a shift_id to enable auto-unlock, or omit it to disable. 
+     * Set auto-unlock shift
+     */
+    async autoUnlockChannelRaw(requestParameters: AutoUnlockChannelOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channel>> {
+        const requestOptions = await this.autoUnlockChannelRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ChannelFromJSON(jsonValue));
     }
@@ -260,10 +592,9 @@ export class ChannelsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns details for a specific channel (door controller)
-     * Get channel details
+     * Creates request options for getChannel without sending the request
      */
-    async getChannelRaw(requestParameters: GetChannelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channel>> {
+    async getChannelRequestOpts(requestParameters: GetChannelRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -282,14 +613,23 @@ export class ChannelsApi extends runtime.BaseAPI {
 
 
         let urlPath = `/api/3/channels/{id}`;
-        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+        urlPath = urlPath.replace('{id}', encodeURIComponent(String(requestParameters['id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns details for a specific channel (door controller)
+     * Get channel details
+     */
+    async getChannelRaw(requestParameters: GetChannelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channel>> {
+        const requestOptions = await this.getChannelRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ChannelFromJSON(jsonValue));
     }
@@ -304,10 +644,9 @@ export class ChannelsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns a paginated list of channels (door controllers) accessible to the authenticated user
-     * List channels (door controllers)
+     * Creates request options for listChannels without sending the request
      */
-    async listChannelsRaw(requestParameters: ListChannelsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Channel>>> {
+    async listChannelsRequestOpts(requestParameters: ListChannelsRequest): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         if (requestParameters['siteId'] != null) {
@@ -336,12 +675,21 @@ export class ChannelsApi extends runtime.BaseAPI {
 
         let urlPath = `/api/3/channels`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns a paginated list of channels (door controllers) accessible to the authenticated user
+     * List channels (door controllers)
+     */
+    async listChannelsRaw(requestParameters: ListChannelsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Channel>>> {
+        const requestOptions = await this.listChannelsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ChannelFromJSON));
     }
@@ -356,10 +704,9 @@ export class ChannelsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Puts a channel into lockdown mode, restricting various types of access. You can selectively lock down card access, REX (Request to Exit), and AUX inputs. 
-     * Enable lockdown mode
+     * Creates request options for lockdownChannel without sending the request
      */
-    async lockdownChannelRaw(requestParameters: LockdownChannelOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channel>> {
+    async lockdownChannelRequestOpts(requestParameters: LockdownChannelOperationRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -380,15 +727,24 @@ export class ChannelsApi extends runtime.BaseAPI {
 
 
         let urlPath = `/api/3/channels/{id}/lockdown`;
-        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+        urlPath = urlPath.replace('{id}', encodeURIComponent(String(requestParameters['id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: LockdownChannelRequestToJSON(requestParameters['lockdownChannelRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Puts a channel into lockdown mode, restricting various types of access. You can selectively lock down card access, REX (Request to Exit), and AUX inputs. 
+     * Enable lockdown mode
+     */
+    async lockdownChannelRaw(requestParameters: LockdownChannelOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channel>> {
+        const requestOptions = await this.lockdownChannelRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ChannelFromJSON(jsonValue));
     }
@@ -403,10 +759,9 @@ export class ChannelsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Cancels unlock mode and returns the channel to normal access control mode
-     * Return channel to normal mode
+     * Creates request options for normalChannel without sending the request
      */
-    async normalChannelRaw(requestParameters: NormalChannelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channel>> {
+    async normalChannelRequestOpts(requestParameters: NormalChannelRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -425,14 +780,23 @@ export class ChannelsApi extends runtime.BaseAPI {
 
 
         let urlPath = `/api/3/channels/{id}/normal`;
-        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+        urlPath = urlPath.replace('{id}', encodeURIComponent(String(requestParameters['id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Cancels unlock mode and returns the channel to normal access control mode
+     * Return channel to normal mode
+     */
+    async normalChannelRaw(requestParameters: NormalChannelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channel>> {
+        const requestOptions = await this.normalChannelRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ChannelFromJSON(jsonValue));
     }
@@ -447,10 +811,9 @@ export class ChannelsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Generates a new encryption key for secure communication with the channel
-     * Regenerate encryption key
+     * Creates request options for regenerateEncryptionKey without sending the request
      */
-    async regenerateEncryptionKeyRaw(requestParameters: RegenerateEncryptionKeyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channel>> {
+    async regenerateEncryptionKeyRequestOpts(requestParameters: RegenerateEncryptionKeyRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -469,14 +832,23 @@ export class ChannelsApi extends runtime.BaseAPI {
 
 
         let urlPath = `/api/3/channels/{id}/regenerate_encryption_key`;
-        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+        urlPath = urlPath.replace('{id}', encodeURIComponent(String(requestParameters['id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Generates a new encryption key for secure communication with the channel
+     * Regenerate encryption key
+     */
+    async regenerateEncryptionKeyRaw(requestParameters: RegenerateEncryptionKeyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channel>> {
+        const requestOptions = await this.regenerateEncryptionKeyRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ChannelFromJSON(jsonValue));
     }
@@ -491,10 +863,9 @@ export class ChannelsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Removes the encryption key, disabling encrypted communication with the channel
-     * Remove encryption key
+     * Creates request options for removeEncryptionKey without sending the request
      */
-    async removeEncryptionKeyRaw(requestParameters: RemoveEncryptionKeyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channel>> {
+    async removeEncryptionKeyRequestOpts(requestParameters: RemoveEncryptionKeyRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -513,14 +884,23 @@ export class ChannelsApi extends runtime.BaseAPI {
 
 
         let urlPath = `/api/3/channels/{id}/remove_encryption_key`;
-        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+        urlPath = urlPath.replace('{id}', encodeURIComponent(String(requestParameters['id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Removes the encryption key, disabling encrypted communication with the channel
+     * Remove encryption key
+     */
+    async removeEncryptionKeyRaw(requestParameters: RemoveEncryptionKeyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channel>> {
+        const requestOptions = await this.removeEncryptionKeyRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ChannelFromJSON(jsonValue));
     }
@@ -535,10 +915,9 @@ export class ChannelsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Puts a channel into unlock mode, where the door remains unlocked until a specified time. If no relock_at time is provided, the door remains unlocked until normal mode is restored. 
-     * Unlock channel (unlock mode)
+     * Creates request options for unlockChannel without sending the request
      */
-    async unlockChannelRaw(requestParameters: UnlockChannelOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channel>> {
+    async unlockChannelRequestOpts(requestParameters: UnlockChannelOperationRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -559,15 +938,24 @@ export class ChannelsApi extends runtime.BaseAPI {
 
 
         let urlPath = `/api/3/channels/{id}/unlock`;
-        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+        urlPath = urlPath.replace('{id}', encodeURIComponent(String(requestParameters['id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: UnlockChannelRequestToJSON(requestParameters['unlockChannelRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Puts a channel into unlock mode, where the door remains unlocked until a specified time. If no relock_at time is provided, the door remains unlocked until normal mode is restored. 
+     * Unlock channel (unlock mode)
+     */
+    async unlockChannelRaw(requestParameters: UnlockChannelOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channel>> {
+        const requestOptions = await this.unlockChannelRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ChannelFromJSON(jsonValue));
     }
@@ -582,10 +970,9 @@ export class ChannelsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Removes lockdown mode from a channel, restoring normal access control
-     * Disable lockdown mode
+     * Creates request options for unlockdownChannel without sending the request
      */
-    async unlockdownChannelRaw(requestParameters: UnlockdownChannelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channel>> {
+    async unlockdownChannelRequestOpts(requestParameters: UnlockdownChannelRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -604,14 +991,23 @@ export class ChannelsApi extends runtime.BaseAPI {
 
 
         let urlPath = `/api/3/channels/{id}/unlockdown`;
-        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+        urlPath = urlPath.replace('{id}', encodeURIComponent(String(requestParameters['id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Removes lockdown mode from a channel, restoring normal access control
+     * Disable lockdown mode
+     */
+    async unlockdownChannelRaw(requestParameters: UnlockdownChannelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channel>> {
+        const requestOptions = await this.unlockdownChannelRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ChannelFromJSON(jsonValue));
     }

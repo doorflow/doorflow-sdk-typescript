@@ -24,3 +24,8 @@
 
 # Preserve hand-written idiomatic wrapper
 src/wrapper/**
+
+# Preserve hand-maintained package identity, build config and docs
+package.json
+tsconfig.json
+README.md

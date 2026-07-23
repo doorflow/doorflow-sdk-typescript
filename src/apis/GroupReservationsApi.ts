@@ -12,42 +12,57 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  CreateCredential422Response,
-  DeleteGroupReservation200Response,
-  GetAdmissionRequest401Response,
-  GetAdmissionRequest403Response,
-  GetAdmissionRequest404Response,
-  GetAdmissionRequest500Response,
-  GroupReservation,
-  GroupReservationInput,
-} from '../models/index';
 import {
-    CreateCredential422ResponseFromJSON,
-    CreateCredential422ResponseToJSON,
-    DeleteGroupReservation200ResponseFromJSON,
-    DeleteGroupReservation200ResponseToJSON,
+    type CreateCardDesign422Response,
+    CreateCardDesign422ResponseFromJSON,
+    CreateCardDesign422ResponseToJSON,
+} from '../models/CreateCardDesign422Response';
+import {
+    type DeleteCardDesign200Response,
+    DeleteCardDesign200ResponseFromJSON,
+    DeleteCardDesign200ResponseToJSON,
+} from '../models/DeleteCardDesign200Response';
+import {
+    type GetAdmissionRequest401Response,
     GetAdmissionRequest401ResponseFromJSON,
     GetAdmissionRequest401ResponseToJSON,
+} from '../models/GetAdmissionRequest401Response';
+import {
+    type GetAdmissionRequest403Response,
     GetAdmissionRequest403ResponseFromJSON,
     GetAdmissionRequest403ResponseToJSON,
+} from '../models/GetAdmissionRequest403Response';
+import {
+    type GetAdmissionRequest404Response,
     GetAdmissionRequest404ResponseFromJSON,
     GetAdmissionRequest404ResponseToJSON,
+} from '../models/GetAdmissionRequest404Response';
+import {
+    type GetAdmissionRequest500Response,
     GetAdmissionRequest500ResponseFromJSON,
     GetAdmissionRequest500ResponseToJSON,
+} from '../models/GetAdmissionRequest500Response';
+import {
+    type GroupReservation,
     GroupReservationFromJSON,
     GroupReservationToJSON,
+} from '../models/GroupReservation';
+import {
+    type GroupReservationInput,
     GroupReservationInputFromJSON,
     GroupReservationInputToJSON,
-} from '../models/index';
+} from '../models/GroupReservationInput';
 
 export interface CreateGroupReservationRequest {
     groupReservationInput: GroupReservationInput;
 }
 
 export interface DeleteGroupReservationRequest {
+    id: number;
+}
+
+export interface GetGroupReservationRequest {
     id: number;
 }
 
@@ -60,15 +75,127 @@ export interface ListGroupReservationsRequest {
 }
 
 /**
+ * GroupReservationsApi - interface
  * 
+ * @export
+ * @interface GroupReservationsApiInterface
  */
-export class GroupReservationsApi extends runtime.BaseAPI {
+export interface GroupReservationsApiInterface {
+    /**
+     * Creates request options for createGroupReservation without sending the request
+     * @param {GroupReservationInput} groupReservationInput 
+     * @throws {RequiredError}
+     * @memberof GroupReservationsApiInterface
+     */
+    createGroupReservationRequestOpts(requestParameters: CreateGroupReservationRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Creates a new group reservation to temporarily assign a person to one or more groups. The person will be automatically added to the specified groups during the reservation period. 
+     * @summary Create group reservation
+     * @param {GroupReservationInput} groupReservationInput 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof GroupReservationsApiInterface
+     */
+    createGroupReservationRaw(requestParameters: CreateGroupReservationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GroupReservation>>;
 
     /**
      * Creates a new group reservation to temporarily assign a person to one or more groups. The person will be automatically added to the specified groups during the reservation period. 
      * Create group reservation
      */
-    async createGroupReservationRaw(requestParameters: CreateGroupReservationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GroupReservation>> {
+    createGroupReservation(requestParameters: CreateGroupReservationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GroupReservation>;
+
+    /**
+     * Creates request options for deleteGroupReservation without sending the request
+     * @param {number} id Group reservation ID
+     * @throws {RequiredError}
+     * @memberof GroupReservationsApiInterface
+     */
+    deleteGroupReservationRequestOpts(requestParameters: DeleteGroupReservationRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Deletes or deactivates a group reservation. If the reservation is pending (not yet started), it will be permanently deleted. If it\'s already active, it will be deactivated and the person will be removed from the assigned groups. 
+     * @summary Delete group reservation
+     * @param {number} id Group reservation ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof GroupReservationsApiInterface
+     */
+    deleteGroupReservationRaw(requestParameters: DeleteGroupReservationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeleteCardDesign200Response>>;
+
+    /**
+     * Deletes or deactivates a group reservation. If the reservation is pending (not yet started), it will be permanently deleted. If it\'s already active, it will be deactivated and the person will be removed from the assigned groups. 
+     * Delete group reservation
+     */
+    deleteGroupReservation(requestParameters: DeleteGroupReservationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteCardDesign200Response>;
+
+    /**
+     * Creates request options for getGroupReservation without sending the request
+     * @param {number} id Group reservation ID
+     * @throws {RequiredError}
+     * @memberof GroupReservationsApiInterface
+     */
+    getGroupReservationRequestOpts(requestParameters: GetGroupReservationRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Returns a single group reservation by ID. 
+     * @summary Get group reservation
+     * @param {number} id Group reservation ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof GroupReservationsApiInterface
+     */
+    getGroupReservationRaw(requestParameters: GetGroupReservationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GroupReservation>>;
+
+    /**
+     * Returns a single group reservation by ID. 
+     * Get group reservation
+     */
+    getGroupReservation(requestParameters: GetGroupReservationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GroupReservation>;
+
+    /**
+     * Creates request options for listGroupReservations without sending the request
+     * @param {Date} [since] Return only group reservations updated since this timestamp (local time)
+     * @param {Date} [sinceUtc] Return only group reservations updated since this timestamp (UTC)
+     * @param {number} [perPage] Number of results per page
+     * @param {number} [page] Page number for pagination
+     * @param {boolean} [skipPagination] Skip pagination and return all results
+     * @throws {RequiredError}
+     * @memberof GroupReservationsApiInterface
+     */
+    listGroupReservationsRequestOpts(requestParameters: ListGroupReservationsRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Returns a paginated list of present and future group reservations. Group reservations temporarily assign people to groups for a specified time period. Supports incremental sync via `since` or `since_utc` parameters. 
+     * @summary List group reservations
+     * @param {Date} [since] Return only group reservations updated since this timestamp (local time)
+     * @param {Date} [sinceUtc] Return only group reservations updated since this timestamp (UTC)
+     * @param {number} [perPage] Number of results per page
+     * @param {number} [page] Page number for pagination
+     * @param {boolean} [skipPagination] Skip pagination and return all results
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof GroupReservationsApiInterface
+     */
+    listGroupReservationsRaw(requestParameters: ListGroupReservationsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GroupReservation>>>;
+
+    /**
+     * Returns a paginated list of present and future group reservations. Group reservations temporarily assign people to groups for a specified time period. Supports incremental sync via `since` or `since_utc` parameters. 
+     * List group reservations
+     */
+    listGroupReservations(requestParameters: ListGroupReservationsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GroupReservation>>;
+
+}
+
+/**
+ * 
+ */
+export class GroupReservationsApi extends runtime.BaseAPI implements GroupReservationsApiInterface {
+
+    /**
+     * Creates request options for createGroupReservation without sending the request
+     */
+    async createGroupReservationRequestOpts(requestParameters: CreateGroupReservationRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['groupReservationInput'] == null) {
             throw new runtime.RequiredError(
                 'groupReservationInput',
@@ -90,13 +217,22 @@ export class GroupReservationsApi extends runtime.BaseAPI {
 
         let urlPath = `/api/3/group_reservations`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: GroupReservationInputToJSON(requestParameters['groupReservationInput']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Creates a new group reservation to temporarily assign a person to one or more groups. The person will be automatically added to the specified groups during the reservation period. 
+     * Create group reservation
+     */
+    async createGroupReservationRaw(requestParameters: CreateGroupReservationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GroupReservation>> {
+        const requestOptions = await this.createGroupReservationRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GroupReservationFromJSON(jsonValue));
     }
@@ -111,10 +247,9 @@ export class GroupReservationsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Deletes or deactivates a group reservation. If the reservation is pending (not yet started), it will be permanently deleted. If it\'s already active, it will be deactivated and the person will be removed from the assigned groups. 
-     * Delete group reservation
+     * Creates request options for deleteGroupReservation without sending the request
      */
-    async deleteGroupReservationRaw(requestParameters: DeleteGroupReservationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeleteGroupReservation200Response>> {
+    async deleteGroupReservationRequestOpts(requestParameters: DeleteGroupReservationRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -133,40 +268,100 @@ export class GroupReservationsApi extends runtime.BaseAPI {
 
 
         let urlPath = `/api/3/group_reservations/{id}`;
-        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+        urlPath = urlPath.replace('{id}', encodeURIComponent(String(requestParameters['id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => DeleteGroupReservation200ResponseFromJSON(jsonValue));
+        };
     }
 
     /**
      * Deletes or deactivates a group reservation. If the reservation is pending (not yet started), it will be permanently deleted. If it\'s already active, it will be deactivated and the person will be removed from the assigned groups. 
      * Delete group reservation
      */
-    async deleteGroupReservation(requestParameters: DeleteGroupReservationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteGroupReservation200Response> {
+    async deleteGroupReservationRaw(requestParameters: DeleteGroupReservationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeleteCardDesign200Response>> {
+        const requestOptions = await this.deleteGroupReservationRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => DeleteCardDesign200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Deletes or deactivates a group reservation. If the reservation is pending (not yet started), it will be permanently deleted. If it\'s already active, it will be deactivated and the person will be removed from the assigned groups. 
+     * Delete group reservation
+     */
+    async deleteGroupReservation(requestParameters: DeleteGroupReservationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteCardDesign200Response> {
         const response = await this.deleteGroupReservationRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
-     * Returns a paginated list of present and future group reservations. Group reservations temporarily assign people to groups for a specified time period. Supports incremental sync via `since` or `since_utc` parameters. 
-     * List group reservations
+     * Creates request options for getGroupReservation without sending the request
      */
-    async listGroupReservationsRaw(requestParameters: ListGroupReservationsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GroupReservation>>> {
+    async getGroupReservationRequestOpts(requestParameters: GetGroupReservationRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling getGroupReservation().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("OAuth2", []);
+        }
+
+
+        let urlPath = `/api/3/group_reservations/{id}`;
+        urlPath = urlPath.replace('{id}', encodeURIComponent(String(requestParameters['id'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Returns a single group reservation by ID. 
+     * Get group reservation
+     */
+    async getGroupReservationRaw(requestParameters: GetGroupReservationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GroupReservation>> {
+        const requestOptions = await this.getGroupReservationRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GroupReservationFromJSON(jsonValue));
+    }
+
+    /**
+     * Returns a single group reservation by ID. 
+     * Get group reservation
+     */
+    async getGroupReservation(requestParameters: GetGroupReservationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GroupReservation> {
+        const response = await this.getGroupReservationRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for listGroupReservations without sending the request
+     */
+    async listGroupReservationsRequestOpts(requestParameters: ListGroupReservationsRequest): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         if (requestParameters['since'] != null) {
-            queryParameters['since'] = requestParameters['since'];
+            queryParameters['since'] = (requestParameters['since'] as any).toISOString();
         }
 
         if (requestParameters['sinceUtc'] != null) {
-            queryParameters['since_utc'] = requestParameters['sinceUtc'];
+            queryParameters['since_utc'] = (requestParameters['sinceUtc'] as any).toISOString();
         }
 
         if (requestParameters['perPage'] != null) {
@@ -191,12 +386,21 @@ export class GroupReservationsApi extends runtime.BaseAPI {
 
         let urlPath = `/api/3/group_reservations`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns a paginated list of present and future group reservations. Group reservations temporarily assign people to groups for a specified time period. Supports incremental sync via `since` or `since_utc` parameters. 
+     * List group reservations
+     */
+    async listGroupReservationsRaw(requestParameters: ListGroupReservationsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GroupReservation>>> {
+        const requestOptions = await this.listGroupReservationsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GroupReservationFromJSON));
     }

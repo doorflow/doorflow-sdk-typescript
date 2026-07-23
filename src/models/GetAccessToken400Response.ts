@@ -21,7 +21,7 @@ import { mapValues } from '../runtime';
 export interface GetAccessToken400Response {
     /**
      * 
-     * @type {string}
+     * @type {GetAccessToken400ResponseErrorEnum}
      * @memberof GetAccessToken400Response
      */
     error?: GetAccessToken400ResponseErrorEnum;

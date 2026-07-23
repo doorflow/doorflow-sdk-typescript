@@ -39,7 +39,7 @@ export interface CredentialInput {
  * Check if a given object implements the CredentialInput interface.
  */
 export function instanceOfCredentialInput(value: object): value is CredentialInput {
-    if (!('personCredential' in value) || value['personCredential'] === undefined) return false;
+    if ((!('personCredential' in (value as Record<string, any>)) && !('person_credential' in (value as Record<string, any>))) || ((value as Record<string, any>)['personCredential'] === undefined && (value as Record<string, any>)['person_credential'] === undefined)) return false;
     return true;
 }
 

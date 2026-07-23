@@ -38,7 +38,7 @@ export interface ModelError {
  */
 export function instanceOfModelError(value: object): value is ModelError {
     if (!('error' in value) || value['error'] === undefined) return false;
-    if (!('errorDescription' in value) || value['errorDescription'] === undefined) return false;
+    if ((!('errorDescription' in (value as Record<string, any>)) && !('error_description' in (value as Record<string, any>))) || ((value as Record<string, any>)['errorDescription'] === undefined && (value as Record<string, any>)['error_description'] === undefined)) return false;
     return true;
 }
 

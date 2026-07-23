@@ -10,7 +10,7 @@ All URIs are relative to *https://api.doorflow.com*
 
 ## initiateSync
 
-> DeleteGroupReservation200Response initiateSync()
+> DeleteCardDesign200Response initiateSync()
 
 Initiate sync
 
@@ -51,7 +51,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**DeleteGroupReservation200Response**](DeleteGroupReservation200Response.md)
+[**DeleteCardDesign200Response**](DeleteCardDesign200Response.md)
 
 ### Authorization
 

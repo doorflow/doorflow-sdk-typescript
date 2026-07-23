@@ -27,7 +27,7 @@ export interface AdmitPerson202Response {
     admissionRequestId?: number;
     /**
      * Initial status of the admission
-     * @type {string}
+     * @type {AdmitPerson202ResponseStatusEnum}
      * @memberof AdmitPerson202Response
      */
     status?: AdmitPerson202ResponseStatusEnum;

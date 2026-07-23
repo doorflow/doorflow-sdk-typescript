@@ -12,30 +12,37 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  Event,
-  GetAdmissionRequest401Response,
-  GetAdmissionRequest403Response,
-  GetAdmissionRequest404Response,
-  GetAdmissionRequest500Response,
-  ListEvents400Response,
-} from '../models/index';
 import {
+    type Event,
     EventFromJSON,
     EventToJSON,
+} from '../models/Event';
+import {
+    type GetAdmissionRequest401Response,
     GetAdmissionRequest401ResponseFromJSON,
     GetAdmissionRequest401ResponseToJSON,
+} from '../models/GetAdmissionRequest401Response';
+import {
+    type GetAdmissionRequest403Response,
     GetAdmissionRequest403ResponseFromJSON,
     GetAdmissionRequest403ResponseToJSON,
+} from '../models/GetAdmissionRequest403Response';
+import {
+    type GetAdmissionRequest404Response,
     GetAdmissionRequest404ResponseFromJSON,
     GetAdmissionRequest404ResponseToJSON,
+} from '../models/GetAdmissionRequest404Response';
+import {
+    type GetAdmissionRequest500Response,
     GetAdmissionRequest500ResponseFromJSON,
     GetAdmissionRequest500ResponseToJSON,
+} from '../models/GetAdmissionRequest500Response';
+import {
+    type ListEvents400Response,
     ListEvents400ResponseFromJSON,
     ListEvents400ResponseToJSON,
-} from '../models/index';
+} from '../models/ListEvents400Response';
 
 export interface GetEventRequest {
     id: number;
@@ -57,15 +64,93 @@ export interface ListEventsRequest {
 }
 
 /**
+ * EventsApi - interface
  * 
+ * @export
+ * @interface EventsApiInterface
  */
-export class EventsApi extends runtime.BaseAPI {
+export interface EventsApiInterface {
+    /**
+     * Creates request options for getEvent without sending the request
+     * @param {number} id Event ID
+     * @param {string} [callback] Webhook callback ID for acknowledgment
+     * @param {string} [ackToken] Webhook acknowledgment token
+     * @throws {RequiredError}
+     * @memberof EventsApiInterface
+     */
+    getEventRequestOpts(requestParameters: GetEventRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Returns details for a specific event by ID. Supports webhook acknowledgment via callback/ack_token parameters.
+     * @summary Get event details
+     * @param {number} id Event ID
+     * @param {string} [callback] Webhook callback ID for acknowledgment
+     * @param {string} [ackToken] Webhook acknowledgment token
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EventsApiInterface
+     */
+    getEventRaw(requestParameters: GetEventRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Event>>;
 
     /**
      * Returns details for a specific event by ID. Supports webhook acknowledgment via callback/ack_token parameters.
      * Get event details
      */
-    async getEventRaw(requestParameters: GetEventRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Event>> {
+    getEvent(requestParameters: GetEventRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Event>;
+
+    /**
+     * Creates request options for listEvents without sending the request
+     * @param {Array<number>} [eventCodes] Comma-separated list of event codes to filter by. If not specified, defaults to person access events (admits and rejects). Allowed event codes include: admit codes (10-18, 70), reject codes (20-29, 71-73), channel status codes (1-3), auto-unlock codes (40-42), tamper codes (90-91), door alarm codes (31-37), REX codes (30), sync codes (100-107), LDAP sync codes (220, 223-225). 
+     * @param {string} [firstName] Filter by person\&#39;s first name
+     * @param {string} [lastName] Filter by person\&#39;s last name
+     * @param {Array<number>} [channels] Filter by channel IDs (comma-separated)
+     * @param {Array<number>} [doorControllers] Filter by door controller IDs (alias for channels parameter)
+     * @param {Date} [since] Return events created since this timestamp. Defaults to 90 days ago if not specified.
+     * @param {'debug'} [level] Set to \&quot;debug\&quot; to include channel status events in addition to access events
+     * @param {'ASC' | 'DESC'} [sort] Sort order for results
+     * @param {number} [n] Number of results per page (max 1000)
+     * @param {number} [page] Page number for pagination
+     * @throws {RequiredError}
+     * @memberof EventsApiInterface
+     */
+    listEventsRequestOpts(requestParameters: ListEventsRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Returns a paginated list of events (access control activity logs) for the authenticated user\'s account. By default, returns person access events (admits and rejects) from the last 90 days. Use `event_codes` parameter to filter by specific event types, or `level=debug` to include channel status events. 
+     * @summary List events
+     * @param {Array<number>} [eventCodes] Comma-separated list of event codes to filter by. If not specified, defaults to person access events (admits and rejects). Allowed event codes include: admit codes (10-18, 70), reject codes (20-29, 71-73), channel status codes (1-3), auto-unlock codes (40-42), tamper codes (90-91), door alarm codes (31-37), REX codes (30), sync codes (100-107), LDAP sync codes (220, 223-225). 
+     * @param {string} [firstName] Filter by person\&#39;s first name
+     * @param {string} [lastName] Filter by person\&#39;s last name
+     * @param {Array<number>} [channels] Filter by channel IDs (comma-separated)
+     * @param {Array<number>} [doorControllers] Filter by door controller IDs (alias for channels parameter)
+     * @param {Date} [since] Return events created since this timestamp. Defaults to 90 days ago if not specified.
+     * @param {'debug'} [level] Set to \&quot;debug\&quot; to include channel status events in addition to access events
+     * @param {'ASC' | 'DESC'} [sort] Sort order for results
+     * @param {number} [n] Number of results per page (max 1000)
+     * @param {number} [page] Page number for pagination
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EventsApiInterface
+     */
+    listEventsRaw(requestParameters: ListEventsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Event>>>;
+
+    /**
+     * Returns a paginated list of events (access control activity logs) for the authenticated user\'s account. By default, returns person access events (admits and rejects) from the last 90 days. Use `event_codes` parameter to filter by specific event types, or `level=debug` to include channel status events. 
+     * List events
+     */
+    listEvents(requestParameters: ListEventsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Event>>;
+
+}
+
+/**
+ * 
+ */
+export class EventsApi extends runtime.BaseAPI implements EventsApiInterface {
+
+    /**
+     * Creates request options for getEvent without sending the request
+     */
+    async getEventRequestOpts(requestParameters: GetEventRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -92,14 +177,23 @@ export class EventsApi extends runtime.BaseAPI {
 
 
         let urlPath = `/api/3/events/{id}`;
-        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+        urlPath = urlPath.replace('{id}', encodeURIComponent(String(requestParameters['id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns details for a specific event by ID. Supports webhook acknowledgment via callback/ack_token parameters.
+     * Get event details
+     */
+    async getEventRaw(requestParameters: GetEventRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Event>> {
+        const requestOptions = await this.getEventRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => EventFromJSON(jsonValue));
     }
@@ -114,10 +208,9 @@ export class EventsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns a paginated list of events (access control activity logs) for the authenticated user\'s account. By default, returns person access events (admits and rejects) from the last 90 days. Use `event_codes` parameter to filter by specific event types, or `level=debug` to include channel status events. 
-     * List events
+     * Creates request options for listEvents without sending the request
      */
-    async listEventsRaw(requestParameters: ListEventsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Event>>> {
+    async listEventsRequestOpts(requestParameters: ListEventsRequest): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         if (requestParameters['eventCodes'] != null) {
@@ -141,7 +234,7 @@ export class EventsApi extends runtime.BaseAPI {
         }
 
         if (requestParameters['since'] != null) {
-            queryParameters['since'] = requestParameters['since'];
+            queryParameters['since'] = (requestParameters['since'] as any).toISOString();
         }
 
         if (requestParameters['level'] != null) {
@@ -170,12 +263,21 @@ export class EventsApi extends runtime.BaseAPI {
 
         let urlPath = `/api/3/events`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns a paginated list of events (access control activity logs) for the authenticated user\'s account. By default, returns person access events (admits and rejects) from the last 90 days. Use `event_codes` parameter to filter by specific event types, or `level=debug` to include channel status events. 
+     * List events
+     */
+    async listEventsRaw(requestParameters: ListEventsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Event>>> {
+        const requestOptions = await this.listEventsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EventFromJSON));
     }

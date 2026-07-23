@@ -12,36 +12,47 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  CreateCredential422Response,
-  Credential,
-  CredentialInput,
-  CredentialUpdateInput,
-  GetAdmissionRequest401Response,
-  GetAdmissionRequest403Response,
-  GetAdmissionRequest404Response,
-  GetAdmissionRequest500Response,
-} from '../models/index';
 import {
-    CreateCredential422ResponseFromJSON,
-    CreateCredential422ResponseToJSON,
+    type CreateCardDesign422Response,
+    CreateCardDesign422ResponseFromJSON,
+    CreateCardDesign422ResponseToJSON,
+} from '../models/CreateCardDesign422Response';
+import {
+    type Credential,
     CredentialFromJSON,
     CredentialToJSON,
+} from '../models/Credential';
+import {
+    type CredentialInput,
     CredentialInputFromJSON,
     CredentialInputToJSON,
+} from '../models/CredentialInput';
+import {
+    type CredentialUpdateInput,
     CredentialUpdateInputFromJSON,
     CredentialUpdateInputToJSON,
+} from '../models/CredentialUpdateInput';
+import {
+    type GetAdmissionRequest401Response,
     GetAdmissionRequest401ResponseFromJSON,
     GetAdmissionRequest401ResponseToJSON,
+} from '../models/GetAdmissionRequest401Response';
+import {
+    type GetAdmissionRequest403Response,
     GetAdmissionRequest403ResponseFromJSON,
     GetAdmissionRequest403ResponseToJSON,
+} from '../models/GetAdmissionRequest403Response';
+import {
+    type GetAdmissionRequest404Response,
     GetAdmissionRequest404ResponseFromJSON,
     GetAdmissionRequest404ResponseToJSON,
+} from '../models/GetAdmissionRequest404Response';
+import {
+    type GetAdmissionRequest500Response,
     GetAdmissionRequest500ResponseFromJSON,
     GetAdmissionRequest500ResponseToJSON,
-} from '../models/index';
+} from '../models/GetAdmissionRequest500Response';
 
 export interface CreateCredentialRequest {
     personId: number;
@@ -80,15 +91,191 @@ export interface UpdateCredentialRequest {
 }
 
 /**
+ * CredentialsApi - interface
  * 
+ * @export
+ * @interface CredentialsApiInterface
  */
-export class CredentialsApi extends runtime.BaseAPI {
+export interface CredentialsApiInterface {
+    /**
+     * Creates request options for createCredential without sending the request
+     * @param {number} personId Person ID
+     * @param {CredentialInput} credentialInput 
+     * @throws {RequiredError}
+     * @memberof CredentialsApiInterface
+     */
+    createCredentialRequestOpts(requestParameters: CreateCredentialRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Creates a new credential for a person. For HID Mobile Access and PassFlow credentials, this initiates an invitation process.
+     * @summary Create credential
+     * @param {number} personId Person ID
+     * @param {CredentialInput} credentialInput 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CredentialsApiInterface
+     */
+    createCredentialRaw(requestParameters: CreateCredentialRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Credential>>;
 
     /**
      * Creates a new credential for a person. For HID Mobile Access and PassFlow credentials, this initiates an invitation process.
      * Create credential
      */
-    async createCredentialRaw(requestParameters: CreateCredentialRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Credential>> {
+    createCredential(requestParameters: CreateCredentialRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Credential>;
+
+    /**
+     * Creates request options for deleteCredential without sending the request
+     * @param {number} personId Person ID
+     * @param {string} id Credential ID (hashid) or HID invitation ID (format 99xxxxxxxx)
+     * @throws {RequiredError}
+     * @memberof CredentialsApiInterface
+     */
+    deleteCredentialRequestOpts(requestParameters: DeleteCredentialRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Deletes a credential. For HID Mobile Access credentials, this deactivates the mobile credential.
+     * @summary Delete credential
+     * @param {number} personId Person ID
+     * @param {string} id Credential ID (hashid) or HID invitation ID (format 99xxxxxxxx)
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CredentialsApiInterface
+     */
+    deleteCredentialRaw(requestParameters: DeleteCredentialRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>>;
+
+    /**
+     * Deletes a credential. For HID Mobile Access credentials, this deactivates the mobile credential.
+     * Delete credential
+     */
+    deleteCredential(requestParameters: DeleteCredentialRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string>;
+
+    /**
+     * Creates request options for getCredential without sending the request
+     * @param {number} personId Person ID
+     * @param {string} id Credential ID (hashid) or HID invitation ID (format 99xxxxxxxx)
+     * @param {string} [callback] Webhook callback ID for acknowledgment
+     * @param {string} [ackToken] Webhook acknowledgment token
+     * @throws {RequiredError}
+     * @memberof CredentialsApiInterface
+     */
+    getCredentialRequestOpts(requestParameters: GetCredentialRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Returns details for a specific credential
+     * @summary Get credential details
+     * @param {number} personId Person ID
+     * @param {string} id Credential ID (hashid) or HID invitation ID (format 99xxxxxxxx)
+     * @param {string} [callback] Webhook callback ID for acknowledgment
+     * @param {string} [ackToken] Webhook acknowledgment token
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CredentialsApiInterface
+     */
+    getCredentialRaw(requestParameters: GetCredentialRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Credential>>;
+
+    /**
+     * Returns details for a specific credential
+     * Get credential details
+     */
+    getCredential(requestParameters: GetCredentialRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Credential>;
+
+    /**
+     * Creates request options for listAllCredentials without sending the request
+     * @param {number} [perPage] Number of results per page
+     * @param {number} [page] Page number for pagination
+     * @param {boolean} [skipPagination] Skip pagination and return all results
+     * @throws {RequiredError}
+     * @memberof CredentialsApiInterface
+     */
+    listAllCredentialsRequestOpts(requestParameters: ListAllCredentialsRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Returns a paginated list of all credentials accessible to the authenticated user
+     * @summary List all credentials
+     * @param {number} [perPage] Number of results per page
+     * @param {number} [page] Page number for pagination
+     * @param {boolean} [skipPagination] Skip pagination and return all results
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CredentialsApiInterface
+     */
+    listAllCredentialsRaw(requestParameters: ListAllCredentialsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Credential>>>;
+
+    /**
+     * Returns a paginated list of all credentials accessible to the authenticated user
+     * List all credentials
+     */
+    listAllCredentials(requestParameters: ListAllCredentialsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Credential>>;
+
+    /**
+     * Creates request options for listPersonCredentials without sending the request
+     * @param {number} personId Person ID
+     * @param {number} [perPage] Number of results per page
+     * @param {number} [page] Page number for pagination
+     * @param {boolean} [skipPagination] Skip pagination and return all results
+     * @throws {RequiredError}
+     * @memberof CredentialsApiInterface
+     */
+    listPersonCredentialsRequestOpts(requestParameters: ListPersonCredentialsRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Returns a paginated list of credentials for a specific person, or all credentials if no person_id is provided
+     * @summary List person credentials
+     * @param {number} personId Person ID
+     * @param {number} [perPage] Number of results per page
+     * @param {number} [page] Page number for pagination
+     * @param {boolean} [skipPagination] Skip pagination and return all results
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CredentialsApiInterface
+     */
+    listPersonCredentialsRaw(requestParameters: ListPersonCredentialsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Credential>>>;
+
+    /**
+     * Returns a paginated list of credentials for a specific person, or all credentials if no person_id is provided
+     * List person credentials
+     */
+    listPersonCredentials(requestParameters: ListPersonCredentialsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Credential>>;
+
+    /**
+     * Creates request options for updateCredential without sending the request
+     * @param {number} personId Person ID
+     * @param {string} id Credential ID (hashid)
+     * @param {CredentialUpdateInput} credentialUpdateInput 
+     * @throws {RequiredError}
+     * @memberof CredentialsApiInterface
+     */
+    updateCredentialRequestOpts(requestParameters: UpdateCredentialRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Updates the value of an existing credential
+     * @summary Update credential
+     * @param {number} personId Person ID
+     * @param {string} id Credential ID (hashid)
+     * @param {CredentialUpdateInput} credentialUpdateInput 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CredentialsApiInterface
+     */
+    updateCredentialRaw(requestParameters: UpdateCredentialRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Credential>>;
+
+    /**
+     * Updates the value of an existing credential
+     * Update credential
+     */
+    updateCredential(requestParameters: UpdateCredentialRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Credential>;
+
+}
+
+/**
+ * 
+ */
+export class CredentialsApi extends runtime.BaseAPI implements CredentialsApiInterface {
+
+    /**
+     * Creates request options for createCredential without sending the request
+     */
+    async createCredentialRequestOpts(requestParameters: CreateCredentialRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['personId'] == null) {
             throw new runtime.RequiredError(
                 'personId',
@@ -116,15 +303,24 @@ export class CredentialsApi extends runtime.BaseAPI {
 
 
         let urlPath = `/api/3/people/{person_id}/credentials`;
-        urlPath = urlPath.replace(`{${"person_id"}}`, encodeURIComponent(String(requestParameters['personId'])));
+        urlPath = urlPath.replace('{person_id}', encodeURIComponent(String(requestParameters['personId'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: CredentialInputToJSON(requestParameters['credentialInput']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Creates a new credential for a person. For HID Mobile Access and PassFlow credentials, this initiates an invitation process.
+     * Create credential
+     */
+    async createCredentialRaw(requestParameters: CreateCredentialRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Credential>> {
+        const requestOptions = await this.createCredentialRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => CredentialFromJSON(jsonValue));
     }
@@ -139,10 +335,9 @@ export class CredentialsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Deletes a credential. For HID Mobile Access credentials, this deactivates the mobile credential.
-     * Delete credential
+     * Creates request options for deleteCredential without sending the request
      */
-    async deleteCredentialRaw(requestParameters: DeleteCredentialRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
+    async deleteCredentialRequestOpts(requestParameters: DeleteCredentialRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['personId'] == null) {
             throw new runtime.RequiredError(
                 'personId',
@@ -168,15 +363,24 @@ export class CredentialsApi extends runtime.BaseAPI {
 
 
         let urlPath = `/api/3/people/{person_id}/credentials/{id}`;
-        urlPath = urlPath.replace(`{${"person_id"}}`, encodeURIComponent(String(requestParameters['personId'])));
-        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+        urlPath = urlPath.replace('{person_id}', encodeURIComponent(String(requestParameters['personId'])));
+        urlPath = urlPath.replace('{id}', encodeURIComponent(String(requestParameters['id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Deletes a credential. For HID Mobile Access credentials, this deactivates the mobile credential.
+     * Delete credential
+     */
+    async deleteCredentialRaw(requestParameters: DeleteCredentialRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
+        const requestOptions = await this.deleteCredentialRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         if (this.isJsonMime(response.headers.get('content-type'))) {
             return new runtime.JSONApiResponse<string>(response);
@@ -195,10 +399,9 @@ export class CredentialsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns details for a specific credential
-     * Get credential details
+     * Creates request options for getCredential without sending the request
      */
-    async getCredentialRaw(requestParameters: GetCredentialRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Credential>> {
+    async getCredentialRequestOpts(requestParameters: GetCredentialRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['personId'] == null) {
             throw new runtime.RequiredError(
                 'personId',
@@ -232,15 +435,24 @@ export class CredentialsApi extends runtime.BaseAPI {
 
 
         let urlPath = `/api/3/people/{person_id}/credentials/{id}`;
-        urlPath = urlPath.replace(`{${"person_id"}}`, encodeURIComponent(String(requestParameters['personId'])));
-        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+        urlPath = urlPath.replace('{person_id}', encodeURIComponent(String(requestParameters['personId'])));
+        urlPath = urlPath.replace('{id}', encodeURIComponent(String(requestParameters['id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns details for a specific credential
+     * Get credential details
+     */
+    async getCredentialRaw(requestParameters: GetCredentialRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Credential>> {
+        const requestOptions = await this.getCredentialRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => CredentialFromJSON(jsonValue));
     }
@@ -255,10 +467,9 @@ export class CredentialsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns a paginated list of all credentials accessible to the authenticated user
-     * List all credentials
+     * Creates request options for listAllCredentials without sending the request
      */
-    async listAllCredentialsRaw(requestParameters: ListAllCredentialsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Credential>>> {
+    async listAllCredentialsRequestOpts(requestParameters: ListAllCredentialsRequest): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         if (requestParameters['perPage'] != null) {
@@ -283,12 +494,21 @@ export class CredentialsApi extends runtime.BaseAPI {
 
         let urlPath = `/api/3/credentials`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns a paginated list of all credentials accessible to the authenticated user
+     * List all credentials
+     */
+    async listAllCredentialsRaw(requestParameters: ListAllCredentialsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Credential>>> {
+        const requestOptions = await this.listAllCredentialsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(CredentialFromJSON));
     }
@@ -303,10 +523,9 @@ export class CredentialsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns a paginated list of credentials for a specific person, or all credentials if no person_id is provided
-     * List person credentials
+     * Creates request options for listPersonCredentials without sending the request
      */
-    async listPersonCredentialsRaw(requestParameters: ListPersonCredentialsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Credential>>> {
+    async listPersonCredentialsRequestOpts(requestParameters: ListPersonCredentialsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['personId'] == null) {
             throw new runtime.RequiredError(
                 'personId',
@@ -337,14 +556,23 @@ export class CredentialsApi extends runtime.BaseAPI {
 
 
         let urlPath = `/api/3/people/{person_id}/credentials`;
-        urlPath = urlPath.replace(`{${"person_id"}}`, encodeURIComponent(String(requestParameters['personId'])));
+        urlPath = urlPath.replace('{person_id}', encodeURIComponent(String(requestParameters['personId'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns a paginated list of credentials for a specific person, or all credentials if no person_id is provided
+     * List person credentials
+     */
+    async listPersonCredentialsRaw(requestParameters: ListPersonCredentialsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Credential>>> {
+        const requestOptions = await this.listPersonCredentialsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(CredentialFromJSON));
     }
@@ -359,10 +587,9 @@ export class CredentialsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Updates the value of an existing credential
-     * Update credential
+     * Creates request options for updateCredential without sending the request
      */
-    async updateCredentialRaw(requestParameters: UpdateCredentialRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Credential>> {
+    async updateCredentialRequestOpts(requestParameters: UpdateCredentialRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['personId'] == null) {
             throw new runtime.RequiredError(
                 'personId',
@@ -397,16 +624,25 @@ export class CredentialsApi extends runtime.BaseAPI {
 
 
         let urlPath = `/api/3/people/{person_id}/credentials/{id}`;
-        urlPath = urlPath.replace(`{${"person_id"}}`, encodeURIComponent(String(requestParameters['personId'])));
-        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+        urlPath = urlPath.replace('{person_id}', encodeURIComponent(String(requestParameters['personId'])));
+        urlPath = urlPath.replace('{id}', encodeURIComponent(String(requestParameters['id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
             body: CredentialUpdateInputToJSON(requestParameters['credentialUpdateInput']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Updates the value of an existing credential
+     * Update credential
+     */
+    async updateCredentialRaw(requestParameters: UpdateCredentialRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Credential>> {
+        const requestOptions = await this.updateCredentialRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => CredentialFromJSON(jsonValue));
     }

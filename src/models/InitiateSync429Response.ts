@@ -21,7 +21,7 @@ import { mapValues } from '../runtime';
 export interface InitiateSync429Response {
     /**
      * Error code indicating rate limiting
-     * @type {string}
+     * @type {InitiateSync429ResponseErrorEnum}
      * @memberof InitiateSync429Response
      */
     error: InitiateSync429ResponseErrorEnum;
@@ -54,8 +54,10 @@ export type InitiateSync429ResponseErrorEnum = typeof InitiateSync429ResponseErr
  */
 export function instanceOfInitiateSync429Response(value: object): value is InitiateSync429Response {
     if (!('error' in value) || value['error'] === undefined) return false;
+    if (value['error'] !== 'rate_limited') return false;
+    
     if (!('description' in value) || value['description'] === undefined) return false;
-    if (!('retryIn' in value) || value['retryIn'] === undefined) return false;
+    if ((!('retryIn' in (value as Record<string, any>)) && !('retry_in' in (value as Record<string, any>))) || ((value as Record<string, any>)['retryIn'] === undefined && (value as Record<string, any>)['retry_in'] === undefined)) return false;
     return true;
 }
 

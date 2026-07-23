@@ -43,7 +43,7 @@ export interface CredentialInputPersonCredential {
  * Check if a given object implements the CredentialInputPersonCredential interface.
  */
 export function instanceOfCredentialInputPersonCredential(value: object): value is CredentialInputPersonCredential {
-    if (!('credentialTypeId' in value) || value['credentialTypeId'] === undefined) return false;
+    if ((!('credentialTypeId' in (value as Record<string, any>)) && !('credential_type_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['credentialTypeId'] === undefined && (value as Record<string, any>)['credential_type_id'] === undefined)) return false;
     return true;
 }
 
@@ -58,8 +58,8 @@ export function CredentialInputPersonCredentialFromJSONTyped(json: any, ignoreDi
     return {
         
         'credentialTypeId': json['credential_type_id'],
-        'value': json['value'] == null ? undefined : json['value'],
-        'personId': json['person_id'] == null ? undefined : json['person_id'],
+        'value': json['value'] === undefined ? undefined : json['value'] === null ? null : json['value'],
+        'personId': json['person_id'] === undefined ? undefined : json['person_id'] === null ? null : json['person_id'],
     };
 }
 

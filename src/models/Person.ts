@@ -189,8 +189,8 @@ export interface Person {
  */
 export function instanceOfPerson(value: object): value is Person {
     if (!('id' in value) || value['id'] === undefined) return false;
-    if (!('firstName' in value) || value['firstName'] === undefined) return false;
-    if (!('lastName' in value) || value['lastName'] === undefined) return false;
+    if ((!('firstName' in (value as Record<string, any>)) && !('first_name' in (value as Record<string, any>))) || ((value as Record<string, any>)['firstName'] === undefined && (value as Record<string, any>)['first_name'] === undefined)) return false;
+    if ((!('lastName' in (value as Record<string, any>)) && !('last_name' in (value as Record<string, any>))) || ((value as Record<string, any>)['lastName'] === undefined && (value as Record<string, any>)['last_name'] === undefined)) return false;
     if (!('enabled' in value) || value['enabled'] === undefined) return false;
     if (!('groups' in value) || value['groups'] === undefined) return false;
     if (!('roles' in value) || value['roles'] === undefined) return false;
@@ -211,26 +211,26 @@ export function PersonFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pe
         'id': json['id'],
         'firstName': json['first_name'],
         'lastName': json['last_name'],
-        'salutation': json['salutation'] == null ? undefined : json['salutation'],
-        'jobTitle': json['job_title'] == null ? undefined : json['job_title'],
-        'email': json['email'] == null ? undefined : json['email'],
-        'organisationId': json['organisation_id'] == null ? undefined : json['organisation_id'],
-        'systemId': json['system_id'] == null ? undefined : json['system_id'],
-        'department': json['department'] == null ? undefined : json['department'],
+        'salutation': json['salutation'] === undefined ? undefined : json['salutation'] === null ? null : json['salutation'],
+        'jobTitle': json['job_title'] === undefined ? undefined : json['job_title'] === null ? null : json['job_title'],
+        'email': json['email'] === undefined ? undefined : json['email'] === null ? null : json['email'],
+        'organisationId': json['organisation_id'] === undefined ? undefined : json['organisation_id'] === null ? null : json['organisation_id'],
+        'systemId': json['system_id'] === undefined ? undefined : json['system_id'] === null ? null : json['system_id'],
+        'department': json['department'] === undefined ? undefined : json['department'] === null ? null : json['department'],
         'enabled': json['enabled'],
-        'validFrom': json['valid_from'] == null ? undefined : (new Date(json['valid_from'])),
-        'validTo': json['valid_to'] == null ? undefined : (new Date(json['valid_to'])),
-        'imageUrl': json['image_url'] == null ? undefined : json['image_url'],
-        'imageThumbnailUrl': json['image_thumbnail_url'] == null ? undefined : json['image_thumbnail_url'],
-        'telephone': json['telephone'] == null ? undefined : json['telephone'],
-        'mobile': json['mobile'] == null ? undefined : json['mobile'],
-        'notes': json['notes'] == null ? undefined : json['notes'],
-        'barcode': json['barcode'] == null ? undefined : json['barcode'],
-        'custom1': json['custom_1'] == null ? undefined : json['custom_1'],
-        'custom2': json['custom_2'] == null ? undefined : json['custom_2'],
-        'custom3': json['custom_3'] == null ? undefined : json['custom_3'],
-        'custom4': json['custom_4'] == null ? undefined : json['custom_4'],
-        'custom5': json['custom_5'] == null ? undefined : json['custom_5'],
+        'validFrom': json['valid_from'] === undefined ? undefined : json['valid_from'] === null ? null : (new Date(json['valid_from'])),
+        'validTo': json['valid_to'] === undefined ? undefined : json['valid_to'] === null ? null : (new Date(json['valid_to'])),
+        'imageUrl': json['image_url'] === undefined ? undefined : json['image_url'] === null ? null : json['image_url'],
+        'imageThumbnailUrl': json['image_thumbnail_url'] === undefined ? undefined : json['image_thumbnail_url'] === null ? null : json['image_thumbnail_url'],
+        'telephone': json['telephone'] === undefined ? undefined : json['telephone'] === null ? null : json['telephone'],
+        'mobile': json['mobile'] === undefined ? undefined : json['mobile'] === null ? null : json['mobile'],
+        'notes': json['notes'] === undefined ? undefined : json['notes'] === null ? null : json['notes'],
+        'barcode': json['barcode'] === undefined ? undefined : json['barcode'] === null ? null : json['barcode'],
+        'custom1': json['custom_1'] === undefined ? undefined : json['custom_1'] === null ? null : json['custom_1'],
+        'custom2': json['custom_2'] === undefined ? undefined : json['custom_2'] === null ? null : json['custom_2'],
+        'custom3': json['custom_3'] === undefined ? undefined : json['custom_3'] === null ? null : json['custom_3'],
+        'custom4': json['custom_4'] === undefined ? undefined : json['custom_4'] === null ? null : json['custom_4'],
+        'custom5': json['custom_5'] === undefined ? undefined : json['custom_5'] === null ? null : json['custom_5'],
         'createdAt': json['created_at'] == null ? undefined : (new Date(json['created_at'])),
         'updatedAt': json['updated_at'] == null ? undefined : (new Date(json['updated_at'])),
         'groups': json['groups'],

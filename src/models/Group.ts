@@ -63,9 +63,9 @@ export interface Group {
 export function instanceOfGroup(value: object): value is Group {
     if (!('id' in value) || value['id'] === undefined) return false;
     if (!('name' in value) || value['name'] === undefined) return false;
-    if (!('globalAcrossSites' in value) || value['globalAcrossSites'] === undefined) return false;
-    if (!('createdAt' in value) || value['createdAt'] === undefined) return false;
-    if (!('updatedAt' in value) || value['updatedAt'] === undefined) return false;
+    if ((!('globalAcrossSites' in (value as Record<string, any>)) && !('global_across_sites' in (value as Record<string, any>))) || ((value as Record<string, any>)['globalAcrossSites'] === undefined && (value as Record<string, any>)['global_across_sites'] === undefined)) return false;
+    if ((!('createdAt' in (value as Record<string, any>)) && !('created_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['createdAt'] === undefined && (value as Record<string, any>)['created_at'] === undefined)) return false;
+    if ((!('updatedAt' in (value as Record<string, any>)) && !('updated_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['updatedAt'] === undefined && (value as Record<string, any>)['updated_at'] === undefined)) return false;
     return true;
 }
 
@@ -81,7 +81,7 @@ export function GroupFromJSONTyped(json: any, ignoreDiscriminator: boolean): Gro
         
         'id': json['id'],
         'name': json['name'],
-        'notes': json['notes'] == null ? undefined : json['notes'],
+        'notes': json['notes'] === undefined ? undefined : json['notes'] === null ? null : json['notes'],
         'globalAcrossSites': json['global_across_sites'],
         'createdAt': (new Date(json['created_at'])),
         'updatedAt': (new Date(json['updated_at'])),

@@ -12,24 +12,27 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  GetAdmissionRequest401Response,
-  GetAdmissionRequest403Response,
-  GetAdmissionRequest500Response,
-  Site,
-} from '../models/index';
 import {
+    type GetAdmissionRequest401Response,
     GetAdmissionRequest401ResponseFromJSON,
     GetAdmissionRequest401ResponseToJSON,
+} from '../models/GetAdmissionRequest401Response';
+import {
+    type GetAdmissionRequest403Response,
     GetAdmissionRequest403ResponseFromJSON,
     GetAdmissionRequest403ResponseToJSON,
+} from '../models/GetAdmissionRequest403Response';
+import {
+    type GetAdmissionRequest500Response,
     GetAdmissionRequest500ResponseFromJSON,
     GetAdmissionRequest500ResponseToJSON,
+} from '../models/GetAdmissionRequest500Response';
+import {
+    type Site,
     SiteFromJSON,
     SiteToJSON,
-} from '../models/index';
+} from '../models/Site';
 
 export interface ListSitesRequest {
     perPage?: number;
@@ -38,15 +41,51 @@ export interface ListSitesRequest {
 }
 
 /**
+ * SitesApi - interface
  * 
+ * @export
+ * @interface SitesApiInterface
  */
-export class SitesApi extends runtime.BaseAPI {
+export interface SitesApiInterface {
+    /**
+     * Creates request options for listSites without sending the request
+     * @param {number} [perPage] Number of results per page
+     * @param {number} [page] Page number for pagination
+     * @param {boolean} [skipPagination] Skip pagination and return all results
+     * @throws {RequiredError}
+     * @memberof SitesApiInterface
+     */
+    listSitesRequestOpts(requestParameters: ListSitesRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Returns a paginated list of sites (physical locations) accessible to the authenticated user. Sites are used to organize channels (door controllers) by physical location and can have their own time zones and IP address ranges. 
+     * @summary List sites
+     * @param {number} [perPage] Number of results per page
+     * @param {number} [page] Page number for pagination
+     * @param {boolean} [skipPagination] Skip pagination and return all results
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SitesApiInterface
+     */
+    listSitesRaw(requestParameters: ListSitesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Site>>>;
 
     /**
      * Returns a paginated list of sites (physical locations) accessible to the authenticated user. Sites are used to organize channels (door controllers) by physical location and can have their own time zones and IP address ranges. 
      * List sites
      */
-    async listSitesRaw(requestParameters: ListSitesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Site>>> {
+    listSites(requestParameters: ListSitesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Site>>;
+
+}
+
+/**
+ * 
+ */
+export class SitesApi extends runtime.BaseAPI implements SitesApiInterface {
+
+    /**
+     * Creates request options for listSites without sending the request
+     */
+    async listSitesRequestOpts(requestParameters: ListSitesRequest): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         if (requestParameters['perPage'] != null) {
@@ -71,12 +110,21 @@ export class SitesApi extends runtime.BaseAPI {
 
         let urlPath = `/api/3/sites`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns a paginated list of sites (physical locations) accessible to the authenticated user. Sites are used to organize channels (door controllers) by physical location and can have their own time zones and IP address ranges. 
+     * List sites
+     */
+    async listSitesRaw(requestParameters: ListSitesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Site>>> {
+        const requestOptions = await this.listSitesRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SiteFromJSON));
     }

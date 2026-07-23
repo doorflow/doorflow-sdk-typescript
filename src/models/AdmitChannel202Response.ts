@@ -27,7 +27,7 @@ export interface AdmitChannel202Response {
     admissionRequestId?: number;
     /**
      * Initial status of the admission request
-     * @type {string}
+     * @type {AdmitChannel202ResponseStatusEnum}
      * @memberof AdmitChannel202Response
      */
     status?: AdmitChannel202ResponseStatusEnum;

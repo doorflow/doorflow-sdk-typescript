@@ -12,30 +12,37 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  GetAccessToken200Response,
-  GetAccessToken400Response,
-  GetAccessToken401Response,
-  GetTokenInfo200Response,
-  GetTokenInfo401Response,
-  RevokeToken403Response,
-} from '../models/index';
 import {
+    type GetAccessToken200Response,
     GetAccessToken200ResponseFromJSON,
     GetAccessToken200ResponseToJSON,
+} from '../models/GetAccessToken200Response';
+import {
+    type GetAccessToken400Response,
     GetAccessToken400ResponseFromJSON,
     GetAccessToken400ResponseToJSON,
+} from '../models/GetAccessToken400Response';
+import {
+    type GetAccessToken401Response,
     GetAccessToken401ResponseFromJSON,
     GetAccessToken401ResponseToJSON,
+} from '../models/GetAccessToken401Response';
+import {
+    type GetTokenInfo200Response,
     GetTokenInfo200ResponseFromJSON,
     GetTokenInfo200ResponseToJSON,
+} from '../models/GetTokenInfo200Response';
+import {
+    type GetTokenInfo401Response,
     GetTokenInfo401ResponseFromJSON,
     GetTokenInfo401ResponseToJSON,
+} from '../models/GetTokenInfo401Response';
+import {
+    type RevokeToken403Response,
     RevokeToken403ResponseFromJSON,
     RevokeToken403ResponseToJSON,
-} from '../models/index';
+} from '../models/RevokeToken403Response';
 
 export interface AuthorizeOAuthRequest {
     responseType: AuthorizeOAuthResponseTypeEnum;
@@ -65,15 +72,147 @@ export interface RevokeTokenRequest {
 }
 
 /**
+ * OauthApi - interface
  * 
+ * @export
+ * @interface OauthApiInterface
  */
-export class OauthApi extends runtime.BaseAPI {
+export interface OauthApiInterface {
+    /**
+     * Creates request options for authorizeOAuth without sending the request
+     * @param {'code'} responseType OAuth response type (must be \&quot;code\&quot; for authorization code flow)
+     * @param {string} clientId Your OAuth application\&#39;s client ID
+     * @param {string} redirectUri URI to redirect to after authorization (must match registered redirect URI)
+     * @param {string} scope Space-separated list of requested scopes (see available scopes in security schemes section)
+     * @param {string} [state] Opaque value to maintain state between request and callback (recommended for CSRF protection)
+     * @param {string} [codeChallenge] PKCE code challenge (BASE64URL(SHA256(code_verifier)))
+     * @param {'S256'} [codeChallengeMethod] PKCE code challenge method (must be S256)
+     * @throws {RequiredError}
+     * @memberof OauthApiInterface
+     */
+    authorizeOAuthRequestOpts(requestParameters: AuthorizeOAuthRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Initiates the OAuth 2.0 authorization code flow. Direct users to this endpoint to request authorization.  **Authorization Code Flow Steps:** 1. Direct the user\'s browser to this endpoint with required parameters 2. User logs in (if not already authenticated) and authorizes your application 3. User is redirected to your `redirect_uri` with an authorization `code` parameter 4. Exchange the code for an access token at `/oauth/token`  **PKCE (Proof Key for Code Exchange):** For public clients (mobile/SPA applications), PKCE is recommended for security: 1. Generate a random `code_verifier` (43-128 characters) 2. Create `code_challenge` = BASE64URL(SHA256(code_verifier)) 3. Include `code_challenge` and `code_challenge_method=S256` in this request 4. Include `code_verifier` when exchanging the code at `/oauth/token`  **Important Notes:** - This is a browser-based flow - users will see a login/authorization screen - The `redirect_uri` must be pre-registered with your OAuth application - The authorization code expires after 10 minutes - Some applications may be configured to skip the authorization screen (auto-approve) 
+     * @summary Authorization endpoint
+     * @param {'code'} responseType OAuth response type (must be \&quot;code\&quot; for authorization code flow)
+     * @param {string} clientId Your OAuth application\&#39;s client ID
+     * @param {string} redirectUri URI to redirect to after authorization (must match registered redirect URI)
+     * @param {string} scope Space-separated list of requested scopes (see available scopes in security schemes section)
+     * @param {string} [state] Opaque value to maintain state between request and callback (recommended for CSRF protection)
+     * @param {string} [codeChallenge] PKCE code challenge (BASE64URL(SHA256(code_verifier)))
+     * @param {'S256'} [codeChallengeMethod] PKCE code challenge method (must be S256)
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OauthApiInterface
+     */
+    authorizeOAuthRaw(requestParameters: AuthorizeOAuthRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>>;
 
     /**
      * Initiates the OAuth 2.0 authorization code flow. Direct users to this endpoint to request authorization.  **Authorization Code Flow Steps:** 1. Direct the user\'s browser to this endpoint with required parameters 2. User logs in (if not already authenticated) and authorizes your application 3. User is redirected to your `redirect_uri` with an authorization `code` parameter 4. Exchange the code for an access token at `/oauth/token`  **PKCE (Proof Key for Code Exchange):** For public clients (mobile/SPA applications), PKCE is recommended for security: 1. Generate a random `code_verifier` (43-128 characters) 2. Create `code_challenge` = BASE64URL(SHA256(code_verifier)) 3. Include `code_challenge` and `code_challenge_method=S256` in this request 4. Include `code_verifier` when exchanging the code at `/oauth/token`  **Important Notes:** - This is a browser-based flow - users will see a login/authorization screen - The `redirect_uri` must be pre-registered with your OAuth application - The authorization code expires after 10 minutes - Some applications may be configured to skip the authorization screen (auto-approve) 
      * Authorization endpoint
      */
-    async authorizeOAuthRaw(requestParameters: AuthorizeOAuthRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    authorizeOAuth(requestParameters: AuthorizeOAuthRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void>;
+
+    /**
+     * Creates request options for getAccessToken without sending the request
+     * @param {string} grantType OAuth grant type (use \\\&quot;authorization_code\\\&quot; to exchange an authorization code, or \\\&quot;refresh_token\\\&quot; to refresh an access token)
+     * @param {string} [clientId] OAuth client ID (required for all grant types)
+     * @param {string} [clientSecret] OAuth client secret (required for confidential clients)
+     * @param {string} [code] Authorization code (required when grant_type&#x3D;authorization_code)
+     * @param {string} [redirectUri] Redirect URI (required when grant_type&#x3D;authorization_code, must match the one used in authorization request)
+     * @param {string} [codeVerifier] PKCE code verifier (required if PKCE was used in authorization request)
+     * @param {string} [refreshToken] Refresh token (required when grant_type&#x3D;refresh_token)
+     * @param {string} [scope] Space-separated list of requested scopes (optional, defaults to application\\\&#39;s configured scopes)
+     * @throws {RequiredError}
+     * @memberof OauthApiInterface
+     */
+    getAccessTokenRequestOpts(requestParameters: GetAccessTokenRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Exchange authorization code for an access token, or refresh an existing token.  **Authorization Code Flow:** 1. Direct users to `/oauth/authorize` with your client_id, redirect_uri, and requested scopes 2. User authorizes your application 3. You receive an authorization code at your redirect_uri 4. Exchange the code for an access token using this endpoint with `grant_type=authorization_code`  **Refreshing Tokens:** - Use `grant_type=refresh_token` with a valid refresh_token to obtain a new access token - Access tokens expire after 1 hour - Refresh tokens are long-lived and should be stored securely 
+     * @summary Obtain access token
+     * @param {string} grantType OAuth grant type (use \\\&quot;authorization_code\\\&quot; to exchange an authorization code, or \\\&quot;refresh_token\\\&quot; to refresh an access token)
+     * @param {string} [clientId] OAuth client ID (required for all grant types)
+     * @param {string} [clientSecret] OAuth client secret (required for confidential clients)
+     * @param {string} [code] Authorization code (required when grant_type&#x3D;authorization_code)
+     * @param {string} [redirectUri] Redirect URI (required when grant_type&#x3D;authorization_code, must match the one used in authorization request)
+     * @param {string} [codeVerifier] PKCE code verifier (required if PKCE was used in authorization request)
+     * @param {string} [refreshToken] Refresh token (required when grant_type&#x3D;refresh_token)
+     * @param {string} [scope] Space-separated list of requested scopes (optional, defaults to application\\\&#39;s configured scopes)
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OauthApiInterface
+     */
+    getAccessTokenRaw(requestParameters: GetAccessTokenRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetAccessToken200Response>>;
+
+    /**
+     * Exchange authorization code for an access token, or refresh an existing token.  **Authorization Code Flow:** 1. Direct users to `/oauth/authorize` with your client_id, redirect_uri, and requested scopes 2. User authorizes your application 3. You receive an authorization code at your redirect_uri 4. Exchange the code for an access token using this endpoint with `grant_type=authorization_code`  **Refreshing Tokens:** - Use `grant_type=refresh_token` with a valid refresh_token to obtain a new access token - Access tokens expire after 1 hour - Refresh tokens are long-lived and should be stored securely 
+     * Obtain access token
+     */
+    getAccessToken(requestParameters: GetAccessTokenRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetAccessToken200Response>;
+
+    /**
+     * Creates request options for getTokenInfo without sending the request
+     * @throws {RequiredError}
+     * @memberof OauthApiInterface
+     */
+    getTokenInfoRequestOpts(): Promise<runtime.RequestOpts>;
+
+    /**
+     * Returns information about the current access token being used for authentication.  This endpoint provides metadata about the access token including the resource owner, account, scopes, and expiration.  **Authentication:** Requires a valid OAuth2 access token in the Authorization header. 
+     * @summary Get token information
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OauthApiInterface
+     */
+    getTokenInfoRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetTokenInfo200Response>>;
+
+    /**
+     * Returns information about the current access token being used for authentication.  This endpoint provides metadata about the access token including the resource owner, account, scopes, and expiration.  **Authentication:** Requires a valid OAuth2 access token in the Authorization header. 
+     * Get token information
+     */
+    getTokenInfo(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetTokenInfo200Response>;
+
+    /**
+     * Creates request options for revokeToken without sending the request
+     * @param {string} authorization HTTP Basic Authentication using client_id:client_secret encoded with URL-safe Base64
+     * @param {string} token The access token or refresh token to revoke (we recommend using refresh_token)
+     * @param {string} [tokenTypeHint] Optional hint about the type of token being revoked. We recommend using \\\&#39;refresh_token\\\&#39; for all revocations as it invalidates all associated tokens. Invalid token type hint values are ignored and do not affect the revocation response. 
+     * @throws {RequiredError}
+     * @memberof OauthApiInterface
+     */
+    revokeTokenRequestOpts(requestParameters: RevokeTokenRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Revokes an access token or refresh token, immediately invalidating it and blocking associated tokens from making further requests.  **When to revoke:** - User disconnects their DoorFlow account from your integration - User logs out - Security breach - revoke compromised tokens - Application uninstall  **Important:** - **We recommend revoking the refresh_token** - this will invalidate all associated access tokens - Returns HTTP 200 even if the token was already invalid (prevents token scanning attacks) - Client authentication is required via HTTP Basic Auth header  **Authentication:** You must authenticate using HTTP Basic Authentication with your client credentials: 1. Combine your client_id and client_secret as: `{client_id}:{client_secret}` 2. Encode using URL-safe Base64 3. Include in Authorization header: `Authorization: Basic {encoded_credentials}` 
+     * @summary Revoke access token or refresh token
+     * @param {string} authorization HTTP Basic Authentication using client_id:client_secret encoded with URL-safe Base64
+     * @param {string} token The access token or refresh token to revoke (we recommend using refresh_token)
+     * @param {string} [tokenTypeHint] Optional hint about the type of token being revoked. We recommend using \\\&#39;refresh_token\\\&#39; for all revocations as it invalidates all associated tokens. Invalid token type hint values are ignored and do not affect the revocation response. 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OauthApiInterface
+     */
+    revokeTokenRaw(requestParameters: RevokeTokenRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>>;
+
+    /**
+     * Revokes an access token or refresh token, immediately invalidating it and blocking associated tokens from making further requests.  **When to revoke:** - User disconnects their DoorFlow account from your integration - User logs out - Security breach - revoke compromised tokens - Application uninstall  **Important:** - **We recommend revoking the refresh_token** - this will invalidate all associated access tokens - Returns HTTP 200 even if the token was already invalid (prevents token scanning attacks) - Client authentication is required via HTTP Basic Auth header  **Authentication:** You must authenticate using HTTP Basic Authentication with your client credentials: 1. Combine your client_id and client_secret as: `{client_id}:{client_secret}` 2. Encode using URL-safe Base64 3. Include in Authorization header: `Authorization: Basic {encoded_credentials}` 
+     * Revoke access token or refresh token
+     */
+    revokeToken(requestParameters: RevokeTokenRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object>;
+
+}
+
+/**
+ * 
+ */
+export class OauthApi extends runtime.BaseAPI implements OauthApiInterface {
+
+    /**
+     * Creates request options for authorizeOAuth without sending the request
+     */
+    async authorizeOAuthRequestOpts(requestParameters: AuthorizeOAuthRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['responseType'] == null) {
             throw new runtime.RequiredError(
                 'responseType',
@@ -137,12 +276,21 @@ export class OauthApi extends runtime.BaseAPI {
 
         let urlPath = `/oauth/authorize`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Initiates the OAuth 2.0 authorization code flow. Direct users to this endpoint to request authorization.  **Authorization Code Flow Steps:** 1. Direct the user\'s browser to this endpoint with required parameters 2. User logs in (if not already authenticated) and authorizes your application 3. User is redirected to your `redirect_uri` with an authorization `code` parameter 4. Exchange the code for an access token at `/oauth/token`  **PKCE (Proof Key for Code Exchange):** For public clients (mobile/SPA applications), PKCE is recommended for security: 1. Generate a random `code_verifier` (43-128 characters) 2. Create `code_challenge` = BASE64URL(SHA256(code_verifier)) 3. Include `code_challenge` and `code_challenge_method=S256` in this request 4. Include `code_verifier` when exchanging the code at `/oauth/token`  **Important Notes:** - This is a browser-based flow - users will see a login/authorization screen - The `redirect_uri` must be pre-registered with your OAuth application - The authorization code expires after 10 minutes - Some applications may be configured to skip the authorization screen (auto-approve) 
+     * Authorization endpoint
+     */
+    async authorizeOAuthRaw(requestParameters: AuthorizeOAuthRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.authorizeOAuthRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -156,10 +304,9 @@ export class OauthApi extends runtime.BaseAPI {
     }
 
     /**
-     * Exchange authorization code for an access token, or refresh an existing token.  **Authorization Code Flow:** 1. Direct users to `/oauth/authorize` with your client_id, redirect_uri, and requested scopes 2. User authorizes your application 3. You receive an authorization code at your redirect_uri 4. Exchange the code for an access token using this endpoint with `grant_type=authorization_code`  **Refreshing Tokens:** - Use `grant_type=refresh_token` with a valid refresh_token to obtain a new access token - Access tokens expire after 1 hour - Refresh tokens are long-lived and should be stored securely 
-     * Obtain access token
+     * Creates request options for getAccessToken without sending the request
      */
-    async getAccessTokenRaw(requestParameters: GetAccessTokenRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetAccessToken200Response>> {
+    async getAccessTokenRequestOpts(requestParameters: GetAccessTokenRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['grantType'] == null) {
             throw new runtime.RequiredError(
                 'grantType',
@@ -220,13 +367,22 @@ export class OauthApi extends runtime.BaseAPI {
 
         let urlPath = `/oauth/token`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: formParams,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Exchange authorization code for an access token, or refresh an existing token.  **Authorization Code Flow:** 1. Direct users to `/oauth/authorize` with your client_id, redirect_uri, and requested scopes 2. User authorizes your application 3. You receive an authorization code at your redirect_uri 4. Exchange the code for an access token using this endpoint with `grant_type=authorization_code`  **Refreshing Tokens:** - Use `grant_type=refresh_token` with a valid refresh_token to obtain a new access token - Access tokens expire after 1 hour - Refresh tokens are long-lived and should be stored securely 
+     * Obtain access token
+     */
+    async getAccessTokenRaw(requestParameters: GetAccessTokenRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetAccessToken200Response>> {
+        const requestOptions = await this.getAccessTokenRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GetAccessToken200ResponseFromJSON(jsonValue));
     }
@@ -241,10 +397,9 @@ export class OauthApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns information about the current access token being used for authentication.  This endpoint provides metadata about the access token including the resource owner, account, scopes, and expiration.  **Authentication:** Requires a valid OAuth2 access token in the Authorization header. 
-     * Get token information
+     * Creates request options for getTokenInfo without sending the request
      */
-    async getTokenInfoRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetTokenInfo200Response>> {
+    async getTokenInfoRequestOpts(): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -257,12 +412,21 @@ export class OauthApi extends runtime.BaseAPI {
 
         let urlPath = `/oauth/token/info`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns information about the current access token being used for authentication.  This endpoint provides metadata about the access token including the resource owner, account, scopes, and expiration.  **Authentication:** Requires a valid OAuth2 access token in the Authorization header. 
+     * Get token information
+     */
+    async getTokenInfoRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetTokenInfo200Response>> {
+        const requestOptions = await this.getTokenInfoRequestOpts();
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GetTokenInfo200ResponseFromJSON(jsonValue));
     }
@@ -277,10 +441,9 @@ export class OauthApi extends runtime.BaseAPI {
     }
 
     /**
-     * Revokes an access token or refresh token, immediately invalidating it and blocking associated tokens from making further requests.  **When to revoke:** - User disconnects their DoorFlow account from your integration - User logs out - Security breach - revoke compromised tokens - Application uninstall  **Important:** - **We recommend revoking the refresh_token** - this will invalidate all associated access tokens - Returns HTTP 200 even if the token was already invalid (prevents token scanning attacks) - Client authentication is required via HTTP Basic Auth header  **Authentication:** You must authenticate using HTTP Basic Authentication with your client credentials: 1. Combine your client_id and client_secret as: `{client_id}:{client_secret}` 2. Encode using URL-safe Base64 3. Include in Authorization header: `Authorization: Basic {encoded_credentials}` 
-     * Revoke access token or refresh token
+     * Creates request options for revokeToken without sending the request
      */
-    async revokeTokenRaw(requestParameters: RevokeTokenRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
+    async revokeTokenRequestOpts(requestParameters: RevokeTokenRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['authorization'] == null) {
             throw new runtime.RequiredError(
                 'authorization',
@@ -331,13 +494,22 @@ export class OauthApi extends runtime.BaseAPI {
 
         let urlPath = `/oauth/revoke`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: formParams,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Revokes an access token or refresh token, immediately invalidating it and blocking associated tokens from making further requests.  **When to revoke:** - User disconnects their DoorFlow account from your integration - User logs out - Security breach - revoke compromised tokens - Application uninstall  **Important:** - **We recommend revoking the refresh_token** - this will invalidate all associated access tokens - Returns HTTP 200 even if the token was already invalid (prevents token scanning attacks) - Client authentication is required via HTTP Basic Auth header  **Authentication:** You must authenticate using HTTP Basic Authentication with your client credentials: 1. Combine your client_id and client_secret as: `{client_id}:{client_secret}` 2. Encode using URL-safe Base64 3. Include in Authorization header: `Authorization: Basic {encoded_credentials}` 
+     * Revoke access token or refresh token
+     */
+    async revokeTokenRaw(requestParameters: RevokeTokenRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
+        const requestOptions = await this.revokeTokenRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse<any>(response);
     }

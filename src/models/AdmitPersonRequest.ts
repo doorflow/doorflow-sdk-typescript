@@ -31,7 +31,7 @@ export interface AdmitPersonRequest {
  * Check if a given object implements the AdmitPersonRequest interface.
  */
 export function instanceOfAdmitPersonRequest(value: object): value is AdmitPersonRequest {
-    if (!('personId' in value) || value['personId'] === undefined) return false;
+    if ((!('personId' in (value as Record<string, any>)) && !('person_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['personId'] === undefined && (value as Record<string, any>)['person_id'] === undefined)) return false;
     return true;
 }
 

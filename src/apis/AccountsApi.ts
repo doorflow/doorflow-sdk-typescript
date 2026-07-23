@@ -12,26 +12,53 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  Account,
-} from '../models/index';
 import {
+    type Account,
     AccountFromJSON,
     AccountToJSON,
-} from '../models/index';
+} from '../models/Account';
 
 /**
+ * AccountsApi - interface
  * 
+ * @export
+ * @interface AccountsApiInterface
  */
-export class AccountsApi extends runtime.BaseAPI {
+export interface AccountsApiInterface {
+    /**
+     * Creates request options for getAccount without sending the request
+     * @throws {RequiredError}
+     * @memberof AccountsApiInterface
+     */
+    getAccountRequestOpts(): Promise<runtime.RequestOpts>;
+
+    /**
+     * Returns the account information for the authenticated user
+     * @summary Get current account details
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AccountsApiInterface
+     */
+    getAccountRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Account>>;
 
     /**
      * Returns the account information for the authenticated user
      * Get current account details
      */
-    async getAccountRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Account>> {
+    getAccount(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Account>;
+
+}
+
+/**
+ * 
+ */
+export class AccountsApi extends runtime.BaseAPI implements AccountsApiInterface {
+
+    /**
+     * Creates request options for getAccount without sending the request
+     */
+    async getAccountRequestOpts(): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -44,12 +71,21 @@ export class AccountsApi extends runtime.BaseAPI {
 
         let urlPath = `/api/3/account`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns the account information for the authenticated user
+     * Get current account details
+     */
+    async getAccountRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Account>> {
+        const requestOptions = await this.getAccountRequestOpts();
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => AccountFromJSON(jsonValue));
     }

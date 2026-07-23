@@ -12,38 +12,73 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  DeleteGroupReservation200Response,
-  GetAdmissionRequest401Response,
-  GetAdmissionRequest403Response,
-  GetAdmissionRequest500Response,
-  InitiateSync429Response,
-} from '../models/index';
 import {
-    DeleteGroupReservation200ResponseFromJSON,
-    DeleteGroupReservation200ResponseToJSON,
+    type DeleteCardDesign200Response,
+    DeleteCardDesign200ResponseFromJSON,
+    DeleteCardDesign200ResponseToJSON,
+} from '../models/DeleteCardDesign200Response';
+import {
+    type GetAdmissionRequest401Response,
     GetAdmissionRequest401ResponseFromJSON,
     GetAdmissionRequest401ResponseToJSON,
+} from '../models/GetAdmissionRequest401Response';
+import {
+    type GetAdmissionRequest403Response,
     GetAdmissionRequest403ResponseFromJSON,
     GetAdmissionRequest403ResponseToJSON,
+} from '../models/GetAdmissionRequest403Response';
+import {
+    type GetAdmissionRequest500Response,
     GetAdmissionRequest500ResponseFromJSON,
     GetAdmissionRequest500ResponseToJSON,
+} from '../models/GetAdmissionRequest500Response';
+import {
+    type InitiateSync429Response,
     InitiateSync429ResponseFromJSON,
     InitiateSync429ResponseToJSON,
-} from '../models/index';
+} from '../models/InitiateSync429Response';
 
 /**
+ * SyncApi - interface
  * 
+ * @export
+ * @interface SyncApiInterface
  */
-export class SyncApi extends runtime.BaseAPI {
+export interface SyncApiInterface {
+    /**
+     * Creates request options for initiateSync without sending the request
+     * @throws {RequiredError}
+     * @memberof SyncApiInterface
+     */
+    initiateSyncRequestOpts(): Promise<runtime.RequestOpts>;
+
+    /**
+     * Triggers a synchronization process to push pending changes to all door controllers. This endpoint initiates the sync if there are unsynced changes in the account. The sync process is rate-limited to prevent excessive sync requests. 
+     * @summary Initiate sync
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SyncApiInterface
+     */
+    initiateSyncRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeleteCardDesign200Response>>;
 
     /**
      * Triggers a synchronization process to push pending changes to all door controllers. This endpoint initiates the sync if there are unsynced changes in the account. The sync process is rate-limited to prevent excessive sync requests. 
      * Initiate sync
      */
-    async initiateSyncRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeleteGroupReservation200Response>> {
+    initiateSync(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteCardDesign200Response>;
+
+}
+
+/**
+ * 
+ */
+export class SyncApi extends runtime.BaseAPI implements SyncApiInterface {
+
+    /**
+     * Creates request options for initiateSync without sending the request
+     */
+    async initiateSyncRequestOpts(): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -56,21 +91,30 @@ export class SyncApi extends runtime.BaseAPI {
 
         let urlPath = `/api/3/sync`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => DeleteGroupReservation200ResponseFromJSON(jsonValue));
+        };
     }
 
     /**
      * Triggers a synchronization process to push pending changes to all door controllers. This endpoint initiates the sync if there are unsynced changes in the account. The sync process is rate-limited to prevent excessive sync requests. 
      * Initiate sync
      */
-    async initiateSync(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteGroupReservation200Response> {
+    async initiateSyncRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeleteCardDesign200Response>> {
+        const requestOptions = await this.initiateSyncRequestOpts();
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => DeleteCardDesign200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Triggers a synchronization process to push pending changes to all door controllers. This endpoint initiates the sync if there are unsynced changes in the account. The sync process is rate-limited to prevent excessive sync requests. 
+     * Initiate sync
+     */
+    async initiateSync(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteCardDesign200Response> {
         const response = await this.initiateSyncRaw(initOverrides);
         return await response.value();
     }
