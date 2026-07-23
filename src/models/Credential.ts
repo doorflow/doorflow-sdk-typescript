@@ -50,8 +50,8 @@ export interface Credential {
      */
     value?: string | null;
     /**
-     * Status for mobile credentials (HID Mobile Access)
-     * @type {string}
+     * Status for mobile credentials
+     * @type {CredentialStatusEnum}
      * @memberof Credential
      */
     status?: CredentialStatusEnum | null;
@@ -63,7 +63,7 @@ export interface Credential {
     url?: string | null;
     /**
      * Wallet type for PassFlow credentials that have been added to wallet
-     * @type {string}
+     * @type {CredentialWalletTypeEnum}
      * @memberof Credential
      */
     walletType?: CredentialWalletTypeEnum | null;
@@ -77,7 +77,8 @@ export const CredentialStatusEnum = {
     Invited: 'invited',
     Active: 'active',
     Revoking: 'revoking',
-    Revoked: 'revoked'
+    Revoked: 'revoked',
+    AddedToWallet: 'added_to_wallet'
 } as const;
 export type CredentialStatusEnum = typeof CredentialStatusEnum[keyof typeof CredentialStatusEnum];
 
@@ -96,9 +97,9 @@ export type CredentialWalletTypeEnum = typeof CredentialWalletTypeEnum[keyof typ
  */
 export function instanceOfCredential(value: object): value is Credential {
     if (!('id' in value) || value['id'] === undefined) return false;
-    if (!('credentialTypeId' in value) || value['credentialTypeId'] === undefined) return false;
+    if ((!('credentialTypeId' in (value as Record<string, any>)) && !('credential_type_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['credentialTypeId'] === undefined && (value as Record<string, any>)['credential_type_id'] === undefined)) return false;
     if (!('label' in value) || value['label'] === undefined) return false;
-    if (!('personId' in value) || value['personId'] === undefined) return false;
+    if ((!('personId' in (value as Record<string, any>)) && !('person_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['personId'] === undefined && (value as Record<string, any>)['person_id'] === undefined)) return false;
     return true;
 }
 
@@ -116,10 +117,10 @@ export function CredentialFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'credentialTypeId': json['credential_type_id'],
         'label': json['label'],
         'personId': json['person_id'],
-        'value': json['value'] == null ? undefined : json['value'],
-        'status': json['status'] == null ? undefined : json['status'],
-        'url': json['url'] == null ? undefined : json['url'],
-        'walletType': json['wallet_type'] == null ? undefined : json['wallet_type'],
+        'value': json['value'] === undefined ? undefined : json['value'] === null ? null : json['value'],
+        'status': json['status'] === undefined ? undefined : json['status'] === null ? null : json['status'],
+        'url': json['url'] === undefined ? undefined : json['url'] === null ? null : json['url'],
+        'walletType': json['wallet_type'] === undefined ? undefined : json['wallet_type'] === null ? null : json['wallet_type'],
     };
 }
 

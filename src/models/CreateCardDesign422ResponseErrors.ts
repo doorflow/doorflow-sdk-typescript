@@ -16,41 +16,41 @@ import { mapValues } from '../runtime';
 /**
  * Field-specific validation errors
  * @export
- * @interface CreateCredential422ResponseErrors
+ * @interface CreateCardDesign422ResponseErrors
  */
-export interface CreateCredential422ResponseErrors {
+export interface CreateCardDesign422ResponseErrors {
     /**
      * Validation errors for the credential value
      * @type {Array<string>}
-     * @memberof CreateCredential422ResponseErrors
+     * @memberof CreateCardDesign422ResponseErrors
      */
     value?: Array<string>;
     /**
      * Validation errors for the credential type
      * @type {Array<string>}
-     * @memberof CreateCredential422ResponseErrors
+     * @memberof CreateCardDesign422ResponseErrors
      */
     credentialTypeId?: Array<string>;
     /**
      * License limit error message
      * @type {string}
-     * @memberof CreateCredential422ResponseErrors
+     * @memberof CreateCardDesign422ResponseErrors
      */
     limitReached?: string;
 }
 
 /**
- * Check if a given object implements the CreateCredential422ResponseErrors interface.
+ * Check if a given object implements the CreateCardDesign422ResponseErrors interface.
  */
-export function instanceOfCreateCredential422ResponseErrors(value: object): value is CreateCredential422ResponseErrors {
+export function instanceOfCreateCardDesign422ResponseErrors(value: object): value is CreateCardDesign422ResponseErrors {
     return true;
 }
 
-export function CreateCredential422ResponseErrorsFromJSON(json: any): CreateCredential422ResponseErrors {
-    return CreateCredential422ResponseErrorsFromJSONTyped(json, false);
+export function CreateCardDesign422ResponseErrorsFromJSON(json: any): CreateCardDesign422ResponseErrors {
+    return CreateCardDesign422ResponseErrorsFromJSONTyped(json, false);
 }
 
-export function CreateCredential422ResponseErrorsFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateCredential422ResponseErrors {
+export function CreateCardDesign422ResponseErrorsFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateCardDesign422ResponseErrors {
     if (json == null) {
         return json;
     }
@@ -62,11 +62,11 @@ export function CreateCredential422ResponseErrorsFromJSONTyped(json: any, ignore
     };
 }
 
-export function CreateCredential422ResponseErrorsToJSON(json: any): CreateCredential422ResponseErrors {
-    return CreateCredential422ResponseErrorsToJSONTyped(json, false);
+export function CreateCardDesign422ResponseErrorsToJSON(json: any): CreateCardDesign422ResponseErrors {
+    return CreateCardDesign422ResponseErrorsToJSONTyped(json, false);
 }
 
-export function CreateCredential422ResponseErrorsToJSONTyped(value?: CreateCredential422ResponseErrors | null, ignoreDiscriminator: boolean = false): any {
+export function CreateCardDesign422ResponseErrorsToJSONTyped(value?: CreateCardDesign422ResponseErrors | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

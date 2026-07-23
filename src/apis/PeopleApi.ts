@@ -12,36 +12,47 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  CreateCredential422Response,
-  DeleteGroupReservation200Response,
-  GetAdmissionRequest401Response,
-  GetAdmissionRequest403Response,
-  GetAdmissionRequest404Response,
-  GetAdmissionRequest500Response,
-  Person,
-  PersonInput,
-} from '../models/index';
 import {
-    CreateCredential422ResponseFromJSON,
-    CreateCredential422ResponseToJSON,
-    DeleteGroupReservation200ResponseFromJSON,
-    DeleteGroupReservation200ResponseToJSON,
+    type CreateCardDesign422Response,
+    CreateCardDesign422ResponseFromJSON,
+    CreateCardDesign422ResponseToJSON,
+} from '../models/CreateCardDesign422Response';
+import {
+    type DeleteCardDesign200Response,
+    DeleteCardDesign200ResponseFromJSON,
+    DeleteCardDesign200ResponseToJSON,
+} from '../models/DeleteCardDesign200Response';
+import {
+    type GetAdmissionRequest401Response,
     GetAdmissionRequest401ResponseFromJSON,
     GetAdmissionRequest401ResponseToJSON,
+} from '../models/GetAdmissionRequest401Response';
+import {
+    type GetAdmissionRequest403Response,
     GetAdmissionRequest403ResponseFromJSON,
     GetAdmissionRequest403ResponseToJSON,
+} from '../models/GetAdmissionRequest403Response';
+import {
+    type GetAdmissionRequest404Response,
     GetAdmissionRequest404ResponseFromJSON,
     GetAdmissionRequest404ResponseToJSON,
+} from '../models/GetAdmissionRequest404Response';
+import {
+    type GetAdmissionRequest500Response,
     GetAdmissionRequest500ResponseFromJSON,
     GetAdmissionRequest500ResponseToJSON,
+} from '../models/GetAdmissionRequest500Response';
+import {
+    type Person,
     PersonFromJSON,
     PersonToJSON,
+} from '../models/Person';
+import {
+    type PersonInput,
     PersonInputFromJSON,
     PersonInputToJSON,
-} from '../models/index';
+} from '../models/PersonInput';
 
 export interface CreatePersonRequest {
     personInput: PersonInput;
@@ -71,15 +82,157 @@ export interface UpdatePersonRequest {
 }
 
 /**
+ * PeopleApi - interface
  * 
+ * @export
+ * @interface PeopleApiInterface
  */
-export class PeopleApi extends runtime.BaseAPI {
+export interface PeopleApiInterface {
+    /**
+     * Creates request options for createPerson without sending the request
+     * @param {PersonInput} personInput 
+     * @throws {RequiredError}
+     * @memberof PeopleApiInterface
+     */
+    createPersonRequestOpts(requestParameters: CreatePersonRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Creates a new person record with optional group and role assignments
+     * @summary Create person
+     * @param {PersonInput} personInput 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PeopleApiInterface
+     */
+    createPersonRaw(requestParameters: CreatePersonRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Person>>;
 
     /**
      * Creates a new person record with optional group and role assignments
      * Create person
      */
-    async createPersonRaw(requestParameters: CreatePersonRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Person>> {
+    createPerson(requestParameters: CreatePersonRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Person>;
+
+    /**
+     * Creates request options for deletePerson without sending the request
+     * @param {number} id Person ID
+     * @throws {RequiredError}
+     * @memberof PeopleApiInterface
+     */
+    deletePersonRequestOpts(requestParameters: DeletePersonRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Soft-deletes a person record. This removes them from the system but retains audit trail.
+     * @summary Delete person
+     * @param {number} id Person ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PeopleApiInterface
+     */
+    deletePersonRaw(requestParameters: DeletePersonRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeleteCardDesign200Response>>;
+
+    /**
+     * Soft-deletes a person record. This removes them from the system but retains audit trail.
+     * Delete person
+     */
+    deletePerson(requestParameters: DeletePersonRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteCardDesign200Response>;
+
+    /**
+     * Creates request options for getPerson without sending the request
+     * @param {number} id Person ID
+     * @throws {RequiredError}
+     * @memberof PeopleApiInterface
+     */
+    getPersonRequestOpts(requestParameters: GetPersonRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Returns details for a specific person
+     * @summary Get person details
+     * @param {number} id Person ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PeopleApiInterface
+     */
+    getPersonRaw(requestParameters: GetPersonRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Person>>;
+
+    /**
+     * Returns details for a specific person
+     * Get person details
+     */
+    getPerson(requestParameters: GetPersonRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Person>;
+
+    /**
+     * Creates request options for listPeople without sending the request
+     * @param {string} [email] Filter by email (case-insensitive partial match)
+     * @param {string} [systemId] Filter by organisation system ID
+     * @param {Date} [since] Return only people updated since this timestamp (local time)
+     * @param {Date} [sinceUtc] Return only people updated since this timestamp (UTC)
+     * @param {number} [perPage] Number of results per page
+     * @param {number} [page] Page number for pagination
+     * @param {boolean} [skipPagination] Skip pagination and return all results
+     * @throws {RequiredError}
+     * @memberof PeopleApiInterface
+     */
+    listPeopleRequestOpts(requestParameters: ListPeopleRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Returns a paginated list of people accessible to the authenticated user. Supports incremental sync via `since` or `since_utc` parameters.
+     * @summary List people
+     * @param {string} [email] Filter by email (case-insensitive partial match)
+     * @param {string} [systemId] Filter by organisation system ID
+     * @param {Date} [since] Return only people updated since this timestamp (local time)
+     * @param {Date} [sinceUtc] Return only people updated since this timestamp (UTC)
+     * @param {number} [perPage] Number of results per page
+     * @param {number} [page] Page number for pagination
+     * @param {boolean} [skipPagination] Skip pagination and return all results
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PeopleApiInterface
+     */
+    listPeopleRaw(requestParameters: ListPeopleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Person>>>;
+
+    /**
+     * Returns a paginated list of people accessible to the authenticated user. Supports incremental sync via `since` or `since_utc` parameters.
+     * List people
+     */
+    listPeople(requestParameters: ListPeopleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Person>>;
+
+    /**
+     * Creates request options for updatePerson without sending the request
+     * @param {number} id Person ID
+     * @param {PersonInput} personInput 
+     * @throws {RequiredError}
+     * @memberof PeopleApiInterface
+     */
+    updatePersonRequestOpts(requestParameters: UpdatePersonRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Updates an existing person record. Can modify group and role assignments. Setting `image_remote_url` to empty string will delete the image.
+     * @summary Update person
+     * @param {number} id Person ID
+     * @param {PersonInput} personInput 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PeopleApiInterface
+     */
+    updatePersonRaw(requestParameters: UpdatePersonRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Person>>;
+
+    /**
+     * Updates an existing person record. Can modify group and role assignments. Setting `image_remote_url` to empty string will delete the image.
+     * Update person
+     */
+    updatePerson(requestParameters: UpdatePersonRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Person>;
+
+}
+
+/**
+ * 
+ */
+export class PeopleApi extends runtime.BaseAPI implements PeopleApiInterface {
+
+    /**
+     * Creates request options for createPerson without sending the request
+     */
+    async createPersonRequestOpts(requestParameters: CreatePersonRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['personInput'] == null) {
             throw new runtime.RequiredError(
                 'personInput',
@@ -101,13 +254,22 @@ export class PeopleApi extends runtime.BaseAPI {
 
         let urlPath = `/api/3/people`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: PersonInputToJSON(requestParameters['personInput']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Creates a new person record with optional group and role assignments
+     * Create person
+     */
+    async createPersonRaw(requestParameters: CreatePersonRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Person>> {
+        const requestOptions = await this.createPersonRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PersonFromJSON(jsonValue));
     }
@@ -122,10 +284,9 @@ export class PeopleApi extends runtime.BaseAPI {
     }
 
     /**
-     * Soft-deletes a person record. This removes them from the system but retains audit trail.
-     * Delete person
+     * Creates request options for deletePerson without sending the request
      */
-    async deletePersonRaw(requestParameters: DeletePersonRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeleteGroupReservation200Response>> {
+    async deletePersonRequestOpts(requestParameters: DeletePersonRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -144,32 +305,40 @@ export class PeopleApi extends runtime.BaseAPI {
 
 
         let urlPath = `/api/3/people/{id}`;
-        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+        urlPath = urlPath.replace('{id}', encodeURIComponent(String(requestParameters['id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => DeleteGroupReservation200ResponseFromJSON(jsonValue));
+        };
     }
 
     /**
      * Soft-deletes a person record. This removes them from the system but retains audit trail.
      * Delete person
      */
-    async deletePerson(requestParameters: DeletePersonRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteGroupReservation200Response> {
+    async deletePersonRaw(requestParameters: DeletePersonRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeleteCardDesign200Response>> {
+        const requestOptions = await this.deletePersonRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => DeleteCardDesign200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Soft-deletes a person record. This removes them from the system but retains audit trail.
+     * Delete person
+     */
+    async deletePerson(requestParameters: DeletePersonRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteCardDesign200Response> {
         const response = await this.deletePersonRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
-     * Returns details for a specific person
-     * Get person details
+     * Creates request options for getPerson without sending the request
      */
-    async getPersonRaw(requestParameters: GetPersonRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Person>> {
+    async getPersonRequestOpts(requestParameters: GetPersonRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -188,14 +357,23 @@ export class PeopleApi extends runtime.BaseAPI {
 
 
         let urlPath = `/api/3/people/{id}`;
-        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+        urlPath = urlPath.replace('{id}', encodeURIComponent(String(requestParameters['id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns details for a specific person
+     * Get person details
+     */
+    async getPersonRaw(requestParameters: GetPersonRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Person>> {
+        const requestOptions = await this.getPersonRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PersonFromJSON(jsonValue));
     }
@@ -210,10 +388,9 @@ export class PeopleApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns a paginated list of people accessible to the authenticated user. Supports incremental sync via `since` or `since_utc` parameters.
-     * List people
+     * Creates request options for listPeople without sending the request
      */
-    async listPeopleRaw(requestParameters: ListPeopleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Person>>> {
+    async listPeopleRequestOpts(requestParameters: ListPeopleRequest): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         if (requestParameters['email'] != null) {
@@ -225,11 +402,11 @@ export class PeopleApi extends runtime.BaseAPI {
         }
 
         if (requestParameters['since'] != null) {
-            queryParameters['since'] = requestParameters['since'];
+            queryParameters['since'] = (requestParameters['since'] as any).toISOString();
         }
 
         if (requestParameters['sinceUtc'] != null) {
-            queryParameters['since_utc'] = requestParameters['sinceUtc'];
+            queryParameters['since_utc'] = (requestParameters['sinceUtc'] as any).toISOString();
         }
 
         if (requestParameters['perPage'] != null) {
@@ -254,12 +431,21 @@ export class PeopleApi extends runtime.BaseAPI {
 
         let urlPath = `/api/3/people`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns a paginated list of people accessible to the authenticated user. Supports incremental sync via `since` or `since_utc` parameters.
+     * List people
+     */
+    async listPeopleRaw(requestParameters: ListPeopleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Person>>> {
+        const requestOptions = await this.listPeopleRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PersonFromJSON));
     }
@@ -274,10 +460,9 @@ export class PeopleApi extends runtime.BaseAPI {
     }
 
     /**
-     * Updates an existing person record. Can modify group and role assignments. Setting `image_remote_url` to empty string will delete the image.
-     * Update person
+     * Creates request options for updatePerson without sending the request
      */
-    async updatePersonRaw(requestParameters: UpdatePersonRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Person>> {
+    async updatePersonRequestOpts(requestParameters: UpdatePersonRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -305,15 +490,24 @@ export class PeopleApi extends runtime.BaseAPI {
 
 
         let urlPath = `/api/3/people/{id}`;
-        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+        urlPath = urlPath.replace('{id}', encodeURIComponent(String(requestParameters['id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
             body: PersonInputToJSON(requestParameters['personInput']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Updates an existing person record. Can modify group and role assignments. Setting `image_remote_url` to empty string will delete the image.
+     * Update person
+     */
+    async updatePersonRaw(requestParameters: UpdatePersonRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Person>> {
+        const requestOptions = await this.updatePersonRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PersonFromJSON(jsonValue));
     }

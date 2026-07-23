@@ -70,9 +70,9 @@ export function AccountResellerFromJSONTyped(json: any, ignoreDiscriminator: boo
         
         'id': json['id'] == null ? undefined : json['id'],
         'name': json['name'] == null ? undefined : json['name'],
-        'supportContact': json['support_contact'] == null ? undefined : json['support_contact'],
-        'supportEmail': json['support_email'] == null ? undefined : json['support_email'],
-        'supportTelephone': json['support_telephone'] == null ? undefined : json['support_telephone'],
+        'supportContact': json['support_contact'] === undefined ? undefined : json['support_contact'] === null ? null : json['support_contact'],
+        'supportEmail': json['support_email'] === undefined ? undefined : json['support_email'] === null ? null : json['support_email'],
+        'supportTelephone': json['support_telephone'] === undefined ? undefined : json['support_telephone'] === null ? null : json['support_telephone'],
     };
 }
 

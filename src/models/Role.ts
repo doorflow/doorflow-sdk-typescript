@@ -63,8 +63,8 @@ export interface Role {
 export function instanceOfRole(value: object): value is Role {
     if (!('id' in value) || value['id'] === undefined) return false;
     if (!('name' in value) || value['name'] === undefined) return false;
-    if (!('createdAt' in value) || value['createdAt'] === undefined) return false;
-    if (!('updatedAt' in value) || value['updatedAt'] === undefined) return false;
+    if ((!('createdAt' in (value as Record<string, any>)) && !('created_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['createdAt'] === undefined && (value as Record<string, any>)['created_at'] === undefined)) return false;
+    if ((!('updatedAt' in (value as Record<string, any>)) && !('updated_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['updatedAt'] === undefined && (value as Record<string, any>)['updated_at'] === undefined)) return false;
     return true;
 }
 
@@ -80,8 +80,8 @@ export function RoleFromJSONTyped(json: any, ignoreDiscriminator: boolean): Role
         
         'id': json['id'],
         'name': json['name'],
-        'shiftId': json['shift_id'] == null ? undefined : json['shift_id'],
-        'notes': json['notes'] == null ? undefined : json['notes'],
+        'shiftId': json['shift_id'] === undefined ? undefined : json['shift_id'] === null ? null : json['shift_id'],
+        'notes': json['notes'] === undefined ? undefined : json['notes'] === null ? null : json['notes'],
         'createdAt': (new Date(json['created_at'])),
         'updatedAt': (new Date(json['updated_at'])),
     };

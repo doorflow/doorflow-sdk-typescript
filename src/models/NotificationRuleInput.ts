@@ -56,8 +56,8 @@ export interface NotificationRuleInput {
  */
 export function instanceOfNotificationRuleInput(value: object): value is NotificationRuleInput {
     if (!('name' in value) || value['name'] === undefined) return false;
-    if (!('callBackUrl' in value) || value['callBackUrl'] === undefined) return false;
-    if (!('matchEventCodes' in value) || value['matchEventCodes'] === undefined) return false;
+    if ((!('callBackUrl' in (value as Record<string, any>)) && !('call_back_url' in (value as Record<string, any>))) || ((value as Record<string, any>)['callBackUrl'] === undefined && (value as Record<string, any>)['call_back_url'] === undefined)) return false;
+    if ((!('matchEventCodes' in (value as Record<string, any>)) && !('match_event_codes' in (value as Record<string, any>))) || ((value as Record<string, any>)['matchEventCodes'] === undefined && (value as Record<string, any>)['match_event_codes'] === undefined)) return false;
     return true;
 }
 

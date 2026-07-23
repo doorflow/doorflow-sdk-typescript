@@ -44,7 +44,7 @@ export function AutoUnlockChannelRequestFromJSONTyped(json: any, ignoreDiscrimin
     }
     return {
         
-        'shiftId': json['shift_id'] == null ? undefined : json['shift_id'],
+        'shiftId': json['shift_id'] === undefined ? undefined : json['shift_id'] === null ? null : json['shift_id'],
     };
 }
 

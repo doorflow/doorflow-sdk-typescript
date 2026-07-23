@@ -12,35 +12,68 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  GetAdmissionRequest401Response,
-  GetAdmissionRequest403Response,
-  GetAdmissionRequest500Response,
-  Role,
-} from '../models/index';
 import {
+    type GetAdmissionRequest401Response,
     GetAdmissionRequest401ResponseFromJSON,
     GetAdmissionRequest401ResponseToJSON,
+} from '../models/GetAdmissionRequest401Response';
+import {
+    type GetAdmissionRequest403Response,
     GetAdmissionRequest403ResponseFromJSON,
     GetAdmissionRequest403ResponseToJSON,
+} from '../models/GetAdmissionRequest403Response';
+import {
+    type GetAdmissionRequest500Response,
     GetAdmissionRequest500ResponseFromJSON,
     GetAdmissionRequest500ResponseToJSON,
+} from '../models/GetAdmissionRequest500Response';
+import {
+    type Role,
     RoleFromJSON,
     RoleToJSON,
-} from '../models/index';
+} from '../models/Role';
 
 /**
+ * RolesApi - interface
  * 
+ * @export
+ * @interface RolesApiInterface
  */
-export class RolesApi extends runtime.BaseAPI {
+export interface RolesApiInterface {
+    /**
+     * Creates request options for listRoles without sending the request
+     * @throws {RequiredError}
+     * @memberof RolesApiInterface
+     */
+    listRolesRequestOpts(): Promise<runtime.RequestOpts>;
+
+    /**
+     * Returns a list of all roles accessible to the authenticated user, ordered by name. Roles define which channels (door controllers) people or groups have access to, optionally within specific time shifts. This endpoint does not support pagination. 
+     * @summary List roles
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RolesApiInterface
+     */
+    listRolesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Role>>>;
 
     /**
      * Returns a list of all roles accessible to the authenticated user, ordered by name. Roles define which channels (door controllers) people or groups have access to, optionally within specific time shifts. This endpoint does not support pagination. 
      * List roles
      */
-    async listRolesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Role>>> {
+    listRoles(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Role>>;
+
+}
+
+/**
+ * 
+ */
+export class RolesApi extends runtime.BaseAPI implements RolesApiInterface {
+
+    /**
+     * Creates request options for listRoles without sending the request
+     */
+    async listRolesRequestOpts(): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -53,12 +86,21 @@ export class RolesApi extends runtime.BaseAPI {
 
         let urlPath = `/api/3/roles`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns a list of all roles accessible to the authenticated user, ordered by name. Roles define which channels (door controllers) people or groups have access to, optionally within specific time shifts. This endpoint does not support pagination. 
+     * List roles
+     */
+    async listRolesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Role>>> {
+        const requestOptions = await this.listRolesRequestOpts();
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(RoleFromJSON));
     }
