@@ -89,6 +89,17 @@ jobs:
           echo "✅ Custom code backed up"
           ls -la /tmp/sdk-backup/
 
+      # The generator writes files but never deletes them, so an endpoint or model
+      # dropped from the spec would linger in the SDK and need removing by hand.
+      # Clear what the last run generated, as listed in its own manifest, so the
+      # output matches the spec. Only API, model and doc files: anything ignored
+      # or hand-written is not in the manifest and is left alone.
+      - name: Remove previously generated API and model files
+        run: |
+          if [ -f .openapi-generator/FILES ]; then
+            grep -E '^(src/apis|src/models|docs)/' .openapi-generator/FILES | xargs -r rm -f
+          fi
+
       # Pinned to a release. The :latest tag is a nightly SNAPSHOT build, so an
       # unpinned run can change the generated surface with no change to the spec.
       # Bump this deliberately, in its own PR.
