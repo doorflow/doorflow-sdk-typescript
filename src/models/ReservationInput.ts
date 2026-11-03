@@ -55,9 +55,9 @@ export interface ReservationInput {
  * Check if a given object implements the ReservationInput interface.
  */
 export function instanceOfReservationInput(value: object): value is ReservationInput {
-    if (!('personId' in value) || value['personId'] === undefined) return false;
-    if (!('startTime' in value) || value['startTime'] === undefined) return false;
-    if (!('endTime' in value) || value['endTime'] === undefined) return false;
+    if ((!('personId' in (value as Record<string, any>)) && !('person_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['personId'] === undefined && (value as Record<string, any>)['person_id'] === undefined)) return false;
+    if ((!('startTime' in (value as Record<string, any>)) && !('start_time' in (value as Record<string, any>))) || ((value as Record<string, any>)['startTime'] === undefined && (value as Record<string, any>)['start_time'] === undefined)) return false;
+    if ((!('endTime' in (value as Record<string, any>)) && !('end_time' in (value as Record<string, any>))) || ((value as Record<string, any>)['endTime'] === undefined && (value as Record<string, any>)['end_time'] === undefined)) return false;
     return true;
 }
 

@@ -114,10 +114,10 @@ export interface Event {
  */
 export function instanceOfEvent(value: object): value is Event {
     if (!('id' in value) || value['id'] === undefined) return false;
-    if (!('eventCode' in value) || value['eventCode'] === undefined) return false;
-    if (!('eventLabel' in value) || value['eventLabel'] === undefined) return false;
-    if (!('createdAt' in value) || value['createdAt'] === undefined) return false;
-    if (!('updatedAt' in value) || value['updatedAt'] === undefined) return false;
+    if ((!('eventCode' in (value as Record<string, any>)) && !('event_code' in (value as Record<string, any>))) || ((value as Record<string, any>)['eventCode'] === undefined && (value as Record<string, any>)['event_code'] === undefined)) return false;
+    if ((!('eventLabel' in (value as Record<string, any>)) && !('event_label' in (value as Record<string, any>))) || ((value as Record<string, any>)['eventLabel'] === undefined && (value as Record<string, any>)['event_label'] === undefined)) return false;
+    if ((!('createdAt' in (value as Record<string, any>)) && !('created_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['createdAt'] === undefined && (value as Record<string, any>)['created_at'] === undefined)) return false;
+    if ((!('updatedAt' in (value as Record<string, any>)) && !('updated_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['updatedAt'] === undefined && (value as Record<string, any>)['updated_at'] === undefined)) return false;
     return true;
 }
 
@@ -132,16 +132,16 @@ export function EventFromJSONTyped(json: any, ignoreDiscriminator: boolean): Eve
     return {
         
         'id': json['id'],
-        'eventId': json['event_id'] == null ? undefined : json['event_id'],
+        'eventId': json['event_id'] === undefined ? undefined : json['event_id'] === null ? null : json['event_id'],
         'eventCode': json['event_code'],
         'eventLabel': json['event_label'],
-        'doorControllerId': json['door_controller_id'] == null ? undefined : json['door_controller_id'],
-        'doorControllerName': json['door_controller_name'] == null ? undefined : json['door_controller_name'],
-        'channelId': json['channel_id'] == null ? undefined : json['channel_id'],
-        'channelName': json['channel_name'] == null ? undefined : json['channel_name'],
-        'personId': json['person_id'] == null ? undefined : json['person_id'],
-        'personName': json['person_name'] == null ? undefined : json['person_name'],
-        'credentialsNumber': json['credentials_number'] == null ? undefined : json['credentials_number'],
+        'doorControllerId': json['door_controller_id'] === undefined ? undefined : json['door_controller_id'] === null ? null : json['door_controller_id'],
+        'doorControllerName': json['door_controller_name'] === undefined ? undefined : json['door_controller_name'] === null ? null : json['door_controller_name'],
+        'channelId': json['channel_id'] === undefined ? undefined : json['channel_id'] === null ? null : json['channel_id'],
+        'channelName': json['channel_name'] === undefined ? undefined : json['channel_name'] === null ? null : json['channel_name'],
+        'personId': json['person_id'] === undefined ? undefined : json['person_id'] === null ? null : json['person_id'],
+        'personName': json['person_name'] === undefined ? undefined : json['person_name'] === null ? null : json['person_name'],
+        'credentialsNumber': json['credentials_number'] === undefined ? undefined : json['credentials_number'] === null ? null : json['credentials_number'],
         'createdAt': (new Date(json['created_at'])),
         'updatedAt': (new Date(json['updated_at'])),
     };

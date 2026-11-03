@@ -21,7 +21,7 @@ import { mapValues } from '../runtime';
 export interface AccountSync {
     /**
      * Current sync status
-     * @type {string}
+     * @type {AccountSyncStatusEnum}
      * @memberof AccountSync
      */
     status: AccountSyncStatusEnum;
@@ -57,7 +57,7 @@ export type AccountSyncStatusEnum = typeof AccountSyncStatusEnum[keyof typeof Ac
  */
 export function instanceOfAccountSync(value: object): value is AccountSync {
     if (!('status' in value) || value['status'] === undefined) return false;
-    if (!('lastSync' in value) || value['lastSync'] === undefined) return false;
+    if ((!('lastSync' in (value as Record<string, any>)) && !('last_sync' in (value as Record<string, any>))) || ((value as Record<string, any>)['lastSync'] === undefined && (value as Record<string, any>)['last_sync'] === undefined)) return false;
     return true;
 }
 
@@ -73,7 +73,7 @@ export function AccountSyncFromJSONTyped(json: any, ignoreDiscriminator: boolean
         
         'status': json['status'],
         'lastSync': (json['last_sync'] == null ? null : new Date(json['last_sync'])),
-        'description': json['description'] == null ? undefined : json['description'],
+        'description': json['description'] === undefined ? undefined : json['description'] === null ? null : json['description'],
     };
 }
 

@@ -68,7 +68,7 @@ export interface Channel {
     macAddress: string;
     /**
      * Current connection status of the channel
-     * @type {string}
+     * @type {ChannelStatusEnum}
      * @memberof Channel
      */
     status: ChannelStatusEnum;
@@ -188,7 +188,7 @@ export type ChannelStatusEnum = typeof ChannelStatusEnum[keyof typeof ChannelSta
 export function instanceOfChannel(value: object): value is Channel {
     if (!('id' in value) || value['id'] === undefined) return false;
     if (!('name' in value) || value['name'] === undefined) return false;
-    if (!('macAddress' in value) || value['macAddress'] === undefined) return false;
+    if ((!('macAddress' in (value as Record<string, any>)) && !('mac_address' in (value as Record<string, any>))) || ((value as Record<string, any>)['macAddress'] === undefined && (value as Record<string, any>)['mac_address'] === undefined)) return false;
     if (!('status' in value) || value['status'] === undefined) return false;
     if (!('unit' in value) || value['unit'] === undefined) return false;
     if (!('sync' in value) || value['sync'] === undefined) return false;
@@ -211,21 +211,21 @@ export function ChannelFromJSONTyped(json: any, ignoreDiscriminator: boolean): C
         'macAddress': json['mac_address'],
         'status': json['status'],
         'unit': json['unit'],
-        'model': json['model'] == null ? undefined : json['model'],
+        'model': json['model'] === undefined ? undefined : json['model'] === null ? null : json['model'],
         'modelLong': json['model_long'] == null ? undefined : json['model_long'],
-        'serialNumber': json['serial_number'] == null ? undefined : json['serial_number'],
-        'cardFormat': json['card_format'] == null ? undefined : json['card_format'],
-        'pinFormat': json['pin_format'] == null ? undefined : json['pin_format'],
-        'freescaleVersion': json['freescale_version'] == null ? undefined : json['freescale_version'],
-        'picVersion': json['pic_version'] == null ? undefined : json['pic_version'],
-        'readerDeviceClassName': json['reader_device_class_name'] == null ? undefined : json['reader_device_class_name'],
-        'siteId': json['site_id'] == null ? undefined : json['site_id'],
+        'serialNumber': json['serial_number'] === undefined ? undefined : json['serial_number'] === null ? null : json['serial_number'],
+        'cardFormat': json['card_format'] === undefined ? undefined : json['card_format'] === null ? null : json['card_format'],
+        'pinFormat': json['pin_format'] === undefined ? undefined : json['pin_format'] === null ? null : json['pin_format'],
+        'freescaleVersion': json['freescale_version'] === undefined ? undefined : json['freescale_version'] === null ? null : json['freescale_version'],
+        'picVersion': json['pic_version'] === undefined ? undefined : json['pic_version'] === null ? null : json['pic_version'],
+        'readerDeviceClassName': json['reader_device_class_name'] === undefined ? undefined : json['reader_device_class_name'] === null ? null : json['reader_device_class_name'],
+        'siteId': json['site_id'] === undefined ? undefined : json['site_id'] === null ? null : json['site_id'],
         'updatedAt': json['updated_at'] == null ? undefined : (new Date(json['updated_at'])),
         'createdAt': json['created_at'] == null ? undefined : (new Date(json['created_at'])),
         'sync': ChannelSyncFromJSON(json['sync']),
-        'lockdown': json['lockdown'] == null ? undefined : ChannelLockdownFromJSON(json['lockdown']),
+        'lockdown': json['lockdown'] === undefined ? undefined : json['lockdown'] === null ? null : ChannelLockdownFromJSON(json['lockdown']),
         'mode': ChannelModeFromJSON(json['mode']),
-        'autoUnlock': json['auto_unlock'] == null ? undefined : ChannelAutoUnlockFromJSON(json['auto_unlock']),
+        'autoUnlock': json['auto_unlock'] === undefined ? undefined : json['auto_unlock'] === null ? null : ChannelAutoUnlockFromJSON(json['auto_unlock']),
     };
 }
 

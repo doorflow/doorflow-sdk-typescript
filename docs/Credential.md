@@ -27,7 +27,7 @@ const example = {
   "label": Card Number,
   "personId": 12345,
   "value": 1234567890,
-  "status": active,
+  "status": invited,
   "url": null,
   "walletType": null,
 } satisfies Credential

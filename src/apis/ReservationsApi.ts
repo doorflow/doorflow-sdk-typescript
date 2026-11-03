@@ -12,36 +12,47 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  CreateCredential422Response,
-  DeleteGroupReservation200Response,
-  GetAdmissionRequest401Response,
-  GetAdmissionRequest403Response,
-  GetAdmissionRequest404Response,
-  GetAdmissionRequest500Response,
-  Reservation,
-  ReservationInput,
-} from '../models/index';
 import {
-    CreateCredential422ResponseFromJSON,
-    CreateCredential422ResponseToJSON,
-    DeleteGroupReservation200ResponseFromJSON,
-    DeleteGroupReservation200ResponseToJSON,
+    type CreateCardDesign422Response,
+    CreateCardDesign422ResponseFromJSON,
+    CreateCardDesign422ResponseToJSON,
+} from '../models/CreateCardDesign422Response';
+import {
+    type DeleteCardDesign200Response,
+    DeleteCardDesign200ResponseFromJSON,
+    DeleteCardDesign200ResponseToJSON,
+} from '../models/DeleteCardDesign200Response';
+import {
+    type GetAdmissionRequest401Response,
     GetAdmissionRequest401ResponseFromJSON,
     GetAdmissionRequest401ResponseToJSON,
+} from '../models/GetAdmissionRequest401Response';
+import {
+    type GetAdmissionRequest403Response,
     GetAdmissionRequest403ResponseFromJSON,
     GetAdmissionRequest403ResponseToJSON,
+} from '../models/GetAdmissionRequest403Response';
+import {
+    type GetAdmissionRequest404Response,
     GetAdmissionRequest404ResponseFromJSON,
     GetAdmissionRequest404ResponseToJSON,
+} from '../models/GetAdmissionRequest404Response';
+import {
+    type GetAdmissionRequest500Response,
     GetAdmissionRequest500ResponseFromJSON,
     GetAdmissionRequest500ResponseToJSON,
+} from '../models/GetAdmissionRequest500Response';
+import {
+    type Reservation,
     ReservationFromJSON,
     ReservationToJSON,
+} from '../models/Reservation';
+import {
+    type ReservationInput,
     ReservationInputFromJSON,
     ReservationInputToJSON,
-} from '../models/index';
+} from '../models/ReservationInput';
 
 export interface CreateReservationRequest {
     reservationInput: ReservationInput;
@@ -60,15 +71,103 @@ export interface ListReservationsRequest {
 }
 
 /**
+ * ReservationsApi - interface
  * 
+ * @export
+ * @interface ReservationsApiInterface
  */
-export class ReservationsApi extends runtime.BaseAPI {
+export interface ReservationsApiInterface {
+    /**
+     * Creates request options for createReservation without sending the request
+     * @param {ReservationInput} reservationInput 
+     * @throws {RequiredError}
+     * @memberof ReservationsApiInterface
+     */
+    createReservationRequestOpts(requestParameters: CreateReservationRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Creates a new reservation to grant temporary access to specific channels for a person. The start and end times must fall on the same day in the account\'s time zone. Automatically creates a role and shift for the reservation period. 
+     * @summary Create reservation
+     * @param {ReservationInput} reservationInput 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReservationsApiInterface
+     */
+    createReservationRaw(requestParameters: CreateReservationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Reservation>>;
 
     /**
      * Creates a new reservation to grant temporary access to specific channels for a person. The start and end times must fall on the same day in the account\'s time zone. Automatically creates a role and shift for the reservation period. 
      * Create reservation
      */
-    async createReservationRaw(requestParameters: CreateReservationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Reservation>> {
+    createReservation(requestParameters: CreateReservationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Reservation>;
+
+    /**
+     * Creates request options for deleteReservation without sending the request
+     * @param {number} id Reservation ID
+     * @throws {RequiredError}
+     * @memberof ReservationsApiInterface
+     */
+    deleteReservationRequestOpts(requestParameters: DeleteReservationRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Deletes a reservation, removing the temporary access grant. This will also delete the associated role and shift. 
+     * @summary Delete reservation
+     * @param {number} id Reservation ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReservationsApiInterface
+     */
+    deleteReservationRaw(requestParameters: DeleteReservationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeleteCardDesign200Response>>;
+
+    /**
+     * Deletes a reservation, removing the temporary access grant. This will also delete the associated role and shift. 
+     * Delete reservation
+     */
+    deleteReservation(requestParameters: DeleteReservationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteCardDesign200Response>;
+
+    /**
+     * Creates request options for listReservations without sending the request
+     * @param {Date} [since] Return only reservations updated since this timestamp (local time)
+     * @param {Date} [sinceUtc] Return only reservations updated since this timestamp (UTC)
+     * @param {number} [perPage] Number of results per page
+     * @param {number} [page] Page number for pagination
+     * @param {boolean} [skipPagination] Skip pagination and return all results
+     * @throws {RequiredError}
+     * @memberof ReservationsApiInterface
+     */
+    listReservationsRequestOpts(requestParameters: ListReservationsRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Returns a paginated list of future reservations. Reservations grant temporary access to specific channels (door controllers) for a person within a specified time window. Supports incremental sync via `since` or `since_utc` parameters. 
+     * @summary List reservations
+     * @param {Date} [since] Return only reservations updated since this timestamp (local time)
+     * @param {Date} [sinceUtc] Return only reservations updated since this timestamp (UTC)
+     * @param {number} [perPage] Number of results per page
+     * @param {number} [page] Page number for pagination
+     * @param {boolean} [skipPagination] Skip pagination and return all results
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ReservationsApiInterface
+     */
+    listReservationsRaw(requestParameters: ListReservationsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Reservation>>>;
+
+    /**
+     * Returns a paginated list of future reservations. Reservations grant temporary access to specific channels (door controllers) for a person within a specified time window. Supports incremental sync via `since` or `since_utc` parameters. 
+     * List reservations
+     */
+    listReservations(requestParameters: ListReservationsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Reservation>>;
+
+}
+
+/**
+ * 
+ */
+export class ReservationsApi extends runtime.BaseAPI implements ReservationsApiInterface {
+
+    /**
+     * Creates request options for createReservation without sending the request
+     */
+    async createReservationRequestOpts(requestParameters: CreateReservationRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['reservationInput'] == null) {
             throw new runtime.RequiredError(
                 'reservationInput',
@@ -90,13 +189,22 @@ export class ReservationsApi extends runtime.BaseAPI {
 
         let urlPath = `/api/3/reservations`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: ReservationInputToJSON(requestParameters['reservationInput']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Creates a new reservation to grant temporary access to specific channels for a person. The start and end times must fall on the same day in the account\'s time zone. Automatically creates a role and shift for the reservation period. 
+     * Create reservation
+     */
+    async createReservationRaw(requestParameters: CreateReservationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Reservation>> {
+        const requestOptions = await this.createReservationRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ReservationFromJSON(jsonValue));
     }
@@ -111,10 +219,9 @@ export class ReservationsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Deletes a reservation, removing the temporary access grant. This will also delete the associated role and shift. 
-     * Delete reservation
+     * Creates request options for deleteReservation without sending the request
      */
-    async deleteReservationRaw(requestParameters: DeleteReservationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeleteGroupReservation200Response>> {
+    async deleteReservationRequestOpts(requestParameters: DeleteReservationRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -133,40 +240,48 @@ export class ReservationsApi extends runtime.BaseAPI {
 
 
         let urlPath = `/api/3/reservations/{id}`;
-        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+        urlPath = urlPath.replace('{id}', encodeURIComponent(String(requestParameters['id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => DeleteGroupReservation200ResponseFromJSON(jsonValue));
+        };
     }
 
     /**
      * Deletes a reservation, removing the temporary access grant. This will also delete the associated role and shift. 
      * Delete reservation
      */
-    async deleteReservation(requestParameters: DeleteReservationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteGroupReservation200Response> {
+    async deleteReservationRaw(requestParameters: DeleteReservationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeleteCardDesign200Response>> {
+        const requestOptions = await this.deleteReservationRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => DeleteCardDesign200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Deletes a reservation, removing the temporary access grant. This will also delete the associated role and shift. 
+     * Delete reservation
+     */
+    async deleteReservation(requestParameters: DeleteReservationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteCardDesign200Response> {
         const response = await this.deleteReservationRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
-     * Returns a paginated list of future reservations. Reservations grant temporary access to specific channels (door controllers) for a person within a specified time window. Supports incremental sync via `since` or `since_utc` parameters. 
-     * List reservations
+     * Creates request options for listReservations without sending the request
      */
-    async listReservationsRaw(requestParameters: ListReservationsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Reservation>>> {
+    async listReservationsRequestOpts(requestParameters: ListReservationsRequest): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         if (requestParameters['since'] != null) {
-            queryParameters['since'] = requestParameters['since'];
+            queryParameters['since'] = (requestParameters['since'] as any).toISOString();
         }
 
         if (requestParameters['sinceUtc'] != null) {
-            queryParameters['since_utc'] = requestParameters['sinceUtc'];
+            queryParameters['since_utc'] = (requestParameters['sinceUtc'] as any).toISOString();
         }
 
         if (requestParameters['perPage'] != null) {
@@ -191,12 +306,21 @@ export class ReservationsApi extends runtime.BaseAPI {
 
         let urlPath = `/api/3/reservations`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns a paginated list of future reservations. Reservations grant temporary access to specific channels (door controllers) for a person within a specified time window. Supports incremental sync via `since` or `since_utc` parameters. 
+     * List reservations
+     */
+    async listReservationsRaw(requestParameters: ListReservationsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Reservation>>> {
+        const requestOptions = await this.listReservationsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ReservationFromJSON));
     }

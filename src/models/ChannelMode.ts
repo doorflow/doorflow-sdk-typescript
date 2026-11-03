@@ -21,7 +21,7 @@ import { mapValues } from '../runtime';
 export interface ChannelMode {
     /**
      * Current mode
-     * @type {string}
+     * @type {ChannelModeDescriptionEnum}
      * @memberof ChannelMode
      */
     description: ChannelModeDescriptionEnum;
@@ -69,8 +69,8 @@ export function ChannelModeFromJSONTyped(json: any, ignoreDiscriminator: boolean
     return {
         
         'description': json['description'],
-        'relockAt': json['relock_at'] == null ? undefined : (new Date(json['relock_at'])),
-        'changeStamp': json['change_stamp'] == null ? undefined : (new Date(json['change_stamp'])),
+        'relockAt': json['relock_at'] === undefined ? undefined : json['relock_at'] === null ? null : (new Date(json['relock_at'])),
+        'changeStamp': json['change_stamp'] === undefined ? undefined : json['change_stamp'] === null ? null : (new Date(json['change_stamp'])),
     };
 }
 

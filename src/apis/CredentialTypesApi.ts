@@ -12,24 +12,27 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  CredentialType,
-  GetAdmissionRequest401Response,
-  GetAdmissionRequest403Response,
-  GetAdmissionRequest500Response,
-} from '../models/index';
 import {
+    type CredentialType,
     CredentialTypeFromJSON,
     CredentialTypeToJSON,
+} from '../models/CredentialType';
+import {
+    type GetAdmissionRequest401Response,
     GetAdmissionRequest401ResponseFromJSON,
     GetAdmissionRequest401ResponseToJSON,
+} from '../models/GetAdmissionRequest401Response';
+import {
+    type GetAdmissionRequest403Response,
     GetAdmissionRequest403ResponseFromJSON,
     GetAdmissionRequest403ResponseToJSON,
+} from '../models/GetAdmissionRequest403Response';
+import {
+    type GetAdmissionRequest500Response,
     GetAdmissionRequest500ResponseFromJSON,
     GetAdmissionRequest500ResponseToJSON,
-} from '../models/index';
+} from '../models/GetAdmissionRequest500Response';
 
 export interface ListCredentialTypesRequest {
     perPage?: number;
@@ -38,15 +41,51 @@ export interface ListCredentialTypesRequest {
 }
 
 /**
+ * CredentialTypesApi - interface
  * 
+ * @export
+ * @interface CredentialTypesApiInterface
  */
-export class CredentialTypesApi extends runtime.BaseAPI {
+export interface CredentialTypesApiInterface {
+    /**
+     * Creates request options for listCredentialTypes without sending the request
+     * @param {number} [perPage] Number of results per page
+     * @param {number} [page] Page number for pagination
+     * @param {boolean} [skipPagination] Skip pagination and return all results
+     * @throws {RequiredError}
+     * @memberof CredentialTypesApiInterface
+     */
+    listCredentialTypesRequestOpts(requestParameters: ListCredentialTypesRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Returns a paginated list of credential types configured for the authenticated user\'s account. Credential types define the formats and types of credentials (cards, PINs, mobile access, etc.) that can be used. Each credential type is based on a global credential type and can be customized per account. 
+     * @summary List credential types
+     * @param {number} [perPage] Number of results per page
+     * @param {number} [page] Page number for pagination
+     * @param {boolean} [skipPagination] Skip pagination and return all results
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CredentialTypesApiInterface
+     */
+    listCredentialTypesRaw(requestParameters: ListCredentialTypesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<CredentialType>>>;
 
     /**
      * Returns a paginated list of credential types configured for the authenticated user\'s account. Credential types define the formats and types of credentials (cards, PINs, mobile access, etc.) that can be used. Each credential type is based on a global credential type and can be customized per account. 
      * List credential types
      */
-    async listCredentialTypesRaw(requestParameters: ListCredentialTypesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<CredentialType>>> {
+    listCredentialTypes(requestParameters: ListCredentialTypesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<CredentialType>>;
+
+}
+
+/**
+ * 
+ */
+export class CredentialTypesApi extends runtime.BaseAPI implements CredentialTypesApiInterface {
+
+    /**
+     * Creates request options for listCredentialTypes without sending the request
+     */
+    async listCredentialTypesRequestOpts(requestParameters: ListCredentialTypesRequest): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         if (requestParameters['perPage'] != null) {
@@ -71,12 +110,21 @@ export class CredentialTypesApi extends runtime.BaseAPI {
 
         let urlPath = `/api/3/credential_types`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns a paginated list of credential types configured for the authenticated user\'s account. Credential types define the formats and types of credentials (cards, PINs, mobile access, etc.) that can be used. Each credential type is based on a global credential type and can be customized per account. 
+     * List credential types
+     */
+    async listCredentialTypesRaw(requestParameters: ListCredentialTypesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<CredentialType>>> {
+        const requestOptions = await this.listCredentialTypesRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(CredentialTypeFromJSON));
     }

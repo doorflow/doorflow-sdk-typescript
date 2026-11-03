@@ -1,24 +1,26 @@
 
-# CreateCredential422Response
+# ElementSessionMember
 
 
 ## Properties
 
 Name | Type
 ------------ | -------------
-`error` | string
-`errors` | [CreateCredential422ResponseErrors](CreateCredential422ResponseErrors.md)
+`externalId` | string
+`name` | string
+`email` | string
 
 ## Example
 
 ```typescript
-import type { CreateCredential422Response } from '@doorflow/api'
+import type { ElementSessionMember } from '@doorflow/api'
 
 // TODO: Update the object below with actual values
 const example = {
-  "error": null,
-  "errors": null,
-} satisfies CreateCredential422Response
+  "externalId": u_42,
+  "name": Alice Smith,
+  "email": alice@example.com,
+} satisfies ElementSessionMember
 
 console.log(example)
 
@@ -27,7 +29,7 @@ const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
 // Parse the JSON string back to an object
-const exampleParsed = JSON.parse(exampleJSON) as CreateCredential422Response
+const exampleParsed = JSON.parse(exampleJSON) as ElementSessionMember
 console.log(exampleParsed)
 ```
 

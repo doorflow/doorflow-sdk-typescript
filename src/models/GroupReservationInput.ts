@@ -39,7 +39,7 @@ export interface GroupReservationInput {
  * Check if a given object implements the GroupReservationInput interface.
  */
 export function instanceOfGroupReservationInput(value: object): value is GroupReservationInput {
-    if (!('groupReservation' in value) || value['groupReservation'] === undefined) return false;
+    if ((!('groupReservation' in (value as Record<string, any>)) && !('group_reservation' in (value as Record<string, any>))) || ((value as Record<string, any>)['groupReservation'] === undefined && (value as Record<string, any>)['group_reservation'] === undefined)) return false;
     return true;
 }
 

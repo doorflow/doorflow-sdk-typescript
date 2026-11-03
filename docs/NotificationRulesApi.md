@@ -89,7 +89,7 @@ example().catch(console.error);
 
 ## deleteNotificationRule
 
-> DeleteGroupReservation200Response deleteNotificationRule(id)
+> DeleteCardDesign200Response deleteNotificationRule(id)
 
 Delete notification rule
 
@@ -138,7 +138,7 @@ example().catch(console.error);
 
 ### Return type
 
-[**DeleteGroupReservation200Response**](DeleteGroupReservation200Response.md)
+[**DeleteCardDesign200Response**](DeleteCardDesign200Response.md)
 
 ### Authorization
 

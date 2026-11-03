@@ -68,12 +68,12 @@ export interface Reservation {
  */
 export function instanceOfReservation(value: object): value is Reservation {
     if (!('id' in value) || value['id'] === undefined) return false;
-    if (!('personId' in value) || value['personId'] === undefined) return false;
-    if (!('startTime' in value) || value['startTime'] === undefined) return false;
-    if (!('endTime' in value) || value['endTime'] === undefined) return false;
-    if (!('channelIds' in value) || value['channelIds'] === undefined) return false;
-    if (!('createdAt' in value) || value['createdAt'] === undefined) return false;
-    if (!('updatedAt' in value) || value['updatedAt'] === undefined) return false;
+    if ((!('personId' in (value as Record<string, any>)) && !('person_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['personId'] === undefined && (value as Record<string, any>)['person_id'] === undefined)) return false;
+    if ((!('startTime' in (value as Record<string, any>)) && !('start_time' in (value as Record<string, any>))) || ((value as Record<string, any>)['startTime'] === undefined && (value as Record<string, any>)['start_time'] === undefined)) return false;
+    if ((!('endTime' in (value as Record<string, any>)) && !('end_time' in (value as Record<string, any>))) || ((value as Record<string, any>)['endTime'] === undefined && (value as Record<string, any>)['end_time'] === undefined)) return false;
+    if ((!('channelIds' in (value as Record<string, any>)) && !('channel_ids' in (value as Record<string, any>))) || ((value as Record<string, any>)['channelIds'] === undefined && (value as Record<string, any>)['channel_ids'] === undefined)) return false;
+    if ((!('createdAt' in (value as Record<string, any>)) && !('created_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['createdAt'] === undefined && (value as Record<string, any>)['created_at'] === undefined)) return false;
+    if ((!('updatedAt' in (value as Record<string, any>)) && !('updated_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['updatedAt'] === undefined && (value as Record<string, any>)['updated_at'] === undefined)) return false;
     return true;
 }
 

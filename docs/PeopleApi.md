@@ -89,7 +89,7 @@ example().catch(console.error);
 
 ## deletePerson
 
-> DeleteGroupReservation200Response deletePerson(id)
+> DeleteCardDesign200Response deletePerson(id)
 
 Delete person
 
@@ -138,7 +138,7 @@ example().catch(console.error);
 
 ### Return type
 
-[**DeleteGroupReservation200Response**](DeleteGroupReservation200Response.md)
+[**DeleteCardDesign200Response**](DeleteCardDesign200Response.md)
 
 ### Authorization
 

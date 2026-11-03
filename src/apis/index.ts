@@ -2,9 +2,13 @@
 /* eslint-disable */
 export * from './AccountsApi';
 export * from './AdmissionRequestsApi';
+export * from './CardDesignsApi';
+export * from './CardTemplateTypesApi';
+export * from './CardTemplatesApi';
 export * from './ChannelsApi';
 export * from './CredentialTypesApi';
 export * from './CredentialsApi';
+export * from './ElementSessionsApi';
 export * from './EventsApi';
 export * from './GroupReservationsApi';
 export * from './GroupsApi';

@@ -6,6 +6,7 @@ All URIs are relative to *https://api.doorflow.com*
 |------------- | ------------- | -------------|
 | [**createGroupReservation**](GroupReservationsApi.md#creategroupreservation) | **POST** /api/3/group_reservations | Create group reservation |
 | [**deleteGroupReservation**](GroupReservationsApi.md#deletegroupreservation) | **DELETE** /api/3/group_reservations/{id} | Delete group reservation |
+| [**getGroupReservation**](GroupReservationsApi.md#getgroupreservation) | **GET** /api/3/group_reservations/{id} | Get group reservation |
 | [**listGroupReservations**](GroupReservationsApi.md#listgroupreservations) | **GET** /api/3/group_reservations | List group reservations |
 
 
@@ -87,7 +88,7 @@ example().catch(console.error);
 
 ## deleteGroupReservation
 
-> DeleteGroupReservation200Response deleteGroupReservation(id)
+> DeleteCardDesign200Response deleteGroupReservation(id)
 
 Delete group reservation
 
@@ -136,7 +137,7 @@ example().catch(console.error);
 
 ### Return type
 
-[**DeleteGroupReservation200Response**](DeleteGroupReservation200Response.md)
+[**DeleteCardDesign200Response**](DeleteCardDesign200Response.md)
 
 ### Authorization
 
@@ -156,6 +157,81 @@ example().catch(console.error);
 | **403** | Forbidden - User does not have permission |  -  |
 | **404** | Not Found - Resource does not exist or is not an admission request event |  -  |
 | **422** | Unprocessable Entity - Validation failed |  -  |
+| **500** | Internal Server Error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## getGroupReservation
+
+> GroupReservation getGroupReservation(id)
+
+Get group reservation
+
+Returns a single group reservation by ID. 
+
+### Example
+
+```ts
+import {
+  Configuration,
+  GroupReservationsApi,
+} from '@doorflow/api';
+import type { GetGroupReservationRequest } from '@doorflow/api';
+
+async function example() {
+  console.log("🚀 Testing @doorflow/api SDK...");
+  const config = new Configuration({ 
+    // To configure OAuth2 access token for authorization: OAuth2 accessCode
+    accessToken: "YOUR ACCESS TOKEN",
+  });
+  const api = new GroupReservationsApi(config);
+
+  const body = {
+    // number | Group reservation ID
+    id: 56,
+  } satisfies GetGroupReservationRequest;
+
+  try {
+    const data = await api.getGroupReservation(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **id** | `number` | Group reservation ID | [Defaults to `undefined`] |
+
+### Return type
+
+[**GroupReservation**](GroupReservation.md)
+
+### Authorization
+
+[OAuth2 accessCode](../README.md#OAuth2-accessCode)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Group reservation retrieved successfully |  -  |
+| **401** | Unauthorized - Invalid or missing authentication |  -  |
+| **403** | Forbidden - User does not have permission |  -  |
+| **404** | Not Found - Resource does not exist or is not an admission request event |  -  |
 | **500** | Internal Server Error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)

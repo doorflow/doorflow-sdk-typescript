@@ -69,10 +69,10 @@ export interface GetTokenInfo200Response {
  * Check if a given object implements the GetTokenInfo200Response interface.
  */
 export function instanceOfGetTokenInfo200Response(value: object): value is GetTokenInfo200Response {
-    if (!('resourceOwnerId' in value) || value['resourceOwnerId'] === undefined) return false;
+    if ((!('resourceOwnerId' in (value as Record<string, any>)) && !('resource_owner_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['resourceOwnerId'] === undefined && (value as Record<string, any>)['resource_owner_id'] === undefined)) return false;
     if (!('scope' in value) || value['scope'] === undefined) return false;
-    if (!('expiresIn' in value) || value['expiresIn'] === undefined) return false;
-    if (!('createdAt' in value) || value['createdAt'] === undefined) return false;
+    if ((!('expiresIn' in (value as Record<string, any>)) && !('expires_in' in (value as Record<string, any>))) || ((value as Record<string, any>)['expiresIn'] === undefined && (value as Record<string, any>)['expires_in'] === undefined)) return false;
+    if ((!('createdAt' in (value as Record<string, any>)) && !('created_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['createdAt'] === undefined && (value as Record<string, any>)['created_at'] === undefined)) return false;
     return true;
 }
 

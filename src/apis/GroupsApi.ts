@@ -12,35 +12,68 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  GetAdmissionRequest401Response,
-  GetAdmissionRequest403Response,
-  GetAdmissionRequest500Response,
-  Group,
-} from '../models/index';
 import {
+    type GetAdmissionRequest401Response,
     GetAdmissionRequest401ResponseFromJSON,
     GetAdmissionRequest401ResponseToJSON,
+} from '../models/GetAdmissionRequest401Response';
+import {
+    type GetAdmissionRequest403Response,
     GetAdmissionRequest403ResponseFromJSON,
     GetAdmissionRequest403ResponseToJSON,
+} from '../models/GetAdmissionRequest403Response';
+import {
+    type GetAdmissionRequest500Response,
     GetAdmissionRequest500ResponseFromJSON,
     GetAdmissionRequest500ResponseToJSON,
+} from '../models/GetAdmissionRequest500Response';
+import {
+    type Group,
     GroupFromJSON,
     GroupToJSON,
-} from '../models/index';
+} from '../models/Group';
 
 /**
+ * GroupsApi - interface
  * 
+ * @export
+ * @interface GroupsApiInterface
  */
-export class GroupsApi extends runtime.BaseAPI {
+export interface GroupsApiInterface {
+    /**
+     * Creates request options for listGroups without sending the request
+     * @throws {RequiredError}
+     * @memberof GroupsApiInterface
+     */
+    listGroupsRequestOpts(): Promise<runtime.RequestOpts>;
+
+    /**
+     * Returns a list of all groups accessible to the authenticated user, ordered by name. Groups are collections of people that can be assigned to roles for access control. Groups can be static (manually assigned) or dynamic (based on LDAP/directory queries). This endpoint does not support pagination. 
+     * @summary List groups
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof GroupsApiInterface
+     */
+    listGroupsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Group>>>;
 
     /**
      * Returns a list of all groups accessible to the authenticated user, ordered by name. Groups are collections of people that can be assigned to roles for access control. Groups can be static (manually assigned) or dynamic (based on LDAP/directory queries). This endpoint does not support pagination. 
      * List groups
      */
-    async listGroupsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Group>>> {
+    listGroups(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Group>>;
+
+}
+
+/**
+ * 
+ */
+export class GroupsApi extends runtime.BaseAPI implements GroupsApiInterface {
+
+    /**
+     * Creates request options for listGroups without sending the request
+     */
+    async listGroupsRequestOpts(): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -53,12 +86,21 @@ export class GroupsApi extends runtime.BaseAPI {
 
         let urlPath = `/api/3/groups`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns a list of all groups accessible to the authenticated user, ordered by name. Groups are collections of people that can be assigned to roles for access control. Groups can be static (manually assigned) or dynamic (based on LDAP/directory queries). This endpoint does not support pagination. 
+     * List groups
+     */
+    async listGroupsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Group>>> {
+        const requestOptions = await this.listGroupsRequestOpts();
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GroupFromJSON));
     }

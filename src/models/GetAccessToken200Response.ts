@@ -61,10 +61,10 @@ export interface GetAccessToken200Response {
  * Check if a given object implements the GetAccessToken200Response interface.
  */
 export function instanceOfGetAccessToken200Response(value: object): value is GetAccessToken200Response {
-    if (!('accessToken' in value) || value['accessToken'] === undefined) return false;
-    if (!('tokenType' in value) || value['tokenType'] === undefined) return false;
-    if (!('expiresIn' in value) || value['expiresIn'] === undefined) return false;
-    if (!('createdAt' in value) || value['createdAt'] === undefined) return false;
+    if ((!('accessToken' in (value as Record<string, any>)) && !('access_token' in (value as Record<string, any>))) || ((value as Record<string, any>)['accessToken'] === undefined && (value as Record<string, any>)['access_token'] === undefined)) return false;
+    if ((!('tokenType' in (value as Record<string, any>)) && !('token_type' in (value as Record<string, any>))) || ((value as Record<string, any>)['tokenType'] === undefined && (value as Record<string, any>)['token_type'] === undefined)) return false;
+    if ((!('expiresIn' in (value as Record<string, any>)) && !('expires_in' in (value as Record<string, any>))) || ((value as Record<string, any>)['expiresIn'] === undefined && (value as Record<string, any>)['expires_in'] === undefined)) return false;
+    if ((!('createdAt' in (value as Record<string, any>)) && !('created_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['createdAt'] === undefined && (value as Record<string, any>)['created_at'] === undefined)) return false;
     return true;
 }
 

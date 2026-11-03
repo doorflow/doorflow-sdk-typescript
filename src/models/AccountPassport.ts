@@ -37,8 +37,8 @@ export interface AccountPassport {
  * Check if a given object implements the AccountPassport interface.
  */
 export function instanceOfAccountPassport(value: object): value is AccountPassport {
-    if (!('remoteUnlockEnabled' in value) || value['remoteUnlockEnabled'] === undefined) return false;
-    if (!('hidMobileAccess' in value) || value['hidMobileAccess'] === undefined) return false;
+    if ((!('remoteUnlockEnabled' in (value as Record<string, any>)) && !('remote_unlock_enabled' in (value as Record<string, any>))) || ((value as Record<string, any>)['remoteUnlockEnabled'] === undefined && (value as Record<string, any>)['remote_unlock_enabled'] === undefined)) return false;
+    if ((!('hidMobileAccess' in (value as Record<string, any>)) && !('hid_mobile_access' in (value as Record<string, any>))) || ((value as Record<string, any>)['hidMobileAccess'] === undefined && (value as Record<string, any>)['hid_mobile_access'] === undefined)) return false;
     return true;
 }
 

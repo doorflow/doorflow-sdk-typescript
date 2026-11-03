@@ -71,7 +71,7 @@ export interface Site {
 export function instanceOfSite(value: object): value is Site {
     if (!('id' in value) || value['id'] === undefined) return false;
     if (!('name' in value) || value['name'] === undefined) return false;
-    if (!('siteIps' in value) || value['siteIps'] === undefined) return false;
+    if ((!('siteIps' in (value as Record<string, any>)) && !('site_ips' in (value as Record<string, any>))) || ((value as Record<string, any>)['siteIps'] === undefined && (value as Record<string, any>)['site_ips'] === undefined)) return false;
     return true;
 }
 
@@ -87,9 +87,9 @@ export function SiteFromJSONTyped(json: any, ignoreDiscriminator: boolean): Site
         
         'id': json['id'],
         'name': json['name'],
-        'ipAddress': json['ip_address'] == null ? undefined : json['ip_address'],
-        'timeZone': json['time_zone'] == null ? undefined : json['time_zone'],
-        'notes': json['notes'] == null ? undefined : json['notes'],
+        'ipAddress': json['ip_address'] === undefined ? undefined : json['ip_address'] === null ? null : json['ip_address'],
+        'timeZone': json['time_zone'] === undefined ? undefined : json['time_zone'] === null ? null : json['time_zone'],
+        'notes': json['notes'] === undefined ? undefined : json['notes'] === null ? null : json['notes'],
         'siteIps': ((json['site_ips'] as Array<any>).map(SiteSiteIpsInnerFromJSON)),
     };
 }

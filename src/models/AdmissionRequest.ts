@@ -48,7 +48,7 @@ export interface AdmissionRequest {
      * - offline: Door controller offline (event code 52)
      * - timeout: No response received within 2 minutes
      * 
-     * @type {string}
+     * @type {AdmissionRequestStatusEnum}
      * @memberof AdmissionRequest
      */
     status: AdmissionRequestStatusEnum;
@@ -110,9 +110,9 @@ export type AdmissionRequestStatusEnum = typeof AdmissionRequestStatusEnum[keyof
 export function instanceOfAdmissionRequest(value: object): value is AdmissionRequest {
     if (!('id' in value) || value['id'] === undefined) return false;
     if (!('status' in value) || value['status'] === undefined) return false;
-    if (!('channelId' in value) || value['channelId'] === undefined) return false;
-    if (!('requestedAt' in value) || value['requestedAt'] === undefined) return false;
-    if (!('doorController' in value) || value['doorController'] === undefined) return false;
+    if ((!('channelId' in (value as Record<string, any>)) && !('channel_id' in (value as Record<string, any>))) || ((value as Record<string, any>)['channelId'] === undefined && (value as Record<string, any>)['channel_id'] === undefined)) return false;
+    if ((!('requestedAt' in (value as Record<string, any>)) && !('requested_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['requestedAt'] === undefined && (value as Record<string, any>)['requested_at'] === undefined)) return false;
+    if ((!('doorController' in (value as Record<string, any>)) && !('door_controller' in (value as Record<string, any>))) || ((value as Record<string, any>)['doorController'] === undefined && (value as Record<string, any>)['door_controller'] === undefined)) return false;
     return true;
 }
 
@@ -129,11 +129,11 @@ export function AdmissionRequestFromJSONTyped(json: any, ignoreDiscriminator: bo
         'id': json['id'],
         'status': json['status'],
         'channelId': json['channel_id'],
-        'personId': json['person_id'] == null ? undefined : json['person_id'],
+        'personId': json['person_id'] === undefined ? undefined : json['person_id'] === null ? null : json['person_id'],
         'requestedAt': (new Date(json['requested_at'])),
-        'completedAt': json['completed_at'] == null ? undefined : (new Date(json['completed_at'])),
+        'completedAt': json['completed_at'] === undefined ? undefined : json['completed_at'] === null ? null : (new Date(json['completed_at'])),
         'doorController': AdmissionRequestDoorControllerFromJSON(json['door_controller']),
-        'person': json['person'] == null ? undefined : AdmissionRequestPersonFromJSON(json['person']),
+        'person': json['person'] === undefined ? undefined : json['person'] === null ? null : AdmissionRequestPersonFromJSON(json['person']),
     };
 }
 

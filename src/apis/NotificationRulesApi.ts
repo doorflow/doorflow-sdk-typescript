@@ -12,36 +12,47 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  CreateCredential422Response,
-  DeleteGroupReservation200Response,
-  GetAdmissionRequest401Response,
-  GetAdmissionRequest403Response,
-  GetAdmissionRequest404Response,
-  GetAdmissionRequest500Response,
-  NotificationRule,
-  NotificationRuleInput,
-} from '../models/index';
 import {
-    CreateCredential422ResponseFromJSON,
-    CreateCredential422ResponseToJSON,
-    DeleteGroupReservation200ResponseFromJSON,
-    DeleteGroupReservation200ResponseToJSON,
+    type CreateCardDesign422Response,
+    CreateCardDesign422ResponseFromJSON,
+    CreateCardDesign422ResponseToJSON,
+} from '../models/CreateCardDesign422Response';
+import {
+    type DeleteCardDesign200Response,
+    DeleteCardDesign200ResponseFromJSON,
+    DeleteCardDesign200ResponseToJSON,
+} from '../models/DeleteCardDesign200Response';
+import {
+    type GetAdmissionRequest401Response,
     GetAdmissionRequest401ResponseFromJSON,
     GetAdmissionRequest401ResponseToJSON,
+} from '../models/GetAdmissionRequest401Response';
+import {
+    type GetAdmissionRequest403Response,
     GetAdmissionRequest403ResponseFromJSON,
     GetAdmissionRequest403ResponseToJSON,
+} from '../models/GetAdmissionRequest403Response';
+import {
+    type GetAdmissionRequest404Response,
     GetAdmissionRequest404ResponseFromJSON,
     GetAdmissionRequest404ResponseToJSON,
+} from '../models/GetAdmissionRequest404Response';
+import {
+    type GetAdmissionRequest500Response,
     GetAdmissionRequest500ResponseFromJSON,
     GetAdmissionRequest500ResponseToJSON,
+} from '../models/GetAdmissionRequest500Response';
+import {
+    type NotificationRule,
     NotificationRuleFromJSON,
     NotificationRuleToJSON,
+} from '../models/NotificationRule';
+import {
+    type NotificationRuleInput,
     NotificationRuleInputFromJSON,
     NotificationRuleInputToJSON,
-} from '../models/index';
+} from '../models/NotificationRuleInput';
 
 export interface CreateNotificationRuleRequest {
     notificationRuleInput: NotificationRuleInput;
@@ -61,15 +72,143 @@ export interface UpdateNotificationRuleRequest {
 }
 
 /**
+ * NotificationRulesApi - interface
  * 
+ * @export
+ * @interface NotificationRulesApiInterface
  */
-export class NotificationRulesApi extends runtime.BaseAPI {
+export interface NotificationRulesApiInterface {
+    /**
+     * Creates request options for createNotificationRule without sending the request
+     * @param {NotificationRuleInput} notificationRuleInput 
+     * @throws {RequiredError}
+     * @memberof NotificationRulesApiInterface
+     */
+    createNotificationRuleRequestOpts(requestParameters: CreateNotificationRuleRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Creates a new notification rule to trigger webhooks or other actions when specific events occur. At least one action and one event must be specified. 
+     * @summary Create notification rule
+     * @param {NotificationRuleInput} notificationRuleInput 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof NotificationRulesApiInterface
+     */
+    createNotificationRuleRaw(requestParameters: CreateNotificationRuleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<NotificationRule>>;
 
     /**
      * Creates a new notification rule to trigger webhooks or other actions when specific events occur. At least one action and one event must be specified. 
      * Create notification rule
      */
-    async createNotificationRuleRaw(requestParameters: CreateNotificationRuleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<NotificationRule>> {
+    createNotificationRule(requestParameters: CreateNotificationRuleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<NotificationRule>;
+
+    /**
+     * Creates request options for deleteNotificationRule without sending the request
+     * @param {number} id Notification rule ID
+     * @throws {RequiredError}
+     * @memberof NotificationRulesApiInterface
+     */
+    deleteNotificationRuleRequestOpts(requestParameters: DeleteNotificationRuleRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Deletes a notification rule
+     * @summary Delete notification rule
+     * @param {number} id Notification rule ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof NotificationRulesApiInterface
+     */
+    deleteNotificationRuleRaw(requestParameters: DeleteNotificationRuleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeleteCardDesign200Response>>;
+
+    /**
+     * Deletes a notification rule
+     * Delete notification rule
+     */
+    deleteNotificationRule(requestParameters: DeleteNotificationRuleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteCardDesign200Response>;
+
+    /**
+     * Creates request options for getNotificationRule without sending the request
+     * @param {number} id Notification rule ID
+     * @throws {RequiredError}
+     * @memberof NotificationRulesApiInterface
+     */
+    getNotificationRuleRequestOpts(requestParameters: GetNotificationRuleRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Returns details for a specific notification rule
+     * @summary Get notification rule details
+     * @param {number} id Notification rule ID
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof NotificationRulesApiInterface
+     */
+    getNotificationRuleRaw(requestParameters: GetNotificationRuleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<NotificationRule>>;
+
+    /**
+     * Returns details for a specific notification rule
+     * Get notification rule details
+     */
+    getNotificationRule(requestParameters: GetNotificationRuleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<NotificationRule>;
+
+    /**
+     * Creates request options for listNotificationRules without sending the request
+     * @throws {RequiredError}
+     * @memberof NotificationRulesApiInterface
+     */
+    listNotificationRulesRequestOpts(): Promise<runtime.RequestOpts>;
+
+    /**
+     * Returns a list of all notification rules for the authenticated user. Notification rules define webhooks or other actions that are triggered when specific events occur. This endpoint does not support pagination. 
+     * @summary List notification rules
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof NotificationRulesApiInterface
+     */
+    listNotificationRulesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<NotificationRule>>>;
+
+    /**
+     * Returns a list of all notification rules for the authenticated user. Notification rules define webhooks or other actions that are triggered when specific events occur. This endpoint does not support pagination. 
+     * List notification rules
+     */
+    listNotificationRules(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<NotificationRule>>;
+
+    /**
+     * Creates request options for updateNotificationRule without sending the request
+     * @param {number} id Notification rule ID
+     * @param {NotificationRuleInput} notificationRuleInput 
+     * @throws {RequiredError}
+     * @memberof NotificationRulesApiInterface
+     */
+    updateNotificationRuleRequestOpts(requestParameters: UpdateNotificationRuleRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Updates an existing notification rule. This replaces all conditions, events, and actions with the new values provided in the request. 
+     * @summary Update notification rule
+     * @param {number} id Notification rule ID
+     * @param {NotificationRuleInput} notificationRuleInput 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof NotificationRulesApiInterface
+     */
+    updateNotificationRuleRaw(requestParameters: UpdateNotificationRuleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<NotificationRule>>;
+
+    /**
+     * Updates an existing notification rule. This replaces all conditions, events, and actions with the new values provided in the request. 
+     * Update notification rule
+     */
+    updateNotificationRule(requestParameters: UpdateNotificationRuleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<NotificationRule>;
+
+}
+
+/**
+ * 
+ */
+export class NotificationRulesApi extends runtime.BaseAPI implements NotificationRulesApiInterface {
+
+    /**
+     * Creates request options for createNotificationRule without sending the request
+     */
+    async createNotificationRuleRequestOpts(requestParameters: CreateNotificationRuleRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['notificationRuleInput'] == null) {
             throw new runtime.RequiredError(
                 'notificationRuleInput',
@@ -91,13 +230,22 @@ export class NotificationRulesApi extends runtime.BaseAPI {
 
         let urlPath = `/api/3/notification_rules`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: NotificationRuleInputToJSON(requestParameters['notificationRuleInput']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Creates a new notification rule to trigger webhooks or other actions when specific events occur. At least one action and one event must be specified. 
+     * Create notification rule
+     */
+    async createNotificationRuleRaw(requestParameters: CreateNotificationRuleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<NotificationRule>> {
+        const requestOptions = await this.createNotificationRuleRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => NotificationRuleFromJSON(jsonValue));
     }
@@ -112,10 +260,9 @@ export class NotificationRulesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Deletes a notification rule
-     * Delete notification rule
+     * Creates request options for deleteNotificationRule without sending the request
      */
-    async deleteNotificationRuleRaw(requestParameters: DeleteNotificationRuleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeleteGroupReservation200Response>> {
+    async deleteNotificationRuleRequestOpts(requestParameters: DeleteNotificationRuleRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -134,32 +281,40 @@ export class NotificationRulesApi extends runtime.BaseAPI {
 
 
         let urlPath = `/api/3/notification_rules/{id}`;
-        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+        urlPath = urlPath.replace('{id}', encodeURIComponent(String(requestParameters['id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => DeleteGroupReservation200ResponseFromJSON(jsonValue));
+        };
     }
 
     /**
      * Deletes a notification rule
      * Delete notification rule
      */
-    async deleteNotificationRule(requestParameters: DeleteNotificationRuleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteGroupReservation200Response> {
+    async deleteNotificationRuleRaw(requestParameters: DeleteNotificationRuleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeleteCardDesign200Response>> {
+        const requestOptions = await this.deleteNotificationRuleRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => DeleteCardDesign200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Deletes a notification rule
+     * Delete notification rule
+     */
+    async deleteNotificationRule(requestParameters: DeleteNotificationRuleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteCardDesign200Response> {
         const response = await this.deleteNotificationRuleRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
-     * Returns details for a specific notification rule
-     * Get notification rule details
+     * Creates request options for getNotificationRule without sending the request
      */
-    async getNotificationRuleRaw(requestParameters: GetNotificationRuleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<NotificationRule>> {
+    async getNotificationRuleRequestOpts(requestParameters: GetNotificationRuleRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -178,14 +333,23 @@ export class NotificationRulesApi extends runtime.BaseAPI {
 
 
         let urlPath = `/api/3/notification_rules/{id}`;
-        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+        urlPath = urlPath.replace('{id}', encodeURIComponent(String(requestParameters['id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns details for a specific notification rule
+     * Get notification rule details
+     */
+    async getNotificationRuleRaw(requestParameters: GetNotificationRuleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<NotificationRule>> {
+        const requestOptions = await this.getNotificationRuleRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => NotificationRuleFromJSON(jsonValue));
     }
@@ -200,10 +364,9 @@ export class NotificationRulesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns a list of all notification rules for the authenticated user. Notification rules define webhooks or other actions that are triggered when specific events occur. This endpoint does not support pagination. 
-     * List notification rules
+     * Creates request options for listNotificationRules without sending the request
      */
-    async listNotificationRulesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<NotificationRule>>> {
+    async listNotificationRulesRequestOpts(): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -216,12 +379,21 @@ export class NotificationRulesApi extends runtime.BaseAPI {
 
         let urlPath = `/api/3/notification_rules`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns a list of all notification rules for the authenticated user. Notification rules define webhooks or other actions that are triggered when specific events occur. This endpoint does not support pagination. 
+     * List notification rules
+     */
+    async listNotificationRulesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<NotificationRule>>> {
+        const requestOptions = await this.listNotificationRulesRequestOpts();
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(NotificationRuleFromJSON));
     }
@@ -236,10 +408,9 @@ export class NotificationRulesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Updates an existing notification rule. This replaces all conditions, events, and actions with the new values provided in the request. 
-     * Update notification rule
+     * Creates request options for updateNotificationRule without sending the request
      */
-    async updateNotificationRuleRaw(requestParameters: UpdateNotificationRuleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<NotificationRule>> {
+    async updateNotificationRuleRequestOpts(requestParameters: UpdateNotificationRuleRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -267,15 +438,24 @@ export class NotificationRulesApi extends runtime.BaseAPI {
 
 
         let urlPath = `/api/3/notification_rules/{id}`;
-        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+        urlPath = urlPath.replace('{id}', encodeURIComponent(String(requestParameters['id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
             body: NotificationRuleInputToJSON(requestParameters['notificationRuleInput']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Updates an existing notification rule. This replaces all conditions, events, and actions with the new values provided in the request. 
+     * Update notification rule
+     */
+    async updateNotificationRuleRaw(requestParameters: UpdateNotificationRuleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<NotificationRule>> {
+        const requestOptions = await this.updateNotificationRuleRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => NotificationRuleFromJSON(jsonValue));
     }

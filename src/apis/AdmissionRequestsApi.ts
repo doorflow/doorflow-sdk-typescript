@@ -12,42 +12,79 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  AdmissionRequest,
-  GetAdmissionRequest401Response,
-  GetAdmissionRequest403Response,
-  GetAdmissionRequest404Response,
-  GetAdmissionRequest500Response,
-} from '../models/index';
 import {
+    type AdmissionRequest,
     AdmissionRequestFromJSON,
     AdmissionRequestToJSON,
+} from '../models/AdmissionRequest';
+import {
+    type GetAdmissionRequest401Response,
     GetAdmissionRequest401ResponseFromJSON,
     GetAdmissionRequest401ResponseToJSON,
+} from '../models/GetAdmissionRequest401Response';
+import {
+    type GetAdmissionRequest403Response,
     GetAdmissionRequest403ResponseFromJSON,
     GetAdmissionRequest403ResponseToJSON,
+} from '../models/GetAdmissionRequest403Response';
+import {
+    type GetAdmissionRequest404Response,
     GetAdmissionRequest404ResponseFromJSON,
     GetAdmissionRequest404ResponseToJSON,
+} from '../models/GetAdmissionRequest404Response';
+import {
+    type GetAdmissionRequest500Response,
     GetAdmissionRequest500ResponseFromJSON,
     GetAdmissionRequest500ResponseToJSON,
-} from '../models/index';
+} from '../models/GetAdmissionRequest500Response';
 
 export interface GetAdmissionRequestRequest {
     id: number;
 }
 
 /**
+ * AdmissionRequestsApi - interface
  * 
+ * @export
+ * @interface AdmissionRequestsApiInterface
  */
-export class AdmissionRequestsApi extends runtime.BaseAPI {
+export interface AdmissionRequestsApiInterface {
+    /**
+     * Creates request options for getAdmissionRequest without sending the request
+     * @param {number} id Admission request ID (Event ID returned from admit/admit_person endpoints)
+     * @throws {RequiredError}
+     * @memberof AdmissionRequestsApiInterface
+     */
+    getAdmissionRequestRequestOpts(requestParameters: GetAdmissionRequestRequest): Promise<runtime.RequestOpts>;
+
+    /**
+     * Returns the status of an admission request created via POST /api/3/channels/:id/admit or POST /api/3/channels/:id/admit_person. Use this to track whether the admission was successful, denied, or is still pending a response from the door controller. 
+     * @summary Get admission request status
+     * @param {number} id Admission request ID (Event ID returned from admit/admit_person endpoints)
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdmissionRequestsApiInterface
+     */
+    getAdmissionRequestRaw(requestParameters: GetAdmissionRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AdmissionRequest>>;
 
     /**
      * Returns the status of an admission request created via POST /api/3/channels/:id/admit or POST /api/3/channels/:id/admit_person. Use this to track whether the admission was successful, denied, or is still pending a response from the door controller. 
      * Get admission request status
      */
-    async getAdmissionRequestRaw(requestParameters: GetAdmissionRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AdmissionRequest>> {
+    getAdmissionRequest(requestParameters: GetAdmissionRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AdmissionRequest>;
+
+}
+
+/**
+ * 
+ */
+export class AdmissionRequestsApi extends runtime.BaseAPI implements AdmissionRequestsApiInterface {
+
+    /**
+     * Creates request options for getAdmissionRequest without sending the request
+     */
+    async getAdmissionRequestRequestOpts(requestParameters: GetAdmissionRequestRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -66,14 +103,23 @@ export class AdmissionRequestsApi extends runtime.BaseAPI {
 
 
         let urlPath = `/api/3/admission_requests/{id}`;
-        urlPath = urlPath.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id'])));
+        urlPath = urlPath.replace('{id}', encodeURIComponent(String(requestParameters['id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns the status of an admission request created via POST /api/3/channels/:id/admit or POST /api/3/channels/:id/admit_person. Use this to track whether the admission was successful, denied, or is still pending a response from the door controller. 
+     * Get admission request status
+     */
+    async getAdmissionRequestRaw(requestParameters: GetAdmissionRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AdmissionRequest>> {
+        const requestOptions = await this.getAdmissionRequestRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => AdmissionRequestFromJSON(jsonValue));
     }

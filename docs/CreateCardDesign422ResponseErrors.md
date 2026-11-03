@@ -1,5 +1,5 @@
 
-# CreateCredential422ResponseErrors
+# CreateCardDesign422ResponseErrors
 
 Field-specific validation errors
 
@@ -14,14 +14,14 @@ Name | Type
 ## Example
 
 ```typescript
-import type { CreateCredential422ResponseErrors } from '@doorflow/api'
+import type { CreateCardDesign422ResponseErrors } from '@doorflow/api'
 
 // TODO: Update the object below with actual values
 const example = {
   "value": ["value is already in use on your account","must be between 4 and 7 digits in length"],
   "credentialTypeId": ["Not found for this account"],
   "limitReached": You have reached your HID Mobile licence limit. Please contact DoorFlow Support.,
-} satisfies CreateCredential422ResponseErrors
+} satisfies CreateCardDesign422ResponseErrors
 
 console.log(example)
 
@@ -30,7 +30,7 @@ const exampleJSON: string = JSON.stringify(example)
 console.log(exampleJSON)
 
 // Parse the JSON string back to an object
-const exampleParsed = JSON.parse(exampleJSON) as CreateCredential422ResponseErrors
+const exampleParsed = JSON.parse(exampleJSON) as CreateCardDesign422ResponseErrors
 console.log(exampleParsed)
 ```
 

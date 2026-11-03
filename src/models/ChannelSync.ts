@@ -21,7 +21,7 @@ import { mapValues } from '../runtime';
 export interface ChannelSync {
     /**
      * Current sync status
-     * @type {string}
+     * @type {ChannelSyncStatusEnum}
      * @memberof ChannelSync
      */
     status: ChannelSyncStatusEnum;
@@ -51,7 +51,7 @@ export type ChannelSyncStatusEnum = typeof ChannelSyncStatusEnum[keyof typeof Ch
  */
 export function instanceOfChannelSync(value: object): value is ChannelSync {
     if (!('status' in value) || value['status'] === undefined) return false;
-    if (!('lastSyncCompletedAt' in value) || value['lastSyncCompletedAt'] === undefined) return false;
+    if ((!('lastSyncCompletedAt' in (value as Record<string, any>)) && !('last_sync_completed_at' in (value as Record<string, any>))) || ((value as Record<string, any>)['lastSyncCompletedAt'] === undefined && (value as Record<string, any>)['last_sync_completed_at'] === undefined)) return false;
     return true;
 }
 

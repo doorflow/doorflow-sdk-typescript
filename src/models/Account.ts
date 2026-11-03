@@ -104,7 +104,7 @@ export interface Account {
 export function instanceOfAccount(value: object): value is Account {
     if (!('id' in value) || value['id'] === undefined) return false;
     if (!('name' in value) || value['name'] === undefined) return false;
-    if (!('timeZone' in value) || value['timeZone'] === undefined) return false;
+    if ((!('timeZone' in (value as Record<string, any>)) && !('time_zone' in (value as Record<string, any>))) || ((value as Record<string, any>)['timeZone'] === undefined && (value as Record<string, any>)['time_zone'] === undefined)) return false;
     if (!('monitored' in value) || value['monitored'] === undefined) return false;
     if (!('sync' in value) || value['sync'] === undefined) return false;
     if (!('user' in value) || value['user'] === undefined) return false;
@@ -126,7 +126,7 @@ export function AccountFromJSONTyped(json: any, ignoreDiscriminator: boolean): A
         'name': json['name'],
         'timeZone': json['time_zone'],
         'monitored': json['monitored'],
-        'reseller': json['reseller'] == null ? undefined : AccountResellerFromJSON(json['reseller']),
+        'reseller': json['reseller'] === undefined ? undefined : json['reseller'] === null ? null : AccountResellerFromJSON(json['reseller']),
         'sync': AccountSyncFromJSON(json['sync']),
         'user': AccountUserFromJSON(json['user']),
         'passport': AccountPassportFromJSON(json['passport']),
